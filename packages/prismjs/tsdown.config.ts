@@ -11,7 +11,7 @@ function nsisLanguagePlugin(): Rolldown.Plugin {
 	const replacements: Record<string, string> = {
 		'%NSIS_KEYWORDS%': retrie([...lang.keywords, ...lang.blocks]).toString(),
 		'%NSIS_PROPERTIES%': retrie(lang.properties).toString(),
-		'%NSIS_IMPORTANT%': retrie([...lang.important, ...lang.importantBlocks]).toString(),
+		'%NSIS_IMPORTANT%': retrie([...lang.compiler, ...lang.compilerBlocks]).toString(),
 	};
 
 	return {

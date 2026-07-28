@@ -369,7 +369,7 @@
 		"x86-unicode",
 		"zlib"
 	],
-	"important": [
+	"compiler": [
 		"!addincludedir",
 		"!addplugindir",
 		"!appendfile",
@@ -399,7 +399,7 @@
 		"!verbose",
 		"!warning"
 	],
-	"importantBlocks": [
+	"compilerBlocks": [
 		"!else",
 		"!elseif",
 		"!elseifdef",
