@@ -1,10 +1,11 @@
-import { completeFromList } from '@codemirror/autocomplete';
+import { type CompletionContext, completeFromList } from '@codemirror/autocomplete';
 import {
 	foldInside,
 	foldNodeProp,
 	indentNodeProp,
 	LanguageSupport,
 	LRLanguage,
+	syntaxTree,
 	type TreeIndentContext,
 } from '@codemirror/language';
 import { nsisHighlighting } from './highlight.ts';
@@ -338,11 +339,23 @@ const preprocDirectives = [
 	'!warning',
 ];
 
-const nsisCompletion = completeFromList(
+const stringNodeNames = new Set(['String', 'RawString', 'BacktickString']);
+
+const commandCompletion = completeFromList(
 	commands
 		.map((c) => ({ label: c, type: 'keyword' }))
 		.concat(preprocDirectives.map((d) => ({ label: d, type: 'keyword' }))),
 );
+
+function nsisCompletion(context: CompletionContext) {
+	const node = syntaxTree(context.state).resolveInner(context.pos, -1);
+
+	if (stringNodeNames.has(node.type.name) || (node.parent && stringNodeNames.has(node.parent.type.name))) {
+		return null;
+	}
+
+	return commandCompletion(context);
+}
 
 export function nsis(config?: { strict?: boolean }) {
 	const language = config?.strict ? nsisLanguageStrict : nsisLanguage;
