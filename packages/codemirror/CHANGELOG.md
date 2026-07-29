@@ -1,5 +1,11 @@
 # @nsis/codemirror
 
+## 0.14.3
+
+### Patch Changes
+
+- a93755e: restrict completions to keywords
+
 ## 0.14.2
 
 ### Patch Changes
