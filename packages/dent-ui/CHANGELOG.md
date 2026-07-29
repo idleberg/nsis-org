@@ -1,5 +1,12 @@
 # @nsis/dent-ui
 
+## 0.2.4
+
+### Patch Changes
+
+- Updated dependencies [a93755e]
+  - @nsis/codemirror@0.14.3
+
 ## 0.2.3
 
 ### Patch Changes
