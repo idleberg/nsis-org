@@ -20,18 +20,12 @@ $ npm install @nsis/textmate
 import { createHighlighter } from "shiki";
 import grammar from "@nsis/textmate";
 
+import example from './bigtest.nsi?raw';
+
 const highlighter = await createHighlighter({
   themes: ["one-dark-pro"],
   langs: [{ ...grammar, name: "nsis" }],
 });
-
-const example = `
-OutFile "demo.exe"
-
-Section
-	DetailPrint "Hello, world!"
-SectionEnd
-`;
 
 const html = highlighter.codeToHtml(example, {
   lang: "nsis",
