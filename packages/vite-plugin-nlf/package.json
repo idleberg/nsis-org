@@ -1,6 +1,6 @@
 {
 	"name": "@nsis/vite-plugin-nlf",
-	"version": "0.3.2",
+	"version": "0.3.3",
 	"description": "A Vite plugin to load NSIS language files",
 	"license": "MIT",
 	"author": "Jan T. Sott",

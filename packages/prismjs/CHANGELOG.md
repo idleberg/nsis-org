@@ -1,5 +1,11 @@
 # @nsis/prismjs
 
+## 0.10.3
+
+### Patch Changes
+
+- e5330f7: add `publishConfig`
+
 ## 0.10.2
 
 ### Patch Changes

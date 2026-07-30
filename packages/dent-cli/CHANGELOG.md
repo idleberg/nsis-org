@@ -1,5 +1,13 @@
 # @nsis/dent-cli
 
+## 0.9.8
+
+### Patch Changes
+
+- e5330f7: add `publishConfig`
+- Updated dependencies [e5330f7]
+  - @nsis/dent@0.13.1
+
 ## 0.9.7
 
 ### Patch Changes

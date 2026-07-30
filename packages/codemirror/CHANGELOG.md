@@ -1,5 +1,11 @@
 # @nsis/codemirror
 
+## 0.14.4
+
+### Patch Changes
+
+- e5330f7: add `publishConfig`
+
 ## 0.14.3
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
 	"name": "@nsis/textmate",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "NSIS TextMate grammar for Shiki and other highlighters",
 	"license": "MIT OR Apache-2.0",
 	"repository": {
