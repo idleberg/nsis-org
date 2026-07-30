@@ -2,6 +2,8 @@ name: "Run tests on NodeJS"
 
 on:
   push:
+    branches:
+      - main
     paths:
       - ".github/workflows/ci.yml"
       - "**/e2e/**"
@@ -10,6 +12,7 @@ on:
       - "package.json"
       - "pnpm-lock.yaml"
       - "vitest.config.ts"
+  pull_request:
   workflow_dispatch:
 
 jobs:
