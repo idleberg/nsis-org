@@ -57,8 +57,8 @@
 		"@lumis-sh/lumis": ">=0.1.0"
 	},
 	"devDependencies": {
-		"@lumis-sh/lumis": "^0.5.2",
-		"tree-sitter-nsis": "^0.4.0",
+		"@lumis-sh/lumis": "catalog:",
+		"tree-sitter-nsis": "catalog:",
 		"unplugin-macros": "^0.20.2",
 		"vitest": "catalog:"
 	}
