@@ -1,5 +1,13 @@
 # @nsis/nlf-cli
 
+## 0.11.4
+
+### Patch Changes
+
+- e5330f7: add `publishConfig`
+- Updated dependencies [e5330f7]
+  - @nsis/nlf@0.14.2
+
 ## 0.11.3
 
 ### Patch Changes

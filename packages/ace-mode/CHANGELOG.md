@@ -1,5 +1,11 @@
 # @nsis/ace-mode
 
+## 1.8.4
+
+### Patch Changes
+
+- e5330f7: add `publishConfig`
+
 ## 1.8.3
 
 ### Patch Changes

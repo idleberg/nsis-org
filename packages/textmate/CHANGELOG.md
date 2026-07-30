@@ -1,5 +1,11 @@
 # @nsis/textmate
 
+## 0.1.3
+
+### Patch Changes
+
+- e5330f7: add `publishConfig`
+
 ## 0.1.2
 
 ### Patch Changes

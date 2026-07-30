@@ -1,5 +1,11 @@
 # @nsis/nlf
 
+## 0.14.2
+
+### Patch Changes
+
+- e5330f7: add `publishConfig`
+
 ## 0.14.1
 
 ### Patch Changes

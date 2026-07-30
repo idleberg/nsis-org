@@ -1,5 +1,13 @@
 # @nsis/dent
 
+## 0.13.1
+
+### Patch Changes
+
+- e5330f7: add `publishConfig`
+- Updated dependencies [e5330f7]
+  - @nsis/parser@0.1.1
+
 ## 0.13.0
 
 ### Minor Changes

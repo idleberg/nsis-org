@@ -1,5 +1,13 @@
 # @nsis/vite-plugin-nlf
 
+## 0.3.3
+
+### Patch Changes
+
+- e5330f7: add `publishConfig`
+- Updated dependencies [e5330f7]
+  - @nsis/nlf@0.14.2
+
 ## 0.3.2
 
 ### Patch Changes
