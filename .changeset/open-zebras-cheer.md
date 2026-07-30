@@ -13,4 +13,4 @@
 "@nsis/nlf": patch
 ---
 
-update dependencies, tooling
+chore: add `publishConfig`
