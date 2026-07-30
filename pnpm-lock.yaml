@@ -114,9 +114,6 @@ importers:
       concurrently:
         specifier: ^10.0.4
         version: 10.0.4
-      lefthook:
-        specifier: ^2.1.10
-        version: 2.1.10
       np:
         specifier: ^12.0.0
         version: 12.0.0(@types/node@26.1.2)(typescript@6.0.3)

@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/deploy.yml"
+      - "mise.toml"
       - "web/**"
       - "pnpm-lock.yaml"
   workflow_dispatch:
@@ -29,12 +30,11 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - name: Set up mise
+        uses: jdx/mise-action@9e7f7633ff6f6d6048a9418a68d48f288f50eb14 # v4.2.3
 
       - name: Enable Corepack
-        run: |
-          corepack prepare pnpm@9.15.3 --activate
-          corepack enable
+        run: corepack enable
 
       - name: Get pnpm store directory
         id: pnpm-cache
