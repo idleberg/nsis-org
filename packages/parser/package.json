@@ -22,8 +22,7 @@
 		"README.md"
 	],
 	"type": "module",
-	"typings": "dist/index.d.mts",
-	"exports": "./dist/index.mjs",
+	"exports": "./src/index.ts",
 	"engines": {
 		"node": ">=20.0.0"
 	},
@@ -38,6 +37,11 @@
 		"peg",
 		"grammar"
 	],
+	"publishConfig": {
+		"access": "public",
+		"typings": "dist/index.d.mts",
+		"exports": "./dist/index.mjs"
+	},
 	"devDependencies": {
 		"peggy": "^5.1.0",
 		"vitest": "catalog:"

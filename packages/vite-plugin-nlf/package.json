@@ -10,11 +10,7 @@
 	},
 	"homepage": "https://github.com/idleberg/nsis-org/tree/main/packages/vite-plugin-nlf#readme",
 	"type": "module",
-	"exports": {
-		"import": "./dist/plugin.mjs",
-		"types": "./dist/plugin.d.mts"
-	},
-	"types": "./dist/plugin.d.ts",
+	"exports": "./src/plugin.ts",
 	"engines": {
 		"node": "^20.19.0 || >=22.12.0"
 	},
@@ -40,6 +36,14 @@
 		"nsis language file",
 		"nlf"
 	],
+	"publishConfig": {
+		"access": "public",
+		"exports": {
+			"import": "./dist/plugin.mjs",
+			"types": "./dist/plugin.d.mts"
+		},
+		"types": "./dist/plugin.d.ts"
+	},
 	"dependencies": {
 		"@nsis/nlf": "workspace:*"
 	},

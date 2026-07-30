@@ -23,8 +23,7 @@
 		"README.md"
 	],
 	"type": "module",
-	"typings": "dist/dent.d.mts",
-	"exports": "./dist/dent.mjs",
+	"exports": "./src/dent.ts",
 	"engines": {
 		"node": ">=20.0.0"
 	},
@@ -37,6 +36,11 @@
 		"nsis",
 		"formatter"
 	],
+	"publishConfig": {
+		"access": "public",
+		"typings": "./dist/dent.d.mts",
+		"exports": "./dist/dent.mjs"
+	},
 	"dependencies": {
 		"@nsis/parser": "workspace:*",
 		"detect-newline": "^4.0.1"

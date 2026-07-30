@@ -30,6 +30,9 @@
 		"formatter",
 		"ui"
 	],
+	"publishConfig": {
+		"access": "public"
+	},
 	"dependencies": {
 		"@codemirror/commands": "catalog:",
 		"@codemirror/language": "catalog:",
