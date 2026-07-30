@@ -79,6 +79,9 @@ catalogs:
     svelte-check:
       specifier: ^4.7.4
       version: 4.7.4
+    tree-sitter-nsis:
+      specifier: ^0.4.0
+      version: 0.4.0
     vite:
       specifier: ^8.1.5
       version: 8.1.5
@@ -261,10 +264,10 @@ importers:
   packages/lumis:
     devDependencies:
       '@lumis-sh/lumis':
-        specifier: ^0.6.1
+        specifier: 'catalog:'
         version: 0.6.1
       tree-sitter-nsis:
-        specifier: ^0.4.0
+        specifier: 'catalog:'
         version: 0.4.0
       unplugin-macros:
         specifier: ^0.20.2
@@ -332,7 +335,7 @@ importers:
   packages/textmate:
     devDependencies:
       shiki:
-        specifier: ^4.3.1
+        specifier: 'catalog:'
         version: 4.3.1
       vitest:
         specifier: 'catalog:'
@@ -429,7 +432,7 @@ importers:
         specifier: ^4.3.3
         version: 4.3.3
       tree-sitter-nsis:
-        specifier: ^0.4.0
+        specifier: 'catalog:'
         version: 0.4.0
       vite:
         specifier: 'catalog:'
