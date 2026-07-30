@@ -30,6 +30,7 @@ Do not edit directly — edit the `.grammar` / `.pegjs` source files instead, th
 
 ## Conventions
 
+- NodeJS and lefthook are managed by mise, see `mise.toml`. Run `mise install` to set up the toolchain, this also installs the git hooks.
 - Conventional Commits enforced via commitlint + lefthook.
 - Shared dependency versions use the `catalog:` protocol in `pnpm-workspace.yaml`.
 - Imports always include the *actual* file extension (we use `allowImportingTsExtensions=true`).
