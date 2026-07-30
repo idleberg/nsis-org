@@ -5,18 +5,18 @@
 	"scripts": {
 		"build": "astro build",
 		"dev": "astro dev --open",
-		"test": "playwright test"
+		"test": "playwright test --tsconfig tsconfig.e2e.json"
 	},
 	"devDependencies": {
-		"@playwright/test": "catalog:",
 		"@astrojs/svelte": "^9.0.1",
 		"@codemirror/commands": "catalog:",
 		"@codemirror/language": "catalog:",
 		"@codemirror/state": "catalog:",
 		"@codemirror/theme-one-dark": "catalog:",
 		"@codemirror/view": "catalog:",
-		"@lumis-sh/lumis": "^0.5.2",
-		"@lumis-sh/themes": "^0.2.2",
+		"@idleberg/configs": "catalog:",
+		"@lumis-sh/lumis": "catalog:",
+		"@lumis-sh/themes": "catalog:",
 		"@nsis/ace-mode": "workspace:*",
 		"@nsis/codemirror": "workspace:*",
 		"@nsis/dent": "workspace:*",
@@ -25,14 +25,15 @@
 		"@nsis/lumis": "workspace:*",
 		"@nsis/prismjs": "workspace:*",
 		"@nsis/textmate": "workspace:*",
+		"@playwright/test": "catalog:",
 		"@tailwindcss/vite": "^4.3.3",
-		"astro": "7.1.1",
+		"astro": "7.1.6",
 		"highlight.js": "catalog:",
 		"prismjs": "catalog:",
-		"shiki": "^4.3.1",
+		"shiki": "catalog:",
 		"svelte": "catalog:",
 		"tailwindcss": "^4.3.3",
-		"tree-sitter-nsis": "^0.4.0",
+		"tree-sitter-nsis": "catalog:",
 		"vite": "catalog:"
 	}
 }
