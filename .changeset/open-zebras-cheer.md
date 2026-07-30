@@ -13,4 +13,4 @@
 "@nsis/nlf": patch
 ---
 
-chore: add `publishConfig`
+add `publishConfig`
