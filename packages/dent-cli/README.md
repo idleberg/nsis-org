@@ -8,6 +8,9 @@
 
 ## Installation
 
+> [!TIP]
+> If you're outside the NodeJS-bubble, you probably want to go through *all of this*. Try [ardent](https://crates.io/crates/ardent) instead, a compatible Rust implementation of this package.
+
 ### Node.js
 
 For single-use, use `npx` to download and run the CLI:
@@ -28,10 +31,6 @@ $ dent --help
 ```sh
 brew install idleberg/asahi/dent
 ```
-
-### Native Builds
-
-In the past, you could download precompiled binaries from the release page. This is no longer the case. Instead, feel free to download [ardent](https://github.com/idleberg/ardent), an API-compatible implementation written in Rust.
 
 ## Usage
 
