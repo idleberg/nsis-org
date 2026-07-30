@@ -53,6 +53,9 @@
 		"publish:npm": "np",
 		"test": "vitest run"
 	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"peerDependencies": {
 		"@lumis-sh/lumis": ">=0.1.0"
 	},

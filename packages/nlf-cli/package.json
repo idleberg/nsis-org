@@ -22,7 +22,7 @@
 		"README.md"
 	],
 	"bin": {
-		"nlf": "./bin/cli.mjs"
+		"nlf": "./src/cli.ts"
 	},
 	"type": "module",
 	"engines": {
@@ -38,6 +38,12 @@
 		"nsis language file",
 		"converter"
 	],
+	"publishConfig": {
+		"access": "public",
+		"bin": {
+			"nlf": "./bin/cli.mjs"
+		}
+	},
 	"dependencies": {
 		"@nsis/nlf": "workspace:*",
 		"commander": "catalog:",

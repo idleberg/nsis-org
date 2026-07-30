@@ -43,6 +43,9 @@
 		"prepublishOnly": "npm run build",
 		"publish:npm": "np"
 	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"devDependencies": {
 		"jsonc": "catalog:",
 		"prismjs": "catalog:",

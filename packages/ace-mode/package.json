@@ -26,6 +26,9 @@
 		"nullsoft",
 		"syntax highlighter"
 	],
+	"publishConfig": {
+		"access": "public"
+	},
 	"devDependencies": {
 		"eta": "^4.6.0",
 		"retrie": "^0.1.1"

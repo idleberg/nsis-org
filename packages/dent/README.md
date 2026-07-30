@@ -90,6 +90,7 @@ Default: `true`
 
 - [dent-cli](https://www.npmjs.com/package/@nsis/dent-cli)
 - [dent-desktop](https://github.com/idleberg/dent-desktop/)
+- [ardent](https://crates.io/crates/ardent)
 
 ## License
 

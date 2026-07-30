@@ -23,7 +23,7 @@
 	],
 	"type": "module",
 	"bin": {
-		"dent": "./bin/cli.mjs"
+		"dent": "./src/main.ts"
 	},
 	"engines": {
 		"node": ">=20.0.0"
@@ -37,6 +37,12 @@
 		"nsis",
 		"formatter"
 	],
+	"publishConfig": {
+		"access": "public",
+		"bin": {
+			"dent": "./bin/cli.mjs"
+		}
+	},
 	"dependencies": {
 		"@nsis/dent": "workspace:*",
 		"commander": "catalog:",
