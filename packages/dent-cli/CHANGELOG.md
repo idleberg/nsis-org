@@ -1,5 +1,11 @@
 # @nsis/dent-cli
 
+## 0.9.9
+
+### Patch Changes
+
+- 7ed4f68: fix typo in docs
+
 ## 0.9.8
 
 ### Patch Changes
