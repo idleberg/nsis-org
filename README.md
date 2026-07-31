@@ -6,12 +6,12 @@ A collection of npm packages for the broader NSIS eco-system.
 
 ## Syntax Highlighters
 
-- [ace-mode](/packages/ace-mode)
-- [codemirror](/packages/codemirror)
-- [highlightjs](/packages/highlightjs)
-- [lumis](/packages/lumis)
-- [prismjs](/packages/prismjs)
-- [textmate](/packages/textmate)
+- [ace-mode](/packages/ace-mode) | [demo](https://idleberg.github.io/nsis-org/ace-mode/)
+- [codemirror](/packages/codemirror) | [demo](https://idleberg.github.io/nsis-org/codemirror/)
+- [highlightjs](/packages/highlightjs) | [demo](https://idleberg.github.io/nsis-org/highlightjs/)
+- [lumis](/packages/lumis) | [demo](https://idleberg.github.io/nsis-org/lumis/)
+- [prismjs](/packages/prismjs) | [demo](https://idleberg.github.io/nsis-org/prismjs/)
+- [textmate](/packages/textmate) | [demo](https://idleberg.github.io/nsis-org/textmate/)
 
 ## CLI Tools
 
