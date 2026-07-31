@@ -9,7 +9,7 @@
 ## Installation
 
 > [!TIP]
-> If you're outside the NodeJS-bubble, you probably want to use [ardent](https://crates.io/crates/ardent) instead, a compatible Rust implementation of this package.
+> If you're living outside the NodeJS bubble, you probably want to use [ardent](https://crates.io/crates/ardent) instead, a compatible Rust implementation of this package in binary form.
 
 ### Node.js
 
