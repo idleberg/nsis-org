@@ -3,6 +3,7 @@ import { createFormatter } from '@nsis/dent';
 import { Command } from 'commander';
 import { blue, dim } from 'kleur/colors';
 import { logger } from '../log.ts';
+import { printDiff } from './diff.ts';
 import { applyFormattingOptions } from './options.ts';
 import {
 	dentOptionsFrom,
@@ -14,7 +15,7 @@ import {
 	type SharedOptions,
 } from './shared.ts';
 
-type CheckOptions = SharedOptions & { write: boolean; silent: boolean };
+type CheckOptions = SharedOptions & { write: boolean; silent: boolean; diff: boolean };
 
 export function checkCommand(): Command {
 	const cmd = new Command('check')
@@ -30,6 +31,7 @@ export function checkCommand(): Command {
 
 	applyFormattingOptions(cmd);
 	cmd.option('-w, --write', 'edit files in-place, if check fails', false);
+	cmd.option('-d, --diff', 'print a unified diff for each file with issues', false);
 	cmd.option('-S, --silent', 'suppress all output except errors and warnings', false);
 
 	return cmd;
@@ -56,6 +58,10 @@ async function runCheck(patterns: string[], options: CheckOptions): Promise<void
 		const duration = Math.round(performance.now() - startTime);
 
 		if (result !== null) {
+			if (options.diff && !options.silent) {
+				printDiff(null, rawContents, result);
+			}
+
 			logger.warn(`Script has issues ${dim(`(${duration}ms)`)}`);
 			logger.success(`Completed in ${duration}ms.`);
 			process.exit(1);
@@ -75,7 +81,7 @@ async function runCheck(patterns: string[], options: CheckOptions): Promise<void
 		patterns,
 		check,
 		2,
-		async (file, result, _rawContents, dur) => {
+		async (file, result, rawContents, dur) => {
 			if (result === null) {
 				unchanged++;
 				logger.info(`${blue(file)} already formatted ${dim(`(${dur}ms)`)}`);
@@ -83,6 +89,10 @@ async function runCheck(patterns: string[], options: CheckOptions): Promise<void
 			}
 
 			drifted.push(file);
+
+			if (options.diff && !options.silent) {
+				printDiff(file, rawContents, result);
+			}
 
 			if (options.write) {
 				await writeFile(file, result, { encoding: 'utf-8' });
