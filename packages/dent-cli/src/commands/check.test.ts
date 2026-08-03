@@ -7,6 +7,15 @@ import { logger } from '../log.ts';
 import { checkCommand } from './check.ts';
 import * as shared from './shared.ts';
 
+// Built from a char code so the escape sequence stays out of the regex literal.
+const ANSI = new RegExp(`${String.fromCharCode(27)}\\[\\d+m`, 'g');
+
+function diffOutput(): string {
+	const [first] = vi.mocked(logger.log).mock.calls[0] as [string];
+
+	return first.replace(ANSI, '');
+}
+
 const UNFORMATTED = 'Section "demo"\n  DetailPrint "x"\nSectionEnd\n';
 const FORMATTED = 'Section "demo"\n\tDetailPrint "x"\nSectionEnd\n';
 
@@ -25,6 +34,11 @@ describe('checkCommand shape', () => {
 		const longs = checkCommand().options.map((opt) => opt.long);
 		expect(longs).toEqual(expect.arrayContaining(['--eol', '--indent-size', '--use-spaces', '--no-trim', '--write']));
 	});
+
+	it('exposes the --diff option', () => {
+		const longs = checkCommand().options.map((opt) => opt.long);
+		expect(longs).toContain('--diff');
+	});
 });
 
 describe('check action', () => {
@@ -39,6 +53,7 @@ describe('check action', () => {
 		vi.spyOn(logger, 'warn').mockImplementation(() => undefined);
 		vi.spyOn(logger, 'error').mockImplementation(() => undefined);
 		vi.spyOn(logger, 'debug').mockImplementation(() => undefined);
+		vi.spyOn(logger, 'log').mockImplementation(() => undefined);
 		exit = vi.spyOn(process, 'exit').mockImplementation((() => undefined) as (code?: string | number | null) => never);
 	});
 
@@ -76,6 +91,50 @@ describe('check action', () => {
 		expect(await readFile(file, 'utf8')).toBe(FORMATTED);
 	});
 
+	it('prints a unified diff with --diff', async () => {
+		const file = join(dir, 'dirty.nsi');
+		await writeFile(file, UNFORMATTED);
+
+		await buildRoot().parseAsync(['check', '--diff', file], { from: 'user' });
+
+		expect(logger.log).toHaveBeenCalledTimes(1);
+		const output = diffOutput();
+		expect(output).toContain('--- a/');
+		expect(output).toContain('+++ b/');
+		expect(output).toContain('@@ -1,3 +1,3 @@');
+		expect(output).toContain('-  DetailPrint "x"');
+		expect(output).toContain('+\tDetailPrint "x"');
+	});
+
+	it('prints no diff for an already-formatted file', async () => {
+		const file = join(dir, 'clean.nsi');
+		await writeFile(file, FORMATTED);
+
+		await buildRoot().parseAsync(['check', '--diff', file], { from: 'user' });
+
+		expect(logger.log).not.toHaveBeenCalled();
+	});
+
+	it('still writes fixes when --diff is combined with --write', async () => {
+		const file = join(dir, 'dirty.nsi');
+		await writeFile(file, UNFORMATTED);
+
+		await buildRoot().parseAsync(['check', '--diff', '--write', file], { from: 'user' });
+
+		expect(logger.log).toHaveBeenCalledTimes(1);
+		expect(await readFile(file, 'utf8')).toBe(FORMATTED);
+		expect(exit).toHaveBeenCalledWith(1);
+	});
+
+	it('suppresses the diff with --silent', async () => {
+		const file = join(dir, 'dirty.nsi');
+		await writeFile(file, UNFORMATTED);
+
+		await buildRoot().parseAsync(['check', '--diff', '--silent', file], { from: 'user' });
+
+		expect(logger.log).not.toHaveBeenCalled();
+	});
+
 	it('exits 2 when no input files match', async () => {
 		await buildRoot().parseAsync(['check', join(dir, '*.nope')], { from: 'user' });
 
@@ -93,6 +152,7 @@ describe('check stdin', () => {
 		vi.spyOn(logger, 'warn').mockImplementation(() => undefined);
 		vi.spyOn(logger, 'error').mockImplementation(() => undefined);
 		vi.spyOn(logger, 'debug').mockImplementation(() => undefined);
+		vi.spyOn(logger, 'log').mockImplementation(() => undefined);
 		exit = vi.spyOn(process, 'exit').mockImplementation((() => undefined) as (code?: string | number | null) => never);
 	});
 
@@ -121,6 +181,30 @@ describe('check stdin', () => {
 		expect(exit).toHaveBeenCalledWith(1);
 		expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining('has issues'));
 		expect(logger.success).toHaveBeenCalledWith(expect.stringContaining('Completed in'));
+	});
+
+	it('prints a headerless diff from stdin with --diff', async () => {
+		vi.spyOn(shared, 'hasStdin').mockReturnValue(true);
+		vi.spyOn(shared, 'readStdin').mockResolvedValue(UNFORMATTED);
+
+		await buildRoot().parseAsync(['check', '--diff'], { from: 'user' });
+
+		expect(logger.log).toHaveBeenCalledTimes(1);
+		const output = diffOutput();
+		expect(output).not.toContain('--- a/');
+		expect(output).not.toContain('+++ b/');
+		expect(output).toContain('@@ -1,3 +1,3 @@');
+		expect(output).toContain('-  DetailPrint "x"');
+		expect(output).toContain('+\tDetailPrint "x"');
+	});
+
+	it('suppresses the stdin diff with --silent', async () => {
+		vi.spyOn(shared, 'hasStdin').mockReturnValue(true);
+		vi.spyOn(shared, 'readStdin').mockResolvedValue(UNFORMATTED);
+
+		await buildRoot().parseAsync(['check', '--diff', '--silent'], { from: 'user' });
+
+		expect(logger.log).not.toHaveBeenCalled();
 	});
 
 	it('warns that --write is ignored with stdin', async () => {

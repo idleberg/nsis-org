@@ -47,6 +47,7 @@
 		"@nsis/dent": "workspace:*",
 		"commander": "catalog:",
 		"consola": "^3.4.2",
+		"diff": "catalog:",
 		"kleur": "^4.1.5"
 	},
 	"devDependencies": {
