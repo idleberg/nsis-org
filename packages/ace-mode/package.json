@@ -1,6 +1,6 @@
 {
 	"name": "@nsis/ace-mode",
-	"version": "1.8.4",
+	"version": "1.8.5",
 	"description": "Ace mode for NSIS (Nullsoft Scriptable Install System)",
 	"license": "BSD-3-Clause",
 	"scripts": {
