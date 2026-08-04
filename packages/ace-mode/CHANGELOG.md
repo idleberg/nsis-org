@@ -1,5 +1,11 @@
 # @nsis/ace-mode
 
+## 1.8.5
+
+### Patch Changes
+
+- 9e1e21a: Generate the highlighting patterns from the shared language definition
+
 ## 1.8.4
 
 ### Patch Changes
