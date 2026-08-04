@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsdown';
+import pkg from './package.json' with { type: 'json' };
 
 export default defineConfig((options) => {
 	const isProduction = options.watch !== true;
@@ -10,10 +11,14 @@ export default defineConfig((options) => {
 		entry: {
 			cli: 'src/main.ts',
 		},
-		neverBundle: [
-			// ensure we always read the current version from the manifest
-			'../package.json',
-		],
+		deps: {
+			neverBundle: [
+				...Object.keys(pkg.dependencies),
+
+				// ensure we always read the current version from the manifest
+				'../package.json',
+			],
+		},
 		format: 'esm',
 		minify: isProduction,
 		outDir: 'bin',
