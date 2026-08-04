@@ -15,7 +15,16 @@
 		"nsis"
 	],
 	"type": "module",
-	"exports": "./src/nsis.ts",
+	"exports": {
+		".": {
+			"types": {
+				"import": "./dist/nsis.d.mts",
+				"require": "./dist/nsis.d.cts"
+			},
+			"import": "./dist/nsis.mjs",
+			"require": "./dist/nsis.cjs"
+		}
+	},
 	"engines": {
 		"node": "^20.19.0 || >=22.12.0"
 	},
@@ -35,19 +44,11 @@
 		"test": "vitest run"
 	},
 	"publishConfig": {
-		"access": "public",
-		"exports": {
-			".": {
-				"types": {
-					"import": "./dist/nsis.d.mts",
-					"require": "./dist/nsis.d.cts"
-				},
-				"import": "./dist/nsis.mjs",
-				"require": "./dist/nsis.cjs"
-			}
-		}
+		"access": "public"
 	},
 	"devDependencies": {
+		"jsonc": "catalog:",
+		"unplugin-macros": "catalog:",
 		"vitest": "catalog:"
 	},
 	"peerDependencies": {
