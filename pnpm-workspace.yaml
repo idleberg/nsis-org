@@ -41,10 +41,12 @@ catalog:
   jsonc: ^2.0.0
   playwright: ^1.62.0
   prismjs: ^1.30.0
+  retrie: ^0.1.1
   shiki: ^4.3.1
   svelte-check: ^4.7.4
   svelte: ^5.56.8
   tree-sitter-nsis: ^0.4.0
+  unplugin-macros: ^0.20.2
   vite: ^8.1.5
   vitest-browser-svelte: ^3.0.0
   vitest: ^4.1.10

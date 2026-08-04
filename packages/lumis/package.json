@@ -62,7 +62,7 @@
 	"devDependencies": {
 		"@lumis-sh/lumis": "catalog:",
 		"tree-sitter-nsis": "catalog:",
-		"unplugin-macros": "^0.20.2",
+		"unplugin-macros": "catalog:",
 		"vitest": "catalog:"
 	}
 }

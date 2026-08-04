@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsdown';
+import Macros from 'unplugin-macros/rolldown';
 
 export default defineConfig((options) => {
 	const isProduction = options.watch !== true;
@@ -10,5 +11,6 @@ export default defineConfig((options) => {
 		entry: 'src/nsis.ts',
 		format: ['cjs', 'esm'],
 		minify: isProduction,
+		plugins: [Macros()],
 	};
 });

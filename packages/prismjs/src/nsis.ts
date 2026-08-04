@@ -1,5 +1,7 @@
 /*! @nsis/prismjs | MIT License | github.com/idleberg/nsis-org */
 
+import { importantPattern, keywordPattern, propertyPattern } from './macros.ts' with { type: 'macro' };
+
 declare const Prism: {
 	languages: Record<string, unknown>;
 };
@@ -15,17 +17,17 @@ Prism.languages.nsis = {
 		greedy: true,
 	},
 	keyword: {
-		pattern: /(^\s*)%NSIS_KEYWORDS%\b/m,
+		pattern: keywordPattern(),
 		lookbehind: true,
 	},
-	property: /\b%NSIS_PROPERTIES%\b/,
+	property: propertyPattern(),
 	constant: /\${[\w.:^-]+}|\$\([\w.:^-]+\)/i,
 	variable: /\$\w+/i,
 	number: /\b-?(?:0x[\dA-Fa-f]+|\d*\.?\d+(?:[Ee]-?\d+)?)\b/,
 	operator: /--?|\+\+?|<=?|>=?|==?=?|&&?|\|\|?|[?*/~^%]/,
 	punctuation: /[{}[\];(),.:]/,
 	important: {
-		pattern: /(^\s*)%NSIS_IMPORTANT%\b/im,
+		pattern: importantPattern(),
 		lookbehind: true,
 	},
 };

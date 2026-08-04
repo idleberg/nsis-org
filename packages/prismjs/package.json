@@ -29,7 +29,7 @@
 	"engines": {
 		"node": "^20.19.0 || >=22.12.0"
 	},
-	"files:": [
+	"files": [
 		"dist/",
 		"LICENSE",
 		"README.md"
@@ -41,7 +41,8 @@
 		"lint:biome": "biome check",
 		"lint:e18e": "e18e-cli analyze --log-level error",
 		"prepublishOnly": "npm run build",
-		"publish:npm": "np"
+		"publish:npm": "np",
+		"test": "vitest run"
 	},
 	"publishConfig": {
 		"access": "public"
@@ -49,7 +50,8 @@
 	"devDependencies": {
 		"jsonc": "catalog:",
 		"prismjs": "catalog:",
-		"retrie": "^0.1.1",
-		"rollup-plugin-entry-code-injector": "^1.0.0"
+		"retrie": "catalog:",
+		"unplugin-macros": "catalog:",
+		"vitest": "catalog:"
 	}
 }

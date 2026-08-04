@@ -4,7 +4,8 @@
 	"description": "Ace mode for NSIS (Nullsoft Scriptable Install System)",
 	"license": "BSD-3-Clause",
 	"scripts": {
-		"build": "node ./tools/build.mjs",
+		"build": "tsdown",
+		"dev": "tsdown --watch",
 		"prepublishOnly": "npm run build",
 		"test": "echo \"Error: no test specified\" && exit 0"
 	},
@@ -30,7 +31,8 @@
 		"access": "public"
 	},
 	"devDependencies": {
-		"eta": "^4.6.0",
-		"retrie": "^0.1.1"
+		"jsonc": "catalog:",
+		"retrie": "catalog:",
+		"unplugin-macros": "catalog:"
 	}
 }
