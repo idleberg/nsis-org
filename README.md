@@ -17,3 +17,7 @@ A collection of npm packages for the broader NSIS eco-system.
 
 - [dent-cli](/packages/dent-cli)
 - [nlf-cli](/packages/nlf-cli)
+
+## Web
+
+- [dent-ui](https://idleberg.github.io/nsis-org/dent/)
