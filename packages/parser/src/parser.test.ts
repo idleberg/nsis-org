@@ -243,6 +243,40 @@ test('Unknown compiler command rejects', () => {
 	expect(() => parse('!foobar "arg"\n')).toThrow();
 });
 
+// --- Error locations ---
+
+type LocatedError = SyntaxError & { location: { start: { line: number; column: number; offset: number } } };
+
+function parseErrorStart(input: string) {
+	try {
+		parse(input);
+	} catch (error) {
+		return (error as LocatedError).location.start;
+	}
+	throw new Error('expected a parse error');
+}
+
+test('Parse error reports the source line', () => {
+	expect(parseErrorStart('Nop\nFooBar\n').line).toBe(2);
+});
+
+test('Parse error line accounts for line continuations', () => {
+	// Each joined continuation removes a newline from the preprocessed text, so a naive
+	// position would drift one line earlier per continuation.
+	const input = 'DetailPrint \\\n  "a"\nDetailPrint \\\n  "b"\nFooBar\n';
+	const start = parseErrorStart(input);
+	expect(start.line).toBe(5);
+	expect(start.column).toBe(7);
+});
+
+test('Parse error offset points into the original source', () => {
+	const input = 'Nop\nDetailPrint \\\n  "a"\nFooBar\n';
+	const start = parseErrorStart(input);
+	expect(start.line).toBe(4);
+	// The reported offset must index the source the caller passed in, not the joined text.
+	expect(input.slice(start.offset - 6, start.offset)).toBe('FooBar');
+});
+
 // --- Plugin calls ---
 
 test('Plugin call keyword', () => {
