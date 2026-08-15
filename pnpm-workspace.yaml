@@ -30,8 +30,8 @@ catalog:
   "@lezer/generator": ^1.8.0
   "@lezer/highlight": ^1.2.3
   "@lezer/lr": ^1.4.10
-  "@lumis-sh/lumis": ^0.7.0
-  "@lumis-sh/themes": ^0.3.0
+  "@lumis-sh/lumis": ^0.6.1
+  "@lumis-sh/themes": ^0.2.2
   "@playwright/test": ^1.62.1
   "@sveltejs/vite-plugin-svelte": ^7.3.0
   "@vitest/browser-playwright": ^4.1.10
