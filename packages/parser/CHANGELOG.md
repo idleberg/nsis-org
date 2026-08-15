@@ -1,5 +1,12 @@
 # @nsis/parser
 
+## 0.1.2
+
+### Patch Changes
+
+- a66b7ae: report parse errors at their real source position
+- c91e1bb: stop treating "" as an in-string escape
+
 ## 0.1.1
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @nsis/dent
 
+## 0.14.0
+
+### Minor Changes
+
+- 862c327: Normalize the casing of NSIS built-in variables (`$instdir` → `$INSTDIR`, `$r0` → `$R0`), built-in defines (`${nsisdir}` → `${NSISDIR}`) and built-in language strings (`$(^name)` → `$(^Name)`). Custom variables, custom defines, third-party macros, environment variables (`$%windir%`) and escape sequences (`$$`, `$\n`) are left exactly as typed
+- c91e1bb: normalize casing of NSIS built-in variables and defines
+
+### Patch Changes
+
+- Updated dependencies [a66b7ae]
+- Updated dependencies [c91e1bb]
+  - @nsis/parser@0.1.2
+
 ## 0.13.1
 
 ### Patch Changes
