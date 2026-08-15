@@ -168,6 +168,20 @@ test('Path with backslash in quoted string', () => {
 	expect(node.args).toEqual(['"$PROGRAMFILES\\Demo"']);
 });
 
+test('Adjacent quotes are two arguments, not an escape', () => {
+	// `""` is not an escape: makensis closes the string at the second quote and
+	// reads two tokens (`!echo "a""b"` fails with "expects 1 parameters, got 2").
+	const node = parse('!echo "a""b"\n')[0] as InstructionNode;
+	expect(node.keyword).toBe('!echo');
+	expect(node.args).toEqual(['"a"', '"b"']);
+});
+
+test('Doubled quotes inside a single-quoted argument are literal', () => {
+	const node = parse('nsExec::Exec \'ssm.exe -c ""$RootDir\\conf""\'\n')[0] as InstructionNode;
+	expect(node.keyword).toBe('nsExec::Exec');
+	expect(node.args).toEqual(['\'ssm.exe -c ""$RootDir\\conf""\'']);
+});
+
 test('Single-quoted string with escaped single quote', () => {
 	const node = parse("DetailPrint 'Quote $\\'This$\\''\n")[0] as InstructionNode;
 	expect(node.keyword).toBe('DetailPrint');
