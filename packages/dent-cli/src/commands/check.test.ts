@@ -18,6 +18,8 @@ function diffOutput(): string {
 
 const UNFORMATTED = 'Section "demo"\n  DetailPrint "x"\nSectionEnd\n';
 const FORMATTED = 'Section "demo"\n\tDetailPrint "x"\nSectionEnd\n';
+// `StrStr` is not an NSIS instruction, so this cannot be parsed.
+const UNPARSEABLE = 'Section "demo"\n\tStrStr $0 "a" "b"\nSectionEnd\n';
 
 function buildRoot() {
 	return new Command('dent').exitOverride().option('-D, --debug', '', false).addCommand(checkCommand());
@@ -89,6 +91,28 @@ describe('check action', () => {
 
 		expect(exit).toHaveBeenCalledWith(1);
 		expect(await readFile(file, 'utf8')).toBe(FORMATTED);
+	});
+
+	it('exits 2 when a file cannot be parsed', async () => {
+		const file = join(dir, 'broken.nsi');
+		await writeFile(file, UNPARSEABLE);
+
+		await buildRoot().parseAsync(['check', file], { from: 'user' });
+
+		expect(exit).toHaveBeenCalledWith(2);
+	});
+
+	it('reports an error over formatting issues', async () => {
+		const dirty = join(dir, 'dirty.nsi');
+		const bad = join(dir, 'broken.nsi');
+		await writeFile(dirty, UNFORMATTED);
+		await writeFile(bad, UNPARSEABLE);
+
+		await buildRoot().parseAsync(['check', dirty, bad], { from: 'user' });
+
+		// The unparseable file was never checked at all, so it outranks "has issues".
+		// `process.exit` is mocked here, so only the first call is the one that counts.
+		expect(exit.mock.calls[0]).toEqual([2]);
 	});
 
 	it('prints a unified diff with --diff', async () => {

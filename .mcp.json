@@ -1,0 +1,30 @@
+{
+	"mcpServers": {
+		"svelte": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"@sveltejs/mcp"
+			],
+			"type": "stdio"
+		},
+		"chrome-devtools": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"chrome-devtools-mcp@latest",
+				"--no-usage-statistics"
+			],
+			"type": "stdio"
+		},
+		"code-review-graph": {
+			"command": "uvx",
+			"args": [
+				"code-review-graph",
+				"serve"
+			],
+			"cwd": "/Users/jan/Repositories/_nsis/nsis-org",
+			"type": "stdio"
+		},
+	}
+}

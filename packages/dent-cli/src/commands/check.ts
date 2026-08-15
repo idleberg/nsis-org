@@ -77,7 +77,7 @@ async function runCheck(patterns: string[], options: CheckOptions): Promise<void
 	const drifted: string[] = [];
 	let unchanged = 0;
 
-	const { duration } = await processFiles(
+	const { duration, failures } = await processFiles(
 		patterns,
 		check,
 		2,
@@ -113,6 +113,12 @@ async function runCheck(patterns: string[], options: CheckOptions): Promise<void
 			: `Found formatting issues in ${drifted.length} of ${total} ${total === 1 ? 'file' : 'files'}.`;
 
 	logger.success(`Completed in ${duration}ms. ${summary}`);
+
+	// A file that could not be read or parsed was never checked at all, so it outranks
+	// "found formatting issues" — report it as an error instead.
+	if (failures > 0) {
+		process.exit(2);
+	}
 
 	if (drifted.length >= 1) {
 		process.exit(1);

@@ -25,3 +25,5 @@ playwright-report/
 # Project specific
 *.exe
 *.nsi
+# Added by code-review-graph
+.code-review-graph/

@@ -2,6 +2,7 @@ import type { Comment, CommentNode, CSTNode, InstructionNode, LabelNode } from '
 import { ensureBlankAroundBlocks, trimAndCollapseBlanks } from './blank-lines.ts';
 import { canonicalCasing } from './canonical-casing.ts';
 import { canonicalIncludes } from './canonical-includes.ts';
+import { builtinDefines } from './canonical-variables.ts';
 import { isArithmeticKeyword, joinInstructionArgs, normalizeInstructionArgs } from './normalize.ts';
 import { rules } from './rules.ts';
 
@@ -133,7 +134,8 @@ function printLabel(node: LabelNode, level: number, options: PrinterOptions): st
 
 function printInstruction(node: InstructionNode, level: number, options: PrinterOptions): string {
 	const kwLower = node.keyword.toLowerCase();
-	const keyword = canonicalCasing.get(kwLower) ?? canonicalIncludes.get(kwLower) ?? node.keyword;
+	const keyword =
+		canonicalCasing.get(kwLower) ?? canonicalIncludes.get(kwLower) ?? builtinDefines.get(kwLower) ?? node.keyword;
 	const isArithmetic = isArithmeticKeyword(kwLower);
 	const args = normalizeInstructionArgs(node.args, node.keyword, options.singleQuote);
 	const indent = indentStr(level, options);

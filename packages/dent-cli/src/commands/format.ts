@@ -53,7 +53,7 @@ async function runFormat(patterns: string[], options: FormatOptions): Promise<vo
 	let numFormatted = 0;
 	let numUnchanged = 0;
 
-	const { duration } = await processFiles(
+	const { duration, failures } = await processFiles(
 		patterns,
 		check,
 		1,
@@ -87,5 +87,9 @@ async function runFormat(patterns: string[], options: FormatOptions): Promise<vo
 				? `All ${total} ${total === 1 ? 'file was' : 'files'} already formatted.`
 				: `Formatted ${numFormatted} of ${total} ${total === 1 ? 'file' : 'files'}.`;
 		logger.success(`Completed in ${duration}ms. ${summary}`);
+	}
+
+	if (failures > 0) {
+		process.exit(2);
 	}
 }

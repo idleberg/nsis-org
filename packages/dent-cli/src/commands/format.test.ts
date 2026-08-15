@@ -9,6 +9,8 @@ import * as shared from './shared.ts';
 
 const UNFORMATTED = 'Section "demo"\n  DetailPrint "x"\nSectionEnd\n';
 const FORMATTED = 'Section "demo"\n\tDetailPrint "x"\nSectionEnd\n';
+// `StrStr` is not an NSIS instruction, so this cannot be parsed.
+const UNPARSEABLE = 'Section "demo"\n\tStrStr $0 "a" "b"\nSectionEnd\n';
 
 function buildRoot() {
 	return new Command('dent').exitOverride().option('-D, --debug', '', false).addCommand(formatCommand());
@@ -77,6 +79,40 @@ describe('format action', () => {
 
 		const messages = (logger.info as unknown as ReturnType<typeof vi.fn>).mock.calls.map((c: unknown[]) => c[0]);
 		expect(messages.some((m) => typeof m === 'string' && m.includes('already formatted'))).toBe(true);
+	});
+
+	it('exits with code 2 when a file cannot be parsed', async () => {
+		const file = join(dir, 'broken.nsi');
+		await writeFile(file, UNPARSEABLE);
+
+		const exit = vi
+			.spyOn(process, 'exit')
+			.mockImplementation((() => undefined) as (code?: string | number | null) => never);
+		const stdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
+
+		await buildRoot().parseAsync(['format', file], { from: 'user' });
+
+		// Nothing reaches stdout for an unparseable file, so exiting 0 would look exactly
+		// like formatting it to nothing.
+		expect(stdout).not.toHaveBeenCalled();
+		expect(exit).toHaveBeenCalledWith(2);
+	});
+
+	it('exits with code 2 even when other files succeed', async () => {
+		const good = join(dir, 'good.nsi');
+		const bad = join(dir, 'broken.nsi');
+		await writeFile(good, FORMATTED);
+		await writeFile(bad, UNPARSEABLE);
+
+		const exit = vi
+			.spyOn(process, 'exit')
+			.mockImplementation((() => undefined) as (code?: string | number | null) => never);
+		const stdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
+
+		await buildRoot().parseAsync(['format', good, bad], { from: 'user' });
+
+		expect(stdout.mock.calls.map((call) => call[0]).join('')).toBe(FORMATTED);
+		expect(exit).toHaveBeenCalledWith(2);
 	});
 
 	it('exits with code 1 when no input files match', async () => {

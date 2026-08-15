@@ -6,6 +6,7 @@ import {
 	normalizeArg,
 	normalizeInstructionArgs,
 	normalizeQuotes,
+	normalizeVariables,
 	splitArithmeticTokens,
 	splitPipeTokens,
 } from './normalize.ts';
@@ -51,8 +52,11 @@ test('normalizeQuotes: unescapes $\\" before re-quoting', () => {
 	expect(normalizeQuotes('"say $\\"hi$\\""', true)).toBe('\'say "hi"\'');
 });
 
-test('normalizeQuotes: unescapes "" (doubled double) before re-quoting', () => {
-	expect(normalizeQuotes('"say ""hi"""', true)).toBe('\'say "hi"\'');
+test('normalizeQuotes: "" is not an escape', () => {
+	// makensis reads `"a""b"` as two tokens, so `""` is never an escape for `"`.
+	// Inside a single-quoted string it is simply two literal characters.
+	expect(normalizeQuotes('\'a ""b"" c\'', false)).toBe('\'a ""b"" c\'');
+	expect(normalizeQuotes('`a ""b"" c`', false)).toBe('\'a ""b"" c\'');
 });
 
 test('normalizeQuotes: returns bare tokens unchanged', () => {
@@ -214,4 +218,79 @@ test('normalizeInstructionArgs: normalises quotes', () => {
 test('normalizeInstructionArgs: preserves $-prefixed args', () => {
 	const result = normalizeInstructionArgs(['$INSTDIR'], 'SetOutPath', false);
 	expect(result).toEqual(['$INSTDIR']);
+});
+
+// --- normalizeVariables ---
+
+test('normalizeVariables: built-in named variables', () => {
+	expect(normalizeVariables('$instdir')).toBe('$INSTDIR');
+	expect(normalizeVariables('$Temp')).toBe('$TEMP');
+	expect(normalizeVariables('$hwndParent')).toBe('$HWNDPARENT');
+	expect(normalizeVariables('$_click')).toBe('$_CLICK');
+});
+
+test('normalizeVariables: registers', () => {
+	expect(normalizeVariables('$r0')).toBe('$R0');
+	expect(normalizeVariables('$R9')).toBe('$R9');
+	expect(normalizeVariables('$0')).toBe('$0');
+});
+
+test('normalizeVariables: custom variables are left alone', () => {
+	expect(normalizeVariables('$myVar')).toBe('$myVar');
+	expect(normalizeVariables('$instdirfoo')).toBe('$instdirfoo');
+});
+
+test('normalizeVariables: built-in defines', () => {
+	expect(normalizeVariables('${nsisdir}')).toBe('${NSISDIR}');
+	expect(normalizeVariables('${__file__}')).toBe('${__FILE__}');
+	expect(normalizeVariables('${nsis_char_size}')).toBe('${NSIS_CHAR_SIZE}');
+});
+
+test('normalizeVariables: custom defines are left alone', () => {
+	expect(normalizeVariables('${myDefine}')).toBe('${myDefine}');
+	expect(normalizeVariables('${U+00e9}')).toBe('${U+00e9}');
+});
+
+test('normalizeVariables: include macros in argument position', () => {
+	expect(normalizeVariables('${getsize}')).toBe('${GetSize}');
+});
+
+test('normalizeVariables: built-in language strings', () => {
+	expect(normalizeVariables('$(^name)')).toBe('$(^Name)');
+	expect(normalizeVariables('$(^NAMEDA)')).toBe('$(^NameDA)');
+	expect(normalizeVariables('$(MyLangString)')).toBe('$(MyLangString)');
+});
+
+test('normalizeVariables: environment variables are left alone', () => {
+	expect(normalizeVariables('$%windir%')).toBe('$%windir%');
+	expect(normalizeVariables('$%Path%\\bin')).toBe('$%Path%\\bin');
+});
+
+test('normalizeVariables: escapes are preserved', () => {
+	expect(normalizeVariables('$$instdir')).toBe('$$instdir');
+	expect(normalizeVariables('a$\\nb')).toBe('a$\\nb');
+	expect(normalizeVariables('$\\"$instdir$\\"')).toBe('$\\"$INSTDIR$\\"');
+});
+
+test('normalizeVariables: concatenated references', () => {
+	expect(normalizeVariables('$instdir$temp${nsisdir}')).toBe('$INSTDIR$TEMP${NSISDIR}');
+});
+
+test('normalizeVariables: path segments', () => {
+	expect(normalizeVariables('$instdir\\Uninstall.exe')).toBe('$INSTDIR\\Uninstall.exe');
+});
+
+test('normalizeVariables: unterminated groups', () => {
+	expect(normalizeVariables('${nsisdir')).toBe('${nsisdir');
+	expect(normalizeVariables('$(^name')).toBe('$(^name');
+	expect(normalizeVariables('$')).toBe('$');
+});
+
+test('normalizeArg: normalises variables inside quotes', () => {
+	expect(normalizeArg('"$instdir\\foo.exe"', undefined, false)).toBe('"$INSTDIR\\foo.exe"');
+});
+
+test('normalizeInstructionArgs: normalises $-prefixed args', () => {
+	expect(normalizeInstructionArgs(['$instdir'], 'SetOutPath', false)).toEqual(['$INSTDIR']);
+	expect(normalizeInstructionArgs(['$r0', '$r0', '+', '1'], 'IntOp', false)).toEqual(['$R0', '$R0', '+', '1']);
 });
