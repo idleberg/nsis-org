@@ -1,5 +1,14 @@
 # @nsis/dent-cli
 
+## 0.10.1
+
+### Patch Changes
+
+- a66b7ae: exit non-zero when a file cannot be read or parsed
+- Updated dependencies [862c327]
+- Updated dependencies [c91e1bb]
+  - @nsis/dent@0.14.0
+
 ## 0.10.0
 
 ### Minor Changes
