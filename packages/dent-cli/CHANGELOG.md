@@ -1,5 +1,11 @@
 # @nsis/dent-cli
 
+## 0.10.0
+
+### Minor Changes
+
+- 88f5a28: Add `-d, --diff` to the `check` command, printing a unified diff for each file with formatting issues
+
 ## 0.9.9
 
 ### Patch Changes

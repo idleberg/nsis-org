@@ -1,5 +1,11 @@
 # @nsis/prismjs
 
+## 0.10.4
+
+### Patch Changes
+
+- 9e1e21a: Fix the `files` allowlist, which was inert due to a typo and caused sources to be published alongside the bundle
+
 ## 0.10.3
 
 ### Patch Changes

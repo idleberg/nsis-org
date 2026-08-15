@@ -1,5 +1,11 @@
 # @nsis/highlightjs
 
+## 0.1.5
+
+### Patch Changes
+
+- 9e1e21a: Generate the highlighting patterns from the shared language definition
+
 ## 0.1.4
 
 ### Patch Changes
