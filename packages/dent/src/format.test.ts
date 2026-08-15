@@ -68,3 +68,21 @@ test('Quotes', async () => {
 
 	expect(format(fixture)).toBe(expected);
 });
+
+test('Built-in variable, define and language string casing', async () => {
+	const { format } = createFormatter({ eol: 'lf' });
+
+	const fixture = await fs.readFile(resolve(process.cwd(), 'tests/fixtures/variables.nsi'), 'utf8');
+
+	const expected = await fs.readFile(resolve(process.cwd(), 'tests/expected/variables.nsi'), 'utf8');
+
+	expect(format(fixture)).toBe(expected);
+});
+
+test('Built-in variable casing is idempotent', async () => {
+	const { format } = createFormatter({ eol: 'lf' });
+
+	const fixture = await fs.readFile(resolve(process.cwd(), 'tests/fixtures/variables.nsi'), 'utf8');
+
+	expect(format(format(fixture))).toBe(format(fixture));
+});

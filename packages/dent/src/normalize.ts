@@ -1,4 +1,6 @@
+import { canonicalIncludes } from './canonical-includes.ts';
 import { globalParameterPrefixes, globalParameters, instructionParameters } from './canonical-parameters.ts';
+import { builtinDefines, builtinLangStrings, builtinVariables } from './canonical-variables.ts';
 
 const arithmeticInstructions = new Set(['intop', 'intptrop']);
 
@@ -54,16 +56,125 @@ export function normalizeQuotes(arg: string, singleQuote: boolean): string {
 	return `"${escapeForDouble(content)}"`;
 }
 
+const IDENTIFIER_CHAR = /[A-Za-z0-9_]/;
+
+/**
+ * Returns the index just past the delimiter closing a `$`-group starting at `start`, where
+ * `start` points at the `$`. Handles nested groups of the same kind.
+ */
+function findGroupEnd(text: string, start: number, open: string, close: string): number | undefined {
+	let depth = 1;
+	let i = start + 2;
+
+	while (i < text.length) {
+		if (text[i] === '$' && text[i + 1] === open) {
+			depth += 1;
+			i += 2;
+			continue;
+		}
+
+		if (text[i] === close) {
+			depth -= 1;
+			if (depth === 0) return i + 1;
+		}
+
+		i++;
+	}
+
+	return undefined;
+}
+
+/**
+ * Rewrites NSIS built-in variables (`$instdir`), defines (`${nsisdir}`) and language strings
+ * (`$(^name)`) to their canonical casing, leaving custom names, environment variables and
+ * escape sequences untouched.
+ */
+export function normalizeVariables(text: string): string {
+	let result = '';
+	let i = 0;
+
+	while (i < text.length) {
+		if (text[i] !== '$') {
+			const start = i;
+			while (i < text.length && text[i] !== '$') i++;
+			result += text.slice(start, i);
+			continue;
+		}
+
+		const next = text[i + 1];
+
+		// Escape sequences: $$, $\n, $\r, $\t, $\", $\', $\`
+		if (next === '$' || next === '\\') {
+			result += text.slice(i, i + 2);
+			i += 2;
+			continue;
+		}
+
+		if (next === '{') {
+			const end = findGroupEnd(text, i, '{', '}');
+			if (end === undefined) {
+				result += text.slice(i);
+				break;
+			}
+
+			const group = text.slice(i, end);
+			const lower = group.toLowerCase();
+			result += builtinDefines.get(lower) ?? canonicalIncludes.get(lower) ?? group;
+			i = end;
+			continue;
+		}
+
+		if (next === '(') {
+			const end = findGroupEnd(text, i, '(', ')');
+			if (end === undefined) {
+				result += text.slice(i);
+				break;
+			}
+
+			const inner = text.slice(i + 2, end - 1);
+			const canonical = inner.startsWith('^') ? builtinLangStrings.get(inner.toLowerCase()) : undefined;
+			result += canonical === undefined ? text.slice(i, end) : `$(${canonical})`;
+			i = end;
+			continue;
+		}
+
+		// Environment variables — the names are not ours to normalize
+		if (next === '%') {
+			const closing = text.indexOf('%', i + 2);
+			const end = closing === -1 ? text.length : closing + 1;
+			result += text.slice(i, end);
+			i = end;
+			continue;
+		}
+
+		const start = i + 1;
+		let end = start;
+		while (end < text.length && IDENTIFIER_CHAR.test(text[end] as string)) end++;
+
+		if (end === start) {
+			result += '$';
+			i++;
+			continue;
+		}
+
+		const canonical = builtinVariables.get(text.slice(start, end).toLowerCase());
+		result += canonical === undefined ? text.slice(i, end) : `$${canonical}`;
+		i = end;
+	}
+
+	return result;
+}
+
 export function normalizeArg(
 	arg: string,
 	instrParams: ReadonlyMap<string, string> | undefined,
 	singleQuote: boolean,
 ): string {
 	if (arg.startsWith('$')) {
-		return arg;
+		return normalizeVariables(arg);
 	}
 	if (arg.startsWith('"') || arg.startsWith("'") || arg.startsWith('`')) {
-		return normalizeQuotes(arg, singleQuote);
+		return normalizeVariables(normalizeQuotes(arg, singleQuote));
 	}
 
 	const lower = arg.toLowerCase();
@@ -76,11 +187,11 @@ export function normalizeArg(
 		const prefixLower = `${lower.slice(0, eqIdx + 1)}`;
 		const canonical = globalParameterPrefixes.get(prefixLower);
 		if (canonical !== undefined) {
-			return `${canonical}${arg.slice(eqIdx + 1)}`;
+			return `${canonical}${normalizeVariables(arg.slice(eqIdx + 1))}`;
 		}
 	}
 
-	return arg;
+	return normalizeVariables(arg);
 }
 
 export function splitPipeTokens(args: string[]): string[] {
