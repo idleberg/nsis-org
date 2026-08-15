@@ -243,7 +243,9 @@ function stripQuoteDelimiters(arg: string): [string, string] | undefined {
 }
 
 function unescapeInner(inner: string): string {
-	return inner.replaceAll('$\\"', '"').replaceAll('""', '"').replaceAll("$\\'", "'").replaceAll('$\\`', '`');
+	// NSIS has no doubled-delimiter escape: makensis reads `"a""b"` as two separate
+	// tokens, so `""` is only ever two literal characters.
+	return inner.replaceAll('$\\"', '"').replaceAll("$\\'", "'").replaceAll('$\\`', '`');
 }
 
 function escapeForDouble(inner: string): string {

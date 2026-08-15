@@ -52,8 +52,11 @@ test('normalizeQuotes: unescapes $\\" before re-quoting', () => {
 	expect(normalizeQuotes('"say $\\"hi$\\""', true)).toBe('\'say "hi"\'');
 });
 
-test('normalizeQuotes: unescapes "" (doubled double) before re-quoting', () => {
-	expect(normalizeQuotes('"say ""hi"""', true)).toBe('\'say "hi"\'');
+test('normalizeQuotes: "" is not an escape', () => {
+	// makensis reads `"a""b"` as two tokens, so `""` is never an escape for `"`.
+	// Inside a single-quoted string it is simply two literal characters.
+	expect(normalizeQuotes('\'a ""b"" c\'', false)).toBe('\'a ""b"" c\'');
+	expect(normalizeQuotes('`a ""b"" c`', false)).toBe('\'a ""b"" c\'');
 });
 
 test('normalizeQuotes: returns bare tokens unchanged', () => {

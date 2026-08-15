@@ -660,3 +660,12 @@ test('Line wrapping is idempotent', () => {
 	const second = format(first);
 	expect(first).toBe(second);
 });
+
+test('Doubled quotes are preserved in command lines', () => {
+	const { format } = createFormatter();
+
+	// Regression: doubled quotes are meaningful to cmd.exe and must survive verbatim.
+	const input = 'nsExec::Exec \'$INSTDIR\\ssm.exe -c ""$RootDir\\conf"" -l quiet\'\n';
+
+	expect(format(input)).toBe(input);
+});
