@@ -32,10 +32,12 @@ export const rules = {
 		'${If}',
 		'${IfNot}',
 		'${MementoSection}',
+		'${MementoSectionEx}',
 		'${MementoUnselectedSection}',
 		'${Select}',
 		'${Switch}',
 		'${Unless}',
+		'${While}',
 		'Function',
 		'PageEx',
 		'Section',
@@ -48,7 +50,16 @@ export const rules = {
 	 * indent stack, so consecutive cases naturally align and `${EndSwitch}`
 	 * only needs to pop the switch itself.
 	 */
-	case: lowerSet(['${Case}', '${Case2}', '${Case3}', '${Case4}', '${Case5}', '${CaseElse}', '${Default}']),
+	case: lowerSet([
+		'${Case}',
+		'${Case2}',
+		'${Case3}',
+		'${Case4}',
+		'${Case5}',
+		'${CaseElse}',
+		'${Case_Else}',
+		'${Default}',
+	]),
 
 	/** Keywords that close a block (dedent to the opener's level). */
 	close: lowerSet([
@@ -57,13 +68,13 @@ export const rules = {
 		'${EndIf}',
 		'${EndSelect}',
 		'${EndSwitch}',
+		'${EndUnless}',
 		'${EndWhile}',
 		'${Loop}',
 		'${LoopUntil}',
 		'${LoopWhile}',
 		'${MementoSectionEnd}',
 		'${Next}',
-		'${While}',
 		'FunctionEnd',
 		'PageExEnd',
 		'SectionEnd',
