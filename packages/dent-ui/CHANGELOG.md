@@ -1,5 +1,11 @@
 # @nsis/dent-ui
 
+## 0.3.1
+
+### Patch Changes
+
+- 2057e9a: allow selecting output viewer text
+
 ## 0.3.0
 
 ### Minor Changes
