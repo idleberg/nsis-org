@@ -1,9 +1,10 @@
 @top Script { (statement | Block | PreprocConditional | newline)* trailingStatement? }
 
-trailingStatement { PreprocDirective | PluginCall | VariableDeclaration | Command }
+trailingStatement { PreprocDirective | PluginCall | VariableDeclaration | MacroCall | Command }
 
 @precedence {
   pluginCall @left,
+  macroCall @left,
   command @left
 }
 
@@ -12,7 +13,8 @@ Block {
   SectionBlock |
   SectionGroupBlock |
   PageExBlock |
-  MacroBlock
+  MacroBlock |
+  LogicBlock
 }
 
 FunctionBlock {
@@ -29,7 +31,7 @@ SectionBlock {
 
 SectionGroupBlock {
   SectionGroup value* newline
-  (SectionBlock | SectionGroupBlock | PreprocConditional | statement | newline)*
+  (SectionBlock | SectionGroupBlock | LogicBlock | PreprocConditional | statement | newline)*
   SectionGroupEnd
 }
 
@@ -45,12 +47,34 @@ MacroBlock {
   PreprocMacroEnd
 }
 
+// Block opened by a built-in macro, e.g. ${If}/${Else}/${EndIf} or ${Switch}/${EndSwitch}.
+LogicBlock {
+  MacroOpen value* newline
+  logicBody
+  (MacroMid value* newline logicBody)*
+  MacroClose !macroCall value*
+}
+
+// Switch/Select arms are flat single-line nodes: nesting a body here is ambiguous with logicBody,
+// since both can start with a Block.
+CaseArm {
+  MacroCase !macroCall value*
+}
+
+BreakStatement {
+  MacroBreak
+}
+
+logicBody {
+  (Block | PreprocConditional | statement | Label | (CaseArm newline) | (BreakStatement newline) | newline)*
+}
+
 body {
-  (MacroBlock | PreprocConditional | statement | Label | newline)*
+  (MacroBlock | LogicBlock | PreprocConditional | statement | Label | newline)*
 }
 
 macroBody {
-  (FunctionBlock | SectionBlock | SectionGroupBlock | PageExBlock | MacroBlock | PreprocConditional | statement | Label | newline)*
+  (FunctionBlock | SectionBlock | SectionGroupBlock | PageExBlock | MacroBlock | LogicBlock | PreprocConditional | statement | Label | newline)*
 }
 
 PreprocConditional {
@@ -61,7 +85,7 @@ PreprocConditional {
 }
 
 statement {
-  (PreprocDirective | PluginCall | VariableDeclaration | Command) newline
+  (PreprocDirective | PluginCall | VariableDeclaration | MacroCall | Command) newline
 }
 
 PreprocDirective {
@@ -74,6 +98,11 @@ PluginCall {
 
 VariableDeclaration {
   Var Flag? Identifier
+}
+
+// A macro used as a statement that does not open a block, e.g. ${GetFileName} or a user macro.
+MacroCall {
+  DefineReference !macroCall value*
 }
 
 Command {
@@ -93,6 +122,7 @@ value {
   Constant |
   ArgumentValue |
   CommandName |
+  Operator |
   Identifier
 }
 
@@ -123,7 +153,7 @@ Label { Identifier ":" }
 
   LineContinuation { "\\" "\n" }
 
-  Variable { "$" $[a-zA-Z_] $[a-zA-Z0-9_.]* | "$" $[0-9] }
+  Variable { "$" $[a-zA-Z_] $[a-zA-Z0-9_]* | "$" $[0-9] }
 
   DefineReference { "${" ![}]+ "}" }
 
@@ -131,24 +161,30 @@ Label { Identifier ":" }
 
   Number { ("+" | "-")? ($[0-9]+ ("." $[0-9]+)? | "0" $[xX] $[0-9a-fA-F]+) }
 
-  Flag { "/" $[a-zA-Z_] $[a-zA-Z0-9_]* ("=" ![\s]*)? }
+  Flag { "/" $[a-zA-Z_] $[a-zA-Z0-9_]* ("=" ![ \t\r\n"'`]*)? }
 
   LabelReference { ":" $[a-zA-Z_.] $[a-zA-Z0-9_.]* }
 
   ColonColon { "::" }
 
+  Operator { $[=!<>+\-*%|&^~]+ }
+
   Identifier { $[a-zA-Z_.] $[a-zA-Z0-9_.]* | "!" $[a-zA-Z_] $[a-zA-Z0-9_]* }
 
   ":" "/" '"' "'" '`'
 
-  @precedence { BlockComment, LineComment, LabelReference, Number, Variable, DefineReference, LangStringReference, Flag, ColonColon, Identifier, space, ":" }
+  @precedence { BlockComment, LineComment, LabelReference, Number, Variable, DefineReference, LangStringReference, Flag, ColonColon, Identifier, Operator, space, ":" }
 }
 
-@external specialize {Identifier} specializeIdentifier from "./specializers" {
+@external specialize {Identifier} specializeIdentifier from "./specializers.ts" {
   Function, FunctionEnd, Section, SectionEnd, SectionGroup, SectionGroupEnd,
   PageEx, PageExEnd, Var,
   CommandName, PreprocKeyword, PreprocIf, PreprocElse, PreprocEndif,
   PreprocMacro, PreprocMacroEnd, ArgumentValue, Constant
+}
+
+@external specialize {DefineReference} specializeMacro from "./macro-specializers.ts" {
+  MacroOpen, MacroMid, MacroClose, MacroCase, MacroBreak
 }
 
 @detectDelim

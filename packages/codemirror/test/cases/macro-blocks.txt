@@ -1,0 +1,225 @@
+# If block with ElseIf and Else
+
+Section "Main"
+  ${If} $0 != ""
+    DetailPrint "yes"
+  ${ElseIf} $0 == "x"
+    DetailPrint "x"
+  ${Else}
+    DetailPrint "no"
+  ${EndIf}
+SectionEnd
+
+==>
+
+Script(
+  Block(SectionBlock(
+    Section, String,
+    LogicBlock(
+      MacroOpen, Variable, Operator, String,
+      Command(CommandName, String),
+      MacroMid, Variable, Operator, String,
+      Command(CommandName, String),
+      MacroMid,
+      Command(CommandName, String),
+      MacroClose),
+    SectionEnd)))
+
+# Switch block with Case, Break and Default
+
+Function .onInit
+  ${Switch} $0
+    ${Case} 0
+      DetailPrint "ok"
+      ${Break}
+    ${Default}
+      DetailPrint "other"
+  ${EndSwitch}
+FunctionEnd
+
+==>
+
+Script(
+  Block(FunctionBlock(
+    Function, Identifier,
+    LogicBlock(
+      MacroOpen, Variable,
+      CaseArm(MacroCase, Number),
+      Command(CommandName, String),
+      BreakStatement(MacroBreak),
+      CaseArm(MacroCase),
+      Command(CommandName, String),
+      MacroClose),
+    FunctionEnd)))
+
+# Loop blocks
+
+Function .onInit
+  ${Do}
+    IntOp $0 $0 - 1
+  ${LoopUntil} $0 <= 0
+  ${For} $1 1 3
+    IntOp $0 $0 + $1
+  ${Next}
+  ${While} $0 < 3
+    IntOp $0 $0 + 1
+  ${EndWhile}
+  ${Unless} $0 == 1
+    Nop
+  ${EndUnless}
+FunctionEnd
+
+==>
+
+Script(
+  Block(FunctionBlock(
+    Function, Identifier,
+    LogicBlock(
+      MacroOpen,
+      Command(CommandName, Variable, Variable, Operator, Number),
+      MacroClose, Variable, Operator, Number),
+    LogicBlock(
+      MacroOpen, Variable, Number, Number,
+      Command(CommandName, Variable, Variable, Operator, Variable),
+      MacroClose),
+    LogicBlock(
+      MacroOpen, Variable, Operator, Number,
+      Command(CommandName, Variable, Variable, Operator, Number),
+      MacroClose),
+    LogicBlock(
+      MacroOpen, Variable, Operator, Number,
+      Command(CommandName),
+      MacroClose),
+    FunctionEnd)))
+
+# Memento section block
+
+${MementoSection} "Core" SecCore
+  Nop
+${MementoSectionEnd}
+
+==>
+
+Script(
+  Block(LogicBlock(
+    MacroOpen, String, Identifier,
+    Command(CommandName),
+    MacroClose)))
+
+# Macro blocks nest inside native blocks
+
+SectionGroup "Group"
+  Section "Main"
+    ${Switch} $0
+      ${Case} 1
+        ${If} $1 == 2
+          Nop
+        ${EndIf}
+    ${EndSwitch}
+  SectionEnd
+SectionGroupEnd
+
+==>
+
+Script(
+  Block(SectionGroupBlock(
+    SectionGroup, String,
+    SectionBlock(
+      Section, String,
+      LogicBlock(
+        MacroOpen, Variable,
+        CaseArm(MacroCase, Number),
+        Block(LogicBlock(
+          MacroOpen, Variable, Operator, Number,
+          Command(CommandName),
+          MacroClose)),
+        MacroClose),
+      SectionEnd),
+    SectionGroupEnd)))
+
+# User defines are not block keywords
+
+Name "${APP_NAME}"
+${GetFileName} "$INSTDIR\a.txt" $R0
+
+==>
+
+Script(
+  Command(CommandName, String(DQDefineRef)),
+  MacroCall(DefineReference, String(DQVariable), Variable))
+
+# Operators
+
+IntOp $0 $0 + $1
+MessageBox MB_ICONSTOP|MB_OK "boom"
+
+==>
+
+Script(
+  Command(CommandName, Variable, Variable, Operator, Variable),
+  Command(CommandName, Constant, Operator, Constant, String))
+
+# Flag with a value stops at whitespace
+
+File /oname=x.txt "y"
+
+==>
+
+Script(Command(CommandName, Flag, String))
+
+# Variable names exclude a trailing dot
+
+DetailPrint "log in $INSTDIR."
+
+==>
+
+Script(Command(CommandName, String(DQVariable)))
+
+# Relative jumps are numbers, not operators
+
+StrCmp $0 "" done +2
+Goto -3
+
+==>
+
+Script(
+  Command(CommandName, Variable, String, Identifier, Number),
+  Command(CommandName, Number))
+
+# An unterminated string only breaks its own line
+
+DetailPrint "oops
+DetailPrint "fine"
+Nop
+
+==>
+
+Script(
+  Command(CommandName, String(⚠)),
+  Command(CommandName, String),
+  Command(CommandName))
+
+# An unclosed macro block does not break the next section
+
+Section "x"
+  ${If} $0 == 1
+    Nop
+SectionEnd
+Section "y"
+  Nop
+SectionEnd
+
+==>
+
+Script(
+  Block(SectionBlock(
+    Section, String,
+    LogicBlock(
+      MacroOpen, Variable, Operator, Number,
+      Command(CommandName),
+      ⚠),
+    SectionEnd)),
+  Block(SectionBlock(
+    Section, String,
+    Command(CommandName),
+    SectionEnd)))

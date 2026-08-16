@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noTemplateCurlyInString: NSIS macro references */
+
 import { getIndentation } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
 import { describe, expect, it } from 'vitest';
@@ -75,5 +77,25 @@ describe('indentation', () => {
 
 	it('does not indent !else', () => {
 		expect(indentAt('!ifdef DEBUG\n  Nop\n!else', 3)).toBe(0);
+	});
+
+	it('indents body of ${If} block', () => {
+		expect(indentAt('${If} $0 == 1\n\n${EndIf}', 2)).toBe(2);
+	});
+
+	it('does not indent ${EndIf}', () => {
+		expect(indentAt('${If} $0 == 1\n  Nop\n${EndIf}', 3)).toBe(0);
+	});
+
+	it('does not indent ${Else}', () => {
+		expect(indentAt('${If} $0 == 1\n  Nop\n${Else}', 3)).toBe(0);
+	});
+
+	it('does not indent ${LoopUntil}', () => {
+		expect(indentAt('${Do}\n  Nop\n${LoopUntil} $0 <= 0', 3)).toBe(0);
+	});
+
+	it('indents ${If} block nested in a Section', () => {
+		expect(indentAt('Section "x"\n  ${If} $0 == 1\n\n  ${EndIf}\nSectionEnd', 3)).toBe(4);
 	});
 });
