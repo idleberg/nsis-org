@@ -138,7 +138,7 @@ const inputExtensions = [
 	}),
 ];
 
-const outputExtensions = [EditorState.readOnly.of(true), EditorView.editable.of(false), EditorView.lineWrapping];
+const outputExtensions = [EditorState.readOnly.of(true), EditorView.lineWrapping];
 </script>
 
 <header>
@@ -378,6 +378,11 @@ const outputExtensions = [EditorState.readOnly.of(true), EditorView.editable.of(
 		display: flex;
 		flex-direction: column;
 		min-height: 0;
+	}
+
+	.editor-pane :global(.cm-content) {
+		-webkit-user-select: text;
+		user-select: text;
 	}
 
 	.editor-pane:first-child {
