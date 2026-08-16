@@ -1,6 +1,6 @@
 {
 	"name": "@nsis/codemirror",
-	"version": "0.14.4",
+	"version": "0.14.5",
 	"description": "NSIS language support for CodeMirror 6",
 	"license": "MIT",
 	"repository": {
