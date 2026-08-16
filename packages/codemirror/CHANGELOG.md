@@ -1,5 +1,11 @@
 # @nsis/codemirror
 
+## 0.14.5
+
+### Patch Changes
+
+- a7e61df: prevent macro blocks from corrupting highlighting
+
 ## 0.14.4
 
 ### Patch Changes

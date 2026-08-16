@@ -1,5 +1,12 @@
 # @nsis/dent
 
+## 0.14.1
+
+### Patch Changes
+
+- 29fec7f: fix indentation of `${While}` and `${EndUnless}` blocks
+- 4792830: normalise the casing of some macros
+
 ## 0.14.0
 
 ### Minor Changes

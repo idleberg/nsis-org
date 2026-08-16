@@ -1,5 +1,19 @@
 # @nsis/dent-ui
 
+## 0.3.0
+
+### Minor Changes
+
+- 5e3783a: add property that allows passing default script
+
+### Patch Changes
+
+- Updated dependencies [a7e61df]
+- Updated dependencies [29fec7f]
+- Updated dependencies [4792830]
+  - @nsis/codemirror@0.14.5
+  - @nsis/dent@0.14.1
+
 ## 0.2.6
 
 ### Patch Changes

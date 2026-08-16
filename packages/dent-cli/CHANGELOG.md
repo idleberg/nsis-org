@@ -1,5 +1,13 @@
 # @nsis/dent-cli
 
+## 0.10.2
+
+### Patch Changes
+
+- Updated dependencies [29fec7f]
+- Updated dependencies [4792830]
+  - @nsis/dent@0.14.1
+
 ## 0.10.1
 
 ### Patch Changes

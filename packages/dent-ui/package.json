@@ -1,6 +1,6 @@
 {
 	"name": "@nsis/dent-ui",
-	"version": "0.2.6",
+	"version": "0.3.0",
 	"description": "Web UI for the Dent NSIS code formatter",
 	"license": "MIT",
 	"scripts": {
