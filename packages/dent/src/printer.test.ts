@@ -54,6 +54,18 @@ test('LogicLib macro casing is normalised', () => {
 	expect(result).toBe('${If} $R0 == ""\n${EndIf}\n');
 });
 
+test('LogicLib loop macro casing is normalised', () => {
+	const { format } = createFormatter();
+	const result = format('${while} $0 < 3\n${endwhile}\n${for} $0 1 3\n${next}\n');
+	expect(result).toBe('${While} $0 < 3\n${EndWhile}\n\n${For} $0 1 3\n${Next}\n');
+});
+
+test('LogicLib inverse conditional casing is normalised', () => {
+	const { format } = createFormatter();
+	const result = format('${unless} $R0 == ""\n${endunless}\n');
+	expect(result).toBe('${Unless} $R0 == ""\n${EndUnless}\n');
+});
+
 test('FileFunc macro casing is normalised', () => {
 	const { format } = createFormatter();
 	const result = format('${GETSIZE} "$INSTDIR" "/S=0K" $0 $1 $2\n');
@@ -572,6 +584,14 @@ test('Switch with Default indents correctly', () => {
 	);
 });
 
+test('Switch with Case_Else indents correctly', () => {
+	const { format } = createFormatter();
+	const input = '${Switch} $0\n${Case} 1\nDetailPrint "one"\n${Case_Else}\nDetailPrint "else"\n${EndSwitch}\n';
+	expect(format(input)).toBe(
+		'${Switch} $0\n\t${Case} 1\n\t\tDetailPrint "one"\n\n\t${Case_Else}\n\t\tDetailPrint "else"\n${EndSwitch}\n',
+	);
+});
+
 test('Nested switch indents correctly', () => {
 	const { format } = createFormatter();
 	const input = '${Switch} $0\n${Case} 1\n${Switch} $1\n${Case} a\nDetailPrint "nested"\n${EndSwitch}\n${EndSwitch}\n';
@@ -599,6 +619,26 @@ test('Switch/Case formatting is idempotent', () => {
 	const first = format(input);
 	const second = format(first);
 	expect(first).toBe(second);
+});
+
+// --- Loop and inverse-conditional indentation ---
+
+test('While / EndWhile indents correctly', () => {
+	const { format } = createFormatter();
+	const input = 'Section "x"\n${While} $0 < 3\nNop\n${EndWhile}\nNop\nSectionEnd\n';
+	expect(format(input)).toBe('Section "x"\n\t${While} $0 < 3\n\t\tNop\n\t${EndWhile}\n\n\tNop\nSectionEnd\n');
+});
+
+test('Unless / EndUnless indents correctly', () => {
+	const { format } = createFormatter();
+	const input = 'Section "x"\n${Unless} $0 == 1\nNop\n${EndUnless}\nNop\nSectionEnd\n';
+	expect(format(input)).toBe('Section "x"\n\t${Unless} $0 == 1\n\t\tNop\n\t${EndUnless}\n\n\tNop\nSectionEnd\n');
+});
+
+test('MementoSectionEx / MementoSectionEnd indents correctly', () => {
+	const { format } = createFormatter();
+	const input = '${MementoSectionEx} "" "x" mid sid\nNop\n${MementoSectionEnd}\n';
+	expect(format(input)).toBe('${MementoSectionEx} "" "x" mid sid\n\tNop\n${MementoSectionEnd}\n');
 });
 
 // --- Compiler conditional indentation ---
