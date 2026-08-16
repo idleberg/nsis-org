@@ -35,4 +35,15 @@ describe('Editor', () => {
 		const view = oncreate.mock.calls[0]?.[0];
 		expect(view?.state.doc.toString()).toBe('');
 	});
+
+	it('initialises with the doc prop', () => {
+		const oncreate = vi.fn();
+
+		render(Editor, {
+			props: { label: 'Test editor', doc: 'Name "Test"', oncreate },
+		});
+
+		const view = oncreate.mock.calls[0]?.[0];
+		expect(view?.state.doc.toString()).toBe('Name "Test"');
+	});
 });

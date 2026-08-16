@@ -7,12 +7,14 @@ import { darkTheme, editorTheme, lightTheme } from './themes.ts';
 
 let {
 	dark = true,
+	doc = '',
 	extensions = [],
 	label = '',
 	strict = false,
 	oncreate,
 }: {
 	dark?: boolean;
+	doc?: string;
 	extensions?: Extension[];
 	label?: string;
 	strict?: boolean;
@@ -27,7 +29,7 @@ const langCompartment = new Compartment();
 onMount(() => {
 	view = new EditorView({
 		state: EditorState.create({
-			doc: '',
+			doc,
 			extensions: [
 				themeCompartment.of(dark ? darkTheme : lightTheme),
 				langCompartment.of(nsis({ strict })),
