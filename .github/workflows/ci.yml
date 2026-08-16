@@ -52,7 +52,10 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --strict-peer-dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check peer dependencies
+        run: pnpm peers check
 
       - name: Lint Source
         run: pnpm run --if-present --recursive lint:biome:ci
@@ -60,8 +63,8 @@ jobs:
       - name: Build Source
         run: pnpm run --if-present build
 
-      - name: Install Playwright browsers
-        run: pnpm --filter @nsis/dent-ui exec playwright install --with-deps chromium
+      - name: Install Playwright system dependencies
+        run: pnpm --filter @nsis/dent-ui exec playwright install-deps chromium
 
       - name: Run Tests
         run: pnpm run --if-present test

@@ -7,7 +7,7 @@ describe('App', () => {
 	it('renders the heading', async () => {
 		render(App);
 
-		await expect.element(page.getByRole('heading', { name: 'Dent UI' })).toBeVisible();
+		await expect.element(page.getByRole('heading', { name: 'Dent' })).toBeVisible();
 	});
 
 	it('renders formatter settings fieldset', async () => {

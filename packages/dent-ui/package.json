@@ -10,6 +10,7 @@
 		"lint:biome": "biome check",
 		"lint:biome:ci": "biome ci",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"pretest": "playwright install chromium",
 		"test": "vitest run"
 	},
 	"type": "module",

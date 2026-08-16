@@ -5,6 +5,7 @@
 	"scripts": {
 		"build": "astro build",
 		"dev": "astro dev --open",
+		"pretest": "playwright install chromium",
 		"test": "playwright test --tsconfig tsconfig.e2e.json"
 	},
 	"devDependencies": {

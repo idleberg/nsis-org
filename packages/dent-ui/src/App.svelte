@@ -136,7 +136,7 @@ const outputExtensions = [EditorState.readOnly.of(true), EditorView.editable.of(
 </script>
 
 <header>
-	<h1>Dent UI</h1>
+	<h1>Dent</h1>
 	<fieldset class="settings" aria-label="Formatter settings">
 		<label
 			><input
