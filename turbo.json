@@ -8,6 +8,11 @@
 			"outputs": ["bin/**", "dist/**", "lib/**"],
 			"env": ["GITHUB_PAGES"]
 		},
+		"@nsis/parser#build": {
+			"dependsOn": ["^build"],
+			"inputs": ["$TURBO_DEFAULT$", ".env*"],
+			"outputs": ["dist/**", "src/grammar.js", "src/grammar.d.ts"]
+		},
 		"lint:biome": {},
 		"test": {
 			"dependsOn": ["^build"]
