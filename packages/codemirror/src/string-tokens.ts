@@ -27,7 +27,17 @@ function makeTokenizer(
 ) {
 	return new ExternalTokenizer((input) => {
 		const ch = input.next;
-		if (ch < 0 || ch === endChar) return;
+
+		// NSIS strings never span a raw newline, so stopping here keeps a stray quote from
+		// pairing up with one on a later line and corrupting the rest of the document.
+		if (ch < 0 || ch === endChar || ch === 10 /* \n */) return;
+
+		// Line continuation
+		if (ch === 92 /* \ */ && input.peek(1) === 10 /* \n */) {
+			input.advance(2);
+			input.acceptToken(content);
+			return;
+		}
 
 		if (ch === 36 /* $ */) {
 			const next = input.peek(1);
@@ -72,8 +82,7 @@ function makeTokenizer(
 				input.advance(2);
 				while (true) {
 					const c = input.next;
-					if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57) || c === 95 || c === 46)
-						input.advance();
+					if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57) || c === 95) input.advance();
 					else break;
 				}
 				input.acceptToken(variable);
@@ -88,10 +97,16 @@ function makeTokenizer(
 			}
 		}
 
-		// Plain content: consume until end delimiter, $, or EOF
+		// Plain content: consume until end delimiter, $, newline, line continuation or EOF
 		do {
 			input.advance();
-		} while (input.next >= 0 && input.next !== endChar && input.next !== 36);
+		} while (
+			input.next >= 0 &&
+			input.next !== endChar &&
+			input.next !== 36 /* $ */ &&
+			input.next !== 10 /* \n */ &&
+			!(input.next === 92 /* \ */ && input.peek(1) === 10)
+		);
 		input.acceptToken(content);
 	});
 }

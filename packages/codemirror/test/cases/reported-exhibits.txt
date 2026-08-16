@@ -1,0 +1,99 @@
+# Exhibit A: multiple nested blocks
+
+SectionGroup "Core"
+	Section "Main" SecMain
+		SectionIn RO
+		SetOutPath "$INSTDIR"
+		File /r "dist\*.*"
+		!insertmacro CheckSpace "C:"
+
+		${If} ${FileExists} "$INSTDIR\config.ini"
+			DetailPrint "keeping config"
+		${ElseIf} $LogLine != ""
+			DetailPrint "$LogLine"
+		${Else}
+			WriteINIStr "$INSTDIR\config.ini" "General" "Version" "1.0.0"
+		${EndIf}
+
+		nsExec::ExecToLog '"$INSTDIR\setup.exe" /S'
+		Pop $0
+
+		${Switch} $0
+			${Case} 0
+				DetailPrint "ok"
+				${Break}
+
+			${Default}
+				MessageBox MB_ICONSTOP | MB_OK \
+					"The installer could not complete because the helper process exited with code $0, please check the log in $INSTDIR."
+		${EndSwitch}
+	SectionEnd
+SectionGroupEnd
+
+==>
+
+Script(
+  Block(SectionGroupBlock(
+    SectionGroup, String,
+    SectionBlock(
+      Section, String, Identifier,
+      Command(CommandName, Constant),
+      Command(CommandName, String(DQVariable)),
+      Command(CommandName, Flag, String),
+      PreprocDirective(PreprocKeyword, Identifier, String),
+      LogicBlock(
+        MacroOpen, DefineReference, String(DQVariable),
+        Command(CommandName, String),
+        MacroMid, Variable, Operator, String,
+        Command(CommandName, String(DQVariable)),
+        MacroMid,
+        Command(CommandName, String(DQVariable), String, String, String),
+        MacroClose),
+      PluginCall(Identifier, ColonColon, Identifier, RawString(SQVariable)),
+      Command(CommandName, Variable),
+      LogicBlock(
+        MacroOpen, Variable,
+        CaseArm(MacroCase, Number),
+        Command(CommandName, String),
+        BreakStatement(MacroBreak),
+        CaseArm(MacroCase),
+        Command(CommandName, Constant, Operator, Constant, LineContinuation, String(DQVariable, DQVariable)),
+        MacroClose),
+      SectionEnd),
+    SectionGroupEnd)))
+
+# Exhibit B: single nested blocks
+
+Function .onInit
+	StrCpy $0 0
+
+	${For} $1 1 3
+		IntOp $0 $0 + $1
+	${Next}
+
+	${Do}
+		IntOp $0 $0 - 1
+	${LoopUntil} $0 <= 0
+
+	Goto done
+	done: ; trailing comment on a label
+FunctionEnd
+
+==>
+
+Script(
+  Block(FunctionBlock(
+    Function, Identifier,
+    Command(CommandName, Variable, Number),
+    LogicBlock(
+      MacroOpen, Variable, Number, Number,
+      Command(CommandName, Variable, Variable, Operator, Variable),
+      MacroClose),
+    LogicBlock(
+      MacroOpen,
+      Command(CommandName, Variable, Variable, Operator, Number),
+      MacroClose, Variable, Operator, Number),
+    Command(CommandName, Identifier),
+    Label(Identifier),
+    LineComment,
+    FunctionEnd)))

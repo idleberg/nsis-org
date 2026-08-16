@@ -9,6 +9,7 @@ import {
 	type TreeIndentContext,
 } from '@codemirror/language';
 import { nsisHighlighting } from './highlight.ts';
+import { dedentOn } from './macro-specializers.ts';
 import { parser } from './parser.ts';
 import { specializeIdentifier, specializeIdentifierLoose } from './specializers.ts';
 
@@ -19,6 +20,11 @@ function blockIndent(closingPattern: RegExp) {
 	};
 }
 
+/** Alternation of the bare names of every macro a `LogicBlock` dedents on, i.e. its closers and mids. */
+const macroDedentNames = [...dedentOn].map((macro) => macro.slice('${'.length, -'}'.length)).join('|');
+
+const macroDedentPattern = new RegExp(`^\\s*\\$\\{(?:${macroDedentNames})\\}`, 'i');
+
 const parserProps = [
 	nsisHighlighting,
 	indentNodeProp.add({
@@ -28,6 +34,7 @@ const parserProps = [
 		PageExBlock: blockIndent(/^\s*PageExEnd\b/i),
 		MacroBlock: blockIndent(/^\s*!macroend\b/i),
 		PreprocConditional: blockIndent(/^\s*!(?:endif|else)\b/i),
+		LogicBlock: blockIndent(macroDedentPattern),
 	}),
 	foldNodeProp.add({
 		FunctionBlock: foldInside,
@@ -35,6 +42,7 @@ const parserProps = [
 		SectionGroupBlock: foldInside,
 		PageExBlock: foldInside,
 		MacroBlock: foldInside,
+		LogicBlock: foldInside,
 		PreprocConditional: foldInside,
 		BlockComment: foldInside,
 	}),
@@ -43,7 +51,10 @@ const parserProps = [
 const languageData = {
 	commentTokens: { line: '#', block: { open: '/*', close: '*/' } },
 	closeBrackets: { brackets: ['(', '[', '{', '"', "'", '`'] },
-	indentOnInput: /^\s*(?:FunctionEnd|SectionEnd|SectionGroupEnd|PageExEnd|!(?:macroend|endif|else))\s*$/i,
+	indentOnInput: new RegExp(
+		`^\\s*(?:FunctionEnd|SectionEnd|SectionGroupEnd|PageExEnd|!(?:macroend|endif|else)|\\$\\{(?:${macroDedentNames})\\})\\s*$`,
+		'i',
+	),
 };
 
 export const nsisLanguage = LRLanguage.define({
