@@ -1,5 +1,6 @@
 ---
 import DentUI from '@nsis/dent-ui/DentUI.svelte';
+import sample from '../../data/misformatted.nsi?raw';
 ---
 
 <!DOCTYPE html>
@@ -12,7 +13,7 @@ import DentUI from '@nsis/dent-ui/DentUI.svelte';
 	</head>
 	<body>
 		<div id="app">
-			<DentUI client:only="svelte" />
+			<DentUI client:only="svelte" sample={sample} />
 		</div>
 	</body>
 </html>

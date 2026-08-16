@@ -46,6 +46,14 @@ describe('App', () => {
 		await expect.element(page.getByRole('checkbox', { name: 'Auto-format' })).toBeChecked();
 	});
 
+	it('formats a seeded sample on mount, enabling Copy', async () => {
+		render(App, {
+			props: { sample: "name 'x'\nSection\nnop\nSectionEnd\n" },
+		});
+
+		await expect.element(page.getByRole('button', { name: 'Copy' })).toBeEnabled();
+	});
+
 	it('renders both editor panes', async () => {
 		render(App);
 

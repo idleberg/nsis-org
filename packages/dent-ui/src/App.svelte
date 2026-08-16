@@ -7,7 +7,7 @@ import { createFormatter } from '@nsis/dent';
 import { onDestroy, onMount } from 'svelte';
 import Editor from './Editor.svelte';
 
-let { strict = false }: { strict?: boolean } = $props();
+let { strict = false, sample = '' }: { strict?: boolean; sample?: string } = $props();
 
 let dark = $state(document.documentElement.dataset.theme !== 'light');
 let themePreference = $state(localStorage.getItem('theme') || 'system');
@@ -35,6 +35,12 @@ function handleColorSchemeChange() {
 
 onMount(() => {
 	mql.addEventListener('change', handleColorSchemeChange);
+
+	// Child editors have mounted by now, so both views exist. CodeMirror's
+	// updateListener doesn't fire for the initial document, which means a
+	// seeded input never triggers the auto-format path on its own.
+	if (sample) formatInput();
+
 	return () => mql.removeEventListener('change', handleColorSchemeChange);
 });
 
@@ -204,6 +210,7 @@ const outputExtensions = [EditorState.readOnly.of(true), EditorView.editable.of(
 		<Editor
 			{dark}
 			{strict}
+			doc={sample}
 			extensions={inputExtensions}
 			label="NSIS input editor"
 			oncreate={(v) => {
