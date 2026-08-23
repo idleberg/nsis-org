@@ -5,6 +5,7 @@ import { ensureBlankAroundBlocks, trimAndCollapseBlanks } from './blank-lines.ts
 const blank: CSTNode = { type: 'blank' };
 const instr = (keyword: string): CSTNode => ({ type: 'instruction', keyword, args: [] });
 const comment: CSTNode = { type: 'comment', style: 'semicolon', value: 'note' };
+const label = (name: string): CSTNode => ({ type: 'label', name });
 
 // --- ensureBlankAroundBlocks ---
 
@@ -76,6 +77,73 @@ test('ensureBlankAroundBlocks: single node returns unchanged', () => {
 	const nodes: CSTNode[] = [instr('Name')];
 	const result = ensureBlankAroundBlocks(nodes);
 	expect(result.length).toBe(1);
+});
+
+test('ensureBlankAroundBlocks: inserts blank before label after instruction', () => {
+	const nodes: CSTNode[] = [instr('DetailPrint'), label('done')];
+	const result = ensureBlankAroundBlocks(nodes);
+	expect(result.length).toBe(3);
+	expect(result[1].type).toBe('blank');
+});
+
+test('ensureBlankAroundBlocks: does not duplicate existing blank before label', () => {
+	const nodes: CSTNode[] = [instr('DetailPrint'), blank, label('done')];
+	const result = ensureBlankAroundBlocks(nodes);
+	expect(result.length).toBe(3);
+});
+
+test('ensureBlankAroundBlocks: no blank between opener and label', () => {
+	const nodes: CSTNode[] = [instr('Function'), label('done')];
+	const result = ensureBlankAroundBlocks(nodes);
+	expect(result.length).toBe(2);
+});
+
+test('ensureBlankAroundBlocks: inserts blank before comment leading into label', () => {
+	const nodes: CSTNode[] = [instr('DetailPrint'), comment, label('done')];
+	const result = ensureBlankAroundBlocks(nodes);
+	expect(result.map((node) => node.type)).toEqual(['instruction', 'blank', 'comment', 'label']);
+});
+
+test('ensureBlankAroundBlocks: comment detached from label keeps its position', () => {
+	const nodes: CSTNode[] = [instr('DetailPrint'), comment, blank, label('done')];
+	const result = ensureBlankAroundBlocks(nodes);
+	expect(result.map((node) => node.type)).toEqual(['instruction', 'blank', 'comment', 'blank', 'label']);
+});
+
+test('ensureBlankAroundBlocks: no blank between adjacent labels', () => {
+	const nodes: CSTNode[] = [label('retry'), label('again')];
+	const result = ensureBlankAroundBlocks(nodes);
+	expect(result.length).toBe(2);
+});
+
+test('ensureBlankAroundBlocks: removes existing blank between adjacent labels', () => {
+	const nodes: CSTNode[] = [label('retry'), blank, label('again')];
+	const result = ensureBlankAroundBlocks(nodes);
+	expect(result.map((node) => node.type)).toEqual(['label', 'label']);
+});
+
+test('ensureBlankAroundBlocks: collapses a run of separated labels', () => {
+	const nodes: CSTNode[] = [instr('DetailPrint'), blank, label('first'), blank, label('second'), blank, label('third')];
+	const result = ensureBlankAroundBlocks(nodes);
+	expect(result.map((node) => node.type)).toEqual(['instruction', 'blank', 'label', 'label', 'label']);
+});
+
+test('ensureBlankAroundBlocks: comment between labels keeps the alias run', () => {
+	const nodes: CSTNode[] = [label('retry'), comment, label('again')];
+	const result = ensureBlankAroundBlocks(nodes);
+	expect(result.map((node) => node.type)).toEqual(['label', 'comment', 'label']);
+});
+
+test('ensureBlankAroundBlocks: comment between label and opener still gets a blank', () => {
+	const nodes: CSTNode[] = [label('done'), comment, instr('Section')];
+	const result = ensureBlankAroundBlocks(nodes);
+	expect(result.map((node) => node.type)).toEqual(['label', 'blank', 'comment', 'instruction']);
+});
+
+test('ensureBlankAroundBlocks: no blank after a label', () => {
+	const nodes: CSTNode[] = [label('done'), instr('DetailPrint')];
+	const result = ensureBlankAroundBlocks(nodes);
+	expect(result.length).toBe(2);
 });
 
 // --- trimAndCollapseBlanks ---
