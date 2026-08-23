@@ -547,6 +547,54 @@ for (const trimEmptyLines of [true, false]) {
 		const result = format('Page instfiles\n# first\n# second\nSection "test"\nNop\nSectionEnd\n');
 		expect(result).toBe('Page instfiles\n\n# first\n# second\nSection "test"\n\tNop\nSectionEnd\n');
 	});
+
+	test(`Blank line before goto label [${label}]`, () => {
+		const { format } = createFormatter({ trimEmptyLines });
+		const result = format('Function Foo\nNop\ndone:\nNop\nFunctionEnd\n');
+		expect(result).toBe('Function Foo\n\tNop\n\n\tdone:\n\tNop\nFunctionEnd\n');
+	});
+
+	test(`No double blank when blank already exists before goto label [${label}]`, () => {
+		const { format } = createFormatter({ trimEmptyLines });
+		const result = format('Function Foo\nNop\n\ndone:\nNop\nFunctionEnd\n');
+		expect(result).toBe('Function Foo\n\tNop\n\n\tdone:\n\tNop\nFunctionEnd\n');
+	});
+
+	test(`No blank line between block opener and goto label [${label}]`, () => {
+		const { format } = createFormatter({ trimEmptyLines });
+		const result = format('Function Foo\ndone:\nNop\nFunctionEnd\n');
+		expect(result).toBe('Function Foo\n\tdone:\n\tNop\nFunctionEnd\n');
+	});
+
+	test(`Blank line before comment that precedes a goto label [${label}]`, () => {
+		const { format } = createFormatter({ trimEmptyLines });
+		const result = format('Function Foo\nNop\n# some comment\ndone:\nNop\nFunctionEnd\n');
+		expect(result).toBe('Function Foo\n\tNop\n\n\t# some comment\n\tdone:\n\tNop\nFunctionEnd\n');
+	});
+
+	test(`Comment detached from goto label keeps its position [${label}]`, () => {
+		const { format } = createFormatter({ trimEmptyLines });
+		const result = format('Function Foo\nNop\n# some comment\n\ndone:\nNop\nFunctionEnd\n');
+		expect(result).toBe('Function Foo\n\tNop\n\n\t# some comment\n\n\tdone:\n\tNop\nFunctionEnd\n');
+	});
+
+	test(`No blank line between adjacent goto labels [${label}]`, () => {
+		const { format } = createFormatter({ trimEmptyLines });
+		const result = format('Function Foo\nNop\nretry:\nagain:\nNop\nFunctionEnd\n');
+		expect(result).toBe('Function Foo\n\tNop\n\n\tretry:\n\tagain:\n\tNop\nFunctionEnd\n');
+	});
+
+	test(`Existing blank line between adjacent goto labels is removed [${label}]`, () => {
+		const { format } = createFormatter({ trimEmptyLines });
+		const result = format('Function Foo\nNop\nretry:\n\nagain:\nNop\nFunctionEnd\n');
+		expect(result).toBe('Function Foo\n\tNop\n\n\tretry:\n\tagain:\n\tNop\nFunctionEnd\n');
+	});
+
+	test(`Comment between goto labels keeps the alias run [${label}]`, () => {
+		const { format } = createFormatter({ trimEmptyLines });
+		const result = format('Function Foo\nNop\nretry:\n# some comment\nagain:\nNop\nFunctionEnd\n');
+		expect(result).toBe('Function Foo\n\tNop\n\n\tretry:\n\t# some comment\n\tagain:\n\tNop\nFunctionEnd\n');
+	});
 }
 
 // --- Switch/Case indentation ---
