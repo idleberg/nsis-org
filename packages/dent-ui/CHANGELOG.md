@@ -1,5 +1,12 @@
 # @nsis/dent-ui
 
+## 0.3.2
+
+### Patch Changes
+
+- Updated dependencies [3772875]
+  - @nsis/dent@0.15.0
+
 ## 0.3.1
 
 ### Patch Changes
