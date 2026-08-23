@@ -1,5 +1,11 @@
 # @nsis/dent
 
+## 0.15.0
+
+### Minor Changes
+
+- 3772875: write empty line before label
+
 ## 0.14.1
 
 ### Patch Changes
