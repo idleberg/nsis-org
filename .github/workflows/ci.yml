@@ -35,9 +35,6 @@ jobs:
         env:
           MISE_NODE_VERSION: ${{ matrix.node-version }}
 
-      - name: Enable Corepack
-        run: corepack enable
-
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
