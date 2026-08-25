@@ -18,6 +18,7 @@ let trimEmptyLines = $state(true);
 let indentSize = $state(2);
 let printWidth = $state(120);
 let endOfLine = $state<'lf' | 'crlf'>('lf');
+let commentStyle = $state<'preserve' | 'hash' | 'semi'>('preserve');
 let autoFormat = $state(true);
 
 let status = $state('');
@@ -85,6 +86,7 @@ function formatInput() {
 			indentSize,
 			printWidth,
 			endOfLine,
+			commentStyle: commentStyle === 'preserve' ? undefined : commentStyle,
 		});
 		setOutput(format(source));
 		clearTimeout(statusTimer);
@@ -189,6 +191,14 @@ const outputExtensions = [EditorState.readOnly.of(true), EditorView.lineWrapping
 			<select bind:value={endOfLine} onchange={scheduleAutoFormat}>
 				<option value="lf">LF</option>
 				<option value="crlf">CRLF</option>
+			</select>
+		</label>
+		<label>
+			Comments
+			<select bind:value={commentStyle} onchange={scheduleAutoFormat}>
+				<option value="preserve">Preserve</option>
+				<option value="hash">Hash</option>
+				<option value="semi">Semicolon</option>
 			</select>
 		</label>
 	</fieldset>

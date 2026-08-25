@@ -1,10 +1,17 @@
 import { parse } from '@nsis/parser';
 import { detectNewline } from 'detect-newline';
-import { print } from './printer.ts';
+import { type CommentStyle, print } from './printer.ts';
+
+export type { CommentStyle } from './printer.ts';
 
 const defaultIndentation = 2;
 
 export type DentOptions = {
+	/**
+	 * Marker to use for single-line comments. When omitted, every comment keeps the marker it
+	 * was written with. Block comments are never rewritten.
+	 */
+	commentStyle?: CommentStyle;
 	endOfLine?: 'crlf' | 'lf';
 	indentSize?: number;
 	printWidth?: number;
@@ -27,6 +34,7 @@ export type DentFunctions = {
  */
 export function createFormatter(options: DentOptions = {}): DentFunctions {
 	const mergedOptions: DentOptions = {
+		commentStyle: undefined,
 		indentSize: defaultIndentation,
 		printWidth: 120,
 		singleQuote: false,
@@ -59,6 +67,7 @@ export function createFormatter(options: DentOptions = {}): DentFunctions {
 			indentSize: mergedOptions.indentSize ?? defaultIndentation,
 			printWidth: mergedOptions.printWidth ?? 120,
 			singleQuote: mergedOptions.singleQuote ?? false,
+			commentStyle: mergedOptions.commentStyle,
 			trimEmptyLines: mergedOptions.trimEmptyLines ?? true,
 			eol,
 		});
