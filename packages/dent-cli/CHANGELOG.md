@@ -1,5 +1,13 @@
 # @nsis/dent-cli
 
+## 0.10.4
+
+### Patch Changes
+
+- 700ed2a: add commentStyle option
+- Updated dependencies [700ed2a]
+  - @nsis/dent@0.16.0
+
 ## 0.10.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @nsis/dent
 
+## 0.16.0
+
+### Minor Changes
+
+- 700ed2a: add commentStyle option
+
 ## 0.15.0
 
 ### Minor Changes
