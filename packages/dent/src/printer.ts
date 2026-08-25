@@ -6,12 +6,15 @@ import { builtinDefines } from './canonical-variables.ts';
 import { isArithmeticKeyword, joinInstructionArgs, normalizeInstructionArgs } from './normalize.ts';
 import { rules } from './rules.ts';
 
+export type CommentStyle = 'hash' | 'semi';
+
 export interface PrinterOptions {
 	useTabs: boolean;
 	indentSize: number;
 	printWidth: number;
 	singleQuote: boolean;
 	trimEmptyLines: boolean;
+	commentStyle: CommentStyle | undefined;
 	eol: string;
 }
 
@@ -118,15 +121,27 @@ function printComment(node: CommentNode, level: number, options: PrinterOptions)
 			.join(options.eol);
 	}
 
-	const marker = node.style === 'hash' ? '#' : ';';
-	return `${prefix}${marker} ${node.value}`;
+	return `${prefix}${commentMarker(node.style, options)} ${node.value}`;
+}
+
+/**
+ * Picks the marker for a single-line comment, honouring the `commentStyle` option and
+ * falling back to whichever marker the comment was written with. Block comments never
+ * reach this function.
+ */
+function commentMarker(style: CommentNode['style'], options: PrinterOptions): string {
+	if (options.commentStyle) {
+		return options.commentStyle === 'hash' ? '#' : ';';
+	}
+
+	return style === 'hash' ? '#' : ';';
 }
 
 function printLabel(node: LabelNode, level: number, options: PrinterOptions): string {
 	let line = `${indentStr(level, options)}${node.name}:`;
 
 	if (node.comment) {
-		line += ` ${printTrailingComment(node.comment)}`;
+		line += ` ${printTrailingComment(node.comment, options)}`;
 	}
 
 	return line;
@@ -141,7 +156,7 @@ function printInstruction(node: InstructionNode, level: number, options: Printer
 	const indent = indentStr(level, options);
 
 	if (options.printWidth > 0 && args.length > 0) {
-		const trailing = node.comment ? printTrailingComment(node.comment) : undefined;
+		const trailing = node.comment ? printTrailingComment(node.comment, options) : undefined;
 		return wrapInstruction(keyword, args, trailing, indent, isArithmetic, options);
 	}
 
@@ -150,15 +165,14 @@ function printInstruction(node: InstructionNode, level: number, options: Printer
 	let line = `${indent}${parts}`;
 
 	if (node.comment) {
-		line += ` ${printTrailingComment(node.comment)}`;
+		line += ` ${printTrailingComment(node.comment, options)}`;
 	}
 
 	return line;
 }
 
-function printTrailingComment(comment: Comment): string {
-	const marker = comment.style === 'hash' ? '#' : ';';
-	return `${marker} ${comment.value}`;
+function printTrailingComment(comment: Comment, options: PrinterOptions): string {
+	return `${commentMarker(comment.style, options)} ${comment.value}`;
 }
 
 function wrapInstruction(

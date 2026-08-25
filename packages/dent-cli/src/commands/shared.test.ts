@@ -1,6 +1,7 @@
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import type { CommentStyle } from '@nsis/dent';
 import { Command } from 'commander';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { logger } from '../log.ts';
@@ -16,6 +17,34 @@ describe('dentOptionsFrom', () => {
 			trimEmptyLines: false,
 			useTabs: false,
 		});
+	});
+
+	it('passes the comment style through untouched', () => {
+		expect(
+			dentOptionsFrom({
+				commentStyle: 'semi',
+				eol: 'lf',
+				indentSize: 2,
+				printWidth: 120,
+				useSpaces: false,
+				trim: true,
+			}),
+		).toMatchObject({
+			commentStyle: 'semi',
+		});
+	});
+
+	it('drops a comment style that commander rejected', () => {
+		expect(
+			dentOptionsFrom({
+				commentStyle: '' as unknown as CommentStyle,
+				eol: 'lf',
+				indentSize: 2,
+				printWidth: 120,
+				useSpaces: false,
+				trim: true,
+			}).commentStyle,
+		).toBeUndefined();
 	});
 
 	it('inverts useSpaces into useTabs', () => {

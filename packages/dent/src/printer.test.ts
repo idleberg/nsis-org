@@ -757,3 +757,66 @@ test('Doubled quotes are preserved in command lines', () => {
 
 	expect(format(input)).toBe(input);
 });
+
+// --- Comment style ---
+
+const mixedComments =
+	'# hash standalone\n; semi standalone\nSection\nDetailPrint "a" # hash trailing\nDetailPrint "b" ; semi trailing\ndone: ; semi label\nSectionEnd\n';
+
+test('Comment markers are left alone when no comment style is set', () => {
+	const { format } = createFormatter();
+	const result = format(mixedComments);
+
+	expect(result).toContain('# hash standalone');
+	expect(result).toContain('; semi standalone');
+	expect(result).toContain('"a" # hash trailing');
+	expect(result).toContain('"b" ; semi trailing');
+	expect(result).toContain('done: ; semi label');
+});
+
+test('Comment style "semi" rewrites hash comments', () => {
+	const { format } = createFormatter({ commentStyle: 'semi' });
+	const result = format(mixedComments);
+
+	expect(result).not.toContain('#');
+	expect(result).toContain('; hash standalone');
+	expect(result).toContain('; semi standalone');
+	expect(result).toContain('"a" ; hash trailing');
+	expect(result).toContain('"b" ; semi trailing');
+	expect(result).toContain('done: ; semi label');
+});
+
+test('Comment style "hash" rewrites semicolon comments', () => {
+	const { format } = createFormatter({ commentStyle: 'hash' });
+	const result = format(mixedComments);
+
+	expect(result).not.toContain(';');
+	expect(result).toContain('# hash standalone');
+	expect(result).toContain('# semi standalone');
+	expect(result).toContain('"a" # hash trailing');
+	expect(result).toContain('"b" # semi trailing');
+	expect(result).toContain('done: # semi label');
+});
+
+test('Comment style leaves block comments alone', () => {
+	const input = '/*\n * # not a line comment\n * ; neither is this\n */\nName "Test"\n';
+	const preserved = createFormatter().format(input);
+
+	expect(createFormatter({ commentStyle: 'hash' }).format(input)).toBe(preserved);
+	expect(createFormatter({ commentStyle: 'semi' }).format(input)).toBe(preserved);
+	expect(preserved).toContain('# not a line comment');
+	expect(preserved).toContain('; neither is this');
+});
+
+test('Comment style does not touch markers inside strings', () => {
+	const { format } = createFormatter({ commentStyle: 'semi' });
+
+	expect(format('DetailPrint "a # b ; c" # trailing\n')).toBe('DetailPrint "a # b ; c" ; trailing\n');
+});
+
+test.each(['hash', 'semi'] as const)('Comment style "%s" is idempotent', (commentStyle) => {
+	const { format } = createFormatter({ commentStyle });
+	const first = format(mixedComments);
+
+	expect(format(first)).toBe(first);
+});

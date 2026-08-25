@@ -8,11 +8,13 @@ describe('applyFormattingOptions', () => {
 		vi.restoreAllMocks();
 	});
 
-	it('registers the four formatting options', () => {
+	it('registers the formatting options', () => {
 		const cmd = applyFormattingOptions(new Command('test').exitOverride());
 		const longs = cmd.options.map((opt) => opt.long);
 
-		expect(longs).toEqual(expect.arrayContaining(['--eol', '--indent-size', '--use-spaces', '--no-trim']));
+		expect(longs).toEqual(
+			expect.arrayContaining(['--comment-style', '--eol', '--indent-size', '--use-spaces', '--no-trim']),
+		);
 	});
 
 	it('applies sensible defaults when no flags are passed', () => {
@@ -50,6 +52,32 @@ describe('applyFormattingOptions', () => {
 		cmd.parse(['--eol', 'mac'], { from: 'user' });
 
 		expect(cmd.opts().eol).toBe(defaultLineEndings);
+		expect(warn).toHaveBeenCalledOnce();
+	});
+
+	it('leaves --comment-style unset by default', () => {
+		const cmd = applyFormattingOptions(new Command('test').exitOverride());
+		cmd.parse([], { from: 'user' });
+
+		expect(cmd.opts().commentStyle).toBeUndefined();
+	});
+
+	it('accepts --comment-style hash and --comment-style semi', () => {
+		const hash = applyFormattingOptions(new Command('test').exitOverride());
+		hash.parse(['--comment-style', 'hash'], { from: 'user' });
+		expect(hash.opts().commentStyle).toBe('hash');
+
+		const semi = applyFormattingOptions(new Command('test').exitOverride());
+		semi.parse(['--comment-style', 'semi'], { from: 'user' });
+		expect(semi.opts().commentStyle).toBe('semi');
+	});
+
+	it('leaves comments alone when --comment-style value is invalid', () => {
+		const warn = vi.spyOn(logger, 'warn').mockImplementation(() => undefined);
+		const cmd = applyFormattingOptions(new Command('test').exitOverride());
+		cmd.parse(['--comment-style', 'semicolon'], { from: 'user' });
+
+		expect(cmd.opts().commentStyle).toBeFalsy();
 		expect(warn).toHaveBeenCalledOnce();
 	});
 });

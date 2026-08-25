@@ -1,5 +1,6 @@
 import { glob, readFile, stat } from 'node:fs/promises';
 import { join } from 'node:path';
+import type { CommentStyle } from '@nsis/dent';
 import type { Command } from 'commander';
 import { blue } from 'kleur/colors';
 import { logger } from '../log.ts';
@@ -9,6 +10,7 @@ import { type FormattingOptions, warnFormattingOptions } from './options.ts';
 export type SharedOptions = FormattingOptions & { debug: boolean };
 
 export type DentOptions = {
+	commentStyle: CommentStyle | undefined;
 	endOfLine: 'crlf' | 'lf';
 	indentSize: number;
 	printWidth: number;
@@ -49,6 +51,9 @@ export function prepareAction<T extends SharedOptions>(args: string[], command: 
 
 export function dentOptionsFrom(options: FormattingOptions): DentOptions {
 	return {
+		// Commander turns a rejected value into an empty string, which is not a comment style —
+		// treat it the same as omitting the flag and leave comments as they are.
+		commentStyle: options.commentStyle || undefined,
 		endOfLine: options.eol,
 		indentSize: options.indentSize,
 		printWidth: options.printWidth,

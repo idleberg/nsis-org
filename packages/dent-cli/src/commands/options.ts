@@ -1,10 +1,12 @@
 import { platform } from 'node:os';
+import type { CommentStyle } from '@nsis/dent';
 import type { Command } from 'commander';
 import { logger } from '../log.ts';
 
 export const defaultLineEndings = platform() === 'win32' ? 'crlf' : 'lf';
 
 export type FormattingOptions = {
+	commentStyle?: CommentStyle;
 	eol: 'crlf' | 'lf';
 	indentSize: number;
 	printWidth: number;
@@ -17,6 +19,19 @@ export function applyFormattingOptions(cmd: Command): Command {
 	return (
 		cmd
 			.optionsGroup('Formatting Options')
+			.option(
+				'-c, --comment-style <"hash"|"semi">',
+				'unify the marker used for single-line comments (block comments are unaffected)',
+				(value) => {
+					if (!['hash', 'semi'].includes(value)) {
+						logger.warn('Invalid comment style provided, comments will be left as they are.');
+
+						return undefined;
+					}
+
+					return value as CommentStyle;
+				},
+			)
 			.option(
 				'-e, --eol <"crlf"|"lf">',
 				'control how line-breaks are represented',

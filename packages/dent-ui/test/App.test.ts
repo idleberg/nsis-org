@@ -54,6 +54,20 @@ describe('App', () => {
 		await expect.element(page.getByRole('button', { name: 'Copy' })).toBeEnabled();
 	});
 
+	it('renders the comment style selector defaulting to preserve', async () => {
+		render(App);
+
+		await expect.element(page.getByRole('combobox', { name: 'Comments' })).toHaveValue('preserve');
+	});
+
+	it('rewrites comment markers when a comment style is picked', async () => {
+		render(App, { props: { sample: '; hello\nSection\nnop\nSectionEnd\n' } });
+
+		await page.getByRole('combobox', { name: 'Comments' }).selectOptions('hash');
+
+		await expect.element(page.getByLabelText('Formatted output editor')).toHaveTextContent('# hello');
+	});
+
 	it('renders both editor panes', async () => {
 		render(App);
 

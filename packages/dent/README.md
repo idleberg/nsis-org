@@ -54,6 +54,13 @@ Returns `null` if the file is already formatted, otherwise the formatted string.
 
 ### Options
 
+#### `options.commentStyle`
+
+Type: `"hash" | "semi"`  
+Default: *none*
+
+NSIS accepts both `#` and `;` for single-line comments. By default every comment keeps the marker it was written with. Set this option to unify them — `"hash"` rewrites `; comment` to `# comment`, `"semi"` does the reverse. Block comments (`/* … */`) are never touched.
+
 #### `options.endOfLine`
 
 Type: `"crlf" | "lf"`  
