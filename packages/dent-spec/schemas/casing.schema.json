@@ -1,0 +1,20 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://idleberg.github.io/nsis-org/dent-spec/schemas/v1/casing.schema.json",
+	"title": "Dent style casing table",
+	"type": "object",
+	"properties": {
+		"values": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"minLength": 1
+			},
+			"description": "Canonical spellings of NSIS instructions and compiler commands."
+		}
+	},
+	"required": [
+		"values"
+	],
+	"description": "Canonical casing of NSIS instructions and compiler commands."
+}

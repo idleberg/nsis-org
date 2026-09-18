@@ -21,6 +21,7 @@
 		"@nsis/ace-mode": "workspace:*",
 		"@nsis/codemirror": "workspace:*",
 		"@nsis/dent": "workspace:*",
+		"@nsis/dent-spec": "workspace:*",
 		"@nsis/dent-ui": "workspace:*",
 		"@nsis/highlightjs": "workspace:*",
 		"@nsis/lumis": "workspace:*",

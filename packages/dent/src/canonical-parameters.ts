@@ -1,529 +1,752 @@
-/**
- * Maps lowercase parameter values to their canonical casing, scoped to the
- * instructions that accept them.
- *
- * Source: `makensis -CMDHELP` output.
- *
- * Convention:
- * - Forward-slash flags generally use UPPERCASE (e.g. `/SILENT`, `/REBOOTOK`)
- *   with some lowercase exceptions (e.g. `/r`, `/a`, `/nonfatal`)
- * - Bare-word enum values generally use lowercase (e.g. `true`, `false`, `auto`)
- * - MessageBox constants, registry hives, and ShowWindow constants use
- *   UPPERCASE with prefixes (e.g. `MB_OK`, `HKLM`, `SW_SHOWNORMAL`)
- */
+/** biome-ignore-all lint/suspicious/noTemplateCurlyInString: NSIS definitions */
 
-// ---------------------------------------------------------------------------
-// Global parameters — unambiguous (/-prefixed), safe for any instruction
-// ---------------------------------------------------------------------------
+/**
+ * Maps lowercased instruction parameters to their canonical casing.
+ *
+ * Generated from @nsis/dent-spec 0.0.0 by `npm run codegen` — do not edit.
+ */
 
 export const globalParameters: Map<string, string> = new Map([
-	// --- Forward-slash flags (UPPERCASE) ---
-	['/silent', '/SILENT'],
-	['/filesonly', '/FILESONLY'],
-	['/rebootok', '/REBOOTOK'],
-	['/short', '/SHORT'],
-	['/sd', '/SD'],
-	['/branding', '/BRANDING'],
-	['/final', '/FINAL'],
-	['/solid', '/SOLID'],
-	['/global', '/GLOBAL'],
-	['/bom', '/BOM'],
-	['/italic', '/ITALIC'],
-	['/underline', '/UNDERLINE'],
-	['/strike', '/STRIKE'],
-	['/enablecancel', '/ENABLECANCEL'],
-	['/overwrite', '/OVERWRITE'],
-	['/replace', '/REPLACE'],
-	['/noerrors', '/NOERRORS'],
-	['/regedit5', '/REGEDIT5'],
-	['/exeresource', '/EXERESOURCE'],
-	['/stringid', '/STRINGID'],
-	['/resizetofit', '/RESIZETOFIT'],
-	['/resizetofitwidth', '/RESIZETOFITWIDTH'],
-	['/resizetofitheight', '/RESIZETOFITHEIGHT'],
-	['/trimleft', '/TRIMLEFT'],
-	['/trimright', '/TRIMRIGHT'],
-	['/trimcenter', '/TRIMCENTER'],
-	['/windows', '/windows'],
-	['/nonfatal', '/NONFATAL'],
-	['/nocustom', '/NOCUSTOM'],
-	['/uninstnocustom', '/UNINSTNOCUSTOM'],
-	['/componentsonlyoncustom', '/COMPONENTSONLYONCUSTOM'],
-	['/uninstcomponentsonlyoncustom', '/UNINSTCOMPONENTSONLYONCUSTOM'],
-	['/fileexists', '/FILEEXISTS'],
-	['/rawnl', '/RAWNL'],
-	['/productversion', '/ProductVersion'],
-
-	// Forward-slash flags (PascalCase)
-	['/noworkingdir', '/NoWorkingDir'],
-
-	// Forward-slash flags (lowercase)
-	['/r', '/r'],
 	['/a', '/a'],
+	['/bom', '/BOM'],
+	['/branding', '/BRANDING'],
+	['/componentsonlyoncustom', '/COMPONENTSONLYONCUSTOM'],
+	['/date', '/date'],
 	['/e', '/e'],
-	['/o', '/o'],
-	['/x', '/x'],
+	['/enablecancel', '/ENABLECANCEL'],
+	['/exeresource', '/EXERESOURCE'],
+	['/file', '/file'],
+	['/fileexists', '/FILEEXISTS'],
+	['/filesonly', '/FILESONLY'],
+	['/final', '/FINAL'],
+	['/global', '/GLOBAL'],
 	['/ifempty', '/ifempty'],
+	['/ifndef', '/ifndef'],
 	['/ifnosubkeys', '/ifnosubkeys'],
 	['/ifnovalues', '/ifnovalues'],
-	['/nounload', '/nounload'],
-	['/plugin', '/plugin'],
-
-	// Compiler command flags (lowercase)
-	['/ifndef', '/ifndef'],
-	['/redef', '/redef'],
-	['/date', '/date'],
-	['/utcdate', '/utcdate'],
-	['/file', '/file'],
-	['/intfmt', '/intfmt'],
-	['/math', '/math'],
 	['/ignorecase', '/ignorecase'],
+	['/intfmt', '/intfmt'],
+	['/italic', '/ITALIC'],
+	['/math', '/math'],
+	['/nocustom', '/NOCUSTOM'],
+	['/noerrors', '/NOERRORS'],
+	['/nonfatal', '/NONFATAL'],
+	['/nounload', '/nounload'],
+	['/noworkingdir', '/NoWorkingDir'],
+	['/o', '/o'],
+	['/overwrite', '/OVERWRITE'],
 	['/packed', '/packed'],
+	['/plugin', '/plugin'],
+	['/productversion', '/ProductVersion'],
+	['/r', '/r'],
+	['/rawnl', '/RAWNL'],
+	['/rebootok', '/REBOOTOK'],
+	['/redef', '/redef'],
+	['/regedit5', '/REGEDIT5'],
+	['/replace', '/REPLACE'],
+	['/resizetofit', '/RESIZETOFIT'],
+	['/resizetofitheight', '/RESIZETOFITHEIGHT'],
+	['/resizetofitwidth', '/RESIZETOFITWIDTH'],
+	['/sd', '/SD'],
+	['/short', '/SHORT'],
+	['/silent', '/SILENT'],
+	['/solid', '/SOLID'],
+	['/strike', '/STRIKE'],
+	['/stringid', '/STRINGID'],
 	['/target', '/target'],
+	['/trimcenter', '/TRIMCENTER'],
+	['/trimleft', '/TRIMLEFT'],
+	['/trimright', '/TRIMRIGHT'],
+	['/underline', '/UNDERLINE'],
+	['/uninstcomponentsonlyoncustom', '/UNINSTCOMPONENTSONLYONCUSTOM'],
+	['/uninstnocustom', '/UNINSTNOCUSTOM'],
+	['/utcdate', '/utcdate'],
+	['/windows', '/windows'],
+	['/x', '/x'],
 ]);
 
-/**
- * Maps lowercase prefixes of parameterised flags (e.g. `/LANG=`, `/TIMEOUT=`)
- * to their canonical casing. Only the prefix (up to and including `=`) is
- * normalised; the value after `=` is left untouched.
- */
 export const globalParameterPrefixes: Map<string, string> = new Map([
-	['/lang=', '/LANG='],
-	['/timeout=', '/TIMEOUT='],
 	['/charset=', '/CHARSET='],
-	['/imgid=', '/IMGID='],
 	['/customstring=', '/CUSTOMSTRING='],
-	['/uninstcustomstring=', '/UNINSTCUSTOMSTRING='],
+	['/imgid=', '/IMGID='],
+	['/lang=', '/LANG='],
 	['/oname=', '/oname='],
+	['/timeout=', '/TIMEOUT='],
+	['/uninstcustomstring=', '/UNINSTCUSTOMSTRING='],
 ]);
 
-// ---------------------------------------------------------------------------
-// Instruction-scoped parameters
-// ---------------------------------------------------------------------------
-
-const builder = new Map<string, Map<string, string>>();
-
-function register(instructions: string[], params: [string, string][]): void {
-	for (const instr of instructions) {
-		const key = instr.toLowerCase();
-		let map = builder.get(key);
-		if (!map) {
-			map = new Map();
-			builder.set(key, map);
-		}
-		for (const [k, v] of params) {
-			map.set(k, v);
-		}
-	}
-}
-
-// --- Boolean values ---
-
-register(
+export const instructionParameters: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
 	[
-		'AllowRootDirInstall',
-		'AllowSkipFiles',
-		'AutoCloseWindow',
-		'CRCCheck',
-		'ManifestDPIAware',
-		'ManifestDisableWindowFiltering',
-		'ManifestGdiScaling',
-		'ManifestLongPathAware',
-		'SetAutoClose',
-		'SetDatablockOptimize',
-		'SetDateSave',
-		'SetPluginUnload',
-		'Unicode',
-		'WindowIcon',
+		'addbrandingimage',
+		new Map([
+			['bottom', 'bottom'],
+			['left', 'left'],
+			['right', 'right'],
+			['top', 'top'],
+		]),
 	],
 	[
-		['true', 'true'],
-		['false', 'false'],
-	],
-);
-
-register(
-	[
-		'CRCCheck',
-		'LogSet',
-		'LockWindow',
-		'SetCompress',
-		'SetDateSave',
-		'SetDatablockOptimize',
-		'SetOverwrite',
-		'WindowIcon',
-		'XPStyle',
-		'LicenseForceSelection',
+		'allowrootdirinstall',
+		new Map([
+			['false', 'false'],
+			['true', 'true'],
+		]),
 	],
 	[
-		['on', 'on'],
-		['off', 'off'],
-	],
-);
-
-// --- FileOpen modes ---
-
-register(
-	['FileOpen'],
-	[
-		['r', 'r'],
-		['w', 'w'],
-		['a', 'a'],
-	],
-);
-
-// --- Compression algorithms ---
-
-register(
-	['SetCompressor'],
-	[
-		['zlib', 'zlib'],
-		['bzip2', 'bzip2'],
-		['lzma', 'lzma'],
-	],
-);
-
-// --- CPU targets ---
-
-register(
-	['Target'],
-	[
-		['x86', 'x86'],
-		['amd64', 'amd64'],
-	],
-);
-
-// --- SetOverwrite modes ---
-
-register(
-	['SetOverwrite'],
-	[
-		['try', 'try'],
-		['ifnewer', 'ifnewer'],
-		['ifdiff', 'ifdiff'],
-		['lastused', 'lastused'],
-	],
-);
-
-// --- SetCompress modes ---
-
-register(
-	['SetCompress'],
-	[
-		['auto', 'auto'],
-		['force', 'force'],
-	],
-);
-
-// --- SilentInstall / SilentUnInstall / SetSilent ---
-
-register(
-	['SilentInstall'],
-	[
-		['normal', 'normal'],
-		['silent', 'silent'],
-		['silentlog', 'silentlog'],
-	],
-);
-
-register(
-	['SilentUnInstall', 'SetSilent'],
-	[
-		['normal', 'normal'],
-		['silent', 'silent'],
-	],
-);
-
-// --- ShowInstDetails / ShowUninstDetails ---
-
-register(
-	['ShowInstDetails', 'ShowUninstDetails'],
-	[
-		['hide', 'hide'],
-		['show', 'show'],
-		['nevershow', 'nevershow'],
-	],
-);
-
-// --- SetDetailsView / DirShow ---
-
-register(
-	['SetDetailsView', 'DirShow'],
-	[
-		['show', 'show'],
-		['hide', 'hide'],
-	],
-);
-
-// --- SetDetailsPrint ---
-
-register(
-	['SetDetailsPrint'],
-	[
-		['listonly', 'listonly'],
-		['textonly', 'textonly'],
-		['both', 'both'],
-		['none', 'none'],
-		['lastused', 'lastused'],
-	],
-);
-
-// --- RequestExecutionLevel ---
-
-register(
-	['RequestExecutionLevel'],
-	[
-		['none', 'none'],
-		['user', 'user'],
-		['highest', 'highest'],
-		['admin', 'admin'],
-	],
-);
-
-// --- AddBrandingImage ---
-
-register(
-	['AddBrandingImage'],
-	[
-		['top', 'top'],
-		['left', 'left'],
-		['bottom', 'bottom'],
-		['right', 'right'],
-	],
-);
-
-// --- InstProgressFlags ---
-
-register(
-	['InstProgressFlags'],
-	[
-		['smooth', 'smooth'],
-		['colored', 'colored'],
-	],
-);
-
-// --- LicenseForceSelection ---
-
-register(
-	['LicenseForceSelection'],
-	[
-		['checkbox', 'checkbox'],
-		['radiobuttons', 'radiobuttons'],
-	],
-);
-
-// --- SetShellVarContext ---
-
-register(
-	['SetShellVarContext'],
-	[
-		['all', 'all'],
-		['current', 'current'],
-	],
-);
-
-// --- DirVerify ---
-
-register(
-	['DirVerify'],
-	[
-		['auto', 'auto'],
-		['leave', 'leave'],
-	],
-);
-
-// --- ExecShell / ExecShellWait ---
-
-register(
-	['ExecShell', 'ExecShellWait'],
-	[
-		['open', 'open'],
-		['print', 'print'],
-	],
-);
-
-// --- Page / UninstPage ---
-
-register(
-	['Page', 'UninstPage'],
-	[
-		['custom', 'custom'],
-		['license', 'license'],
-		['components', 'components'],
-		['directory', 'directory'],
-		['instfiles', 'instfiles'],
-		['uninstconfirm', 'uninstConfirm'],
-	],
-);
-
-// --- SetCtlColors ---
-
-register(['SetCtlColors'], [['transparent', 'transparent']]);
-
-// --- LockWindow ---
-
-register(
-	['LockWindow'],
-	[
-		['on', 'on'],
-		['off', 'off'],
-	],
-);
-
-// --- SetRegView ---
-
-register(['SetRegView'], [['default', 'default']]);
-
-// --- Registry root keys ---
-
-register(
-	[
-		'DeleteRegKey',
-		'DeleteRegValue',
-		'EnumRegKey',
-		'EnumRegValue',
-		'InstallDirRegKey',
-		'ReadRegDWORD',
-		'ReadRegStr',
-		'WriteRegBin',
-		'WriteRegDWORD',
-		'WriteRegExpandStr',
-		'WriteRegMultiStr',
-		'WriteRegNone',
-		'WriteRegStr',
+		'allowskipfiles',
+		new Map([
+			['false', 'false'],
+			['true', 'true'],
+		]),
 	],
 	[
-		['hkcr', 'HKCR'],
-		['hkcr32', 'HKCR32'],
-		['hkcr64', 'HKCR64'],
-		['hklm', 'HKLM'],
-		['hklm32', 'HKLM32'],
-		['hklm64', 'HKLM64'],
-		['hkcu', 'HKCU'],
-		['hkcu32', 'HKCU32'],
-		['hkcu64', 'HKCU64'],
-		['hku', 'HKU'],
-		['hkcc', 'HKCC'],
-		['hkdd', 'HKDD'],
-		['hkpd', 'HKPD'],
-		['shctx', 'SHCTX'],
+		'autoclosewindow',
+		new Map([
+			['false', 'false'],
+			['true', 'true'],
+		]),
 	],
-);
-
-// --- MessageBox flags and return values ---
-
-register(
-	['MessageBox'],
 	[
-		['mb_ok', 'MB_OK'],
-		['mb_okcancel', 'MB_OKCANCEL'],
-		['mb_abortretryignore', 'MB_ABORTRETRYIGNORE'],
-		['mb_retrycancel', 'MB_RETRYCANCEL'],
-		['mb_yesno', 'MB_YESNO'],
-		['mb_yesnocancel', 'MB_YESNOCANCEL'],
-		['mb_iconexclamation', 'MB_ICONEXCLAMATION'],
-		['mb_iconinformation', 'MB_ICONINFORMATION'],
-		['mb_iconquestion', 'MB_ICONQUESTION'],
-		['mb_iconstop', 'MB_ICONSTOP'],
-		['mb_usericon', 'MB_USERICON'],
-		['mb_topmost', 'MB_TOPMOST'],
-		['mb_setforeground', 'MB_SETFOREGROUND'],
-		['mb_right', 'MB_RIGHT'],
-		['mb_defbutton1', 'MB_DEFBUTTON1'],
-		['mb_defbutton2', 'MB_DEFBUTTON2'],
-		['mb_defbutton3', 'MB_DEFBUTTON3'],
-		['mb_defbutton4', 'MB_DEFBUTTON4'],
-		['idok', 'IDOK'],
-		['idcancel', 'IDCANCEL'],
-		['idyes', 'IDYES'],
-		['idno', 'IDNO'],
-		['idabort', 'IDABORT'],
-		['idretry', 'IDRETRY'],
-		['idignore', 'IDIGNORE'],
+		'changeui',
+		new Map([
+			['dlg_id', 'dlg_id'],
+		]),
 	],
-);
-
-// --- ShowWindow constants ---
-
-register(
-	['CreateShortcut', 'ShowWindow'],
 	[
-		['sw_shownormal', 'SW_SHOWNORMAL'],
-		['sw_showmaximized', 'SW_SHOWMAXIMIZED'],
-		['sw_showminimized', 'SW_SHOWMINIMIZED'],
-		['sw_hide', 'SW_HIDE'],
-		['sw_show', 'SW_SHOW'],
+		'crccheck',
+		new Map([
+			['false', 'false'],
+			['off', 'off'],
+			['on', 'on'],
+			['true', 'true'],
+		]),
 	],
-);
-
-// --- Hotkey modifiers (used in CreateShortcut) ---
-
-register(
-	['CreateShortcut'],
 	[
-		['alt', 'ALT'],
-		['control', 'CONTROL'],
-		['ext', 'EXT'],
-		['shift', 'SHIFT'],
+		'createshortcut',
+		new Map([
+			['alt', 'ALT'],
+			['control', 'CONTROL'],
+			['ext', 'EXT'],
+			['shift', 'SHIFT'],
+			['sw_hide', 'SW_HIDE'],
+			['sw_show', 'SW_SHOW'],
+			['sw_showmaximized', 'SW_SHOWMAXIMIZED'],
+			['sw_showminimized', 'SW_SHOWMINIMIZED'],
+			['sw_shownormal', 'SW_SHOWNORMAL'],
+		]),
 	],
-);
-
-// --- File attributes ---
-
-register(
-	['SetFileAttributes'],
 	[
-		['archive', 'ARCHIVE'],
-		['hidden', 'HIDDEN'],
-		['offline', 'OFFLINE'],
-		['readonly', 'READONLY'],
-		['system', 'SYSTEM'],
-		['temporary', 'TEMPORARY'],
+		'deleteregkey',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
 	],
-);
-
-// --- FileSeek modes ---
-
-register(
-	['FileSeek'],
 	[
-		['set', 'SET'],
-		['cur', 'CUR'],
-		['end', 'END'],
+		'deleteregvalue',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
 	],
-);
-
-// --- GetWinVer fields ---
-
-register(
-	['GetWinVer'],
 	[
-		['major', 'MAJOR'],
-		['minor', 'MINOR'],
-		['build', 'BUILD'],
-		['servicepack', 'SERVICEPACK'],
+		'dirshow',
+		new Map([
+			['hide', 'hide'],
+			['show', 'show'],
+		]),
 	],
-);
-
-// --- ManifestSupportedOS values ---
-
-register(
-	['ManifestSupportedOS'],
 	[
-		['winvista', 'WinVista'],
-		['win7', 'Win7'],
-		['win8', 'Win8'],
-		['win8.1', 'Win8.1'],
-		['win10', 'Win10'],
+		'dirverify',
+		new Map([
+			['auto', 'auto'],
+			['leave', 'leave'],
+		]),
 	],
-);
-
-// --- ChangeUI dialog identifiers ---
-
-register(['ChangeUI'], [['dlg_id', 'dlg_id']]);
-
-/**
- * Instruction-scoped parameter map.
- * Key: lowercase instruction keyword → Map of lowercase param → canonical param.
- */
-export const instructionParameters: ReadonlyMap<string, ReadonlyMap<string, string>> = builder;
+	[
+		'enumregkey',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
+	],
+	[
+		'enumregvalue',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
+	],
+	[
+		'execshell',
+		new Map([
+			['open', 'open'],
+			['print', 'print'],
+		]),
+	],
+	[
+		'execshellwait',
+		new Map([
+			['open', 'open'],
+			['print', 'print'],
+		]),
+	],
+	[
+		'fileopen',
+		new Map([
+			['a', 'a'],
+			['r', 'r'],
+			['w', 'w'],
+		]),
+	],
+	[
+		'fileseek',
+		new Map([
+			['cur', 'CUR'],
+			['end', 'END'],
+			['set', 'SET'],
+		]),
+	],
+	[
+		'getwinver',
+		new Map([
+			['build', 'BUILD'],
+			['major', 'MAJOR'],
+			['minor', 'MINOR'],
+			['servicepack', 'SERVICEPACK'],
+		]),
+	],
+	[
+		'installdirregkey',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
+	],
+	[
+		'instprogressflags',
+		new Map([
+			['colored', 'colored'],
+			['smooth', 'smooth'],
+		]),
+	],
+	[
+		'licenseforceselection',
+		new Map([
+			['checkbox', 'checkbox'],
+			['off', 'off'],
+			['on', 'on'],
+			['radiobuttons', 'radiobuttons'],
+		]),
+	],
+	[
+		'lockwindow',
+		new Map([
+			['off', 'off'],
+			['on', 'on'],
+		]),
+	],
+	[
+		'logset',
+		new Map([
+			['off', 'off'],
+			['on', 'on'],
+		]),
+	],
+	[
+		'manifestdisablewindowfiltering',
+		new Map([
+			['false', 'false'],
+			['true', 'true'],
+		]),
+	],
+	[
+		'manifestdpiaware',
+		new Map([
+			['false', 'false'],
+			['true', 'true'],
+		]),
+	],
+	[
+		'manifestgdiscaling',
+		new Map([
+			['false', 'false'],
+			['true', 'true'],
+		]),
+	],
+	[
+		'manifestlongpathaware',
+		new Map([
+			['false', 'false'],
+			['true', 'true'],
+		]),
+	],
+	[
+		'manifestsupportedos',
+		new Map([
+			['win10', 'Win10'],
+			['win7', 'Win7'],
+			['win8', 'Win8'],
+			['win8.1', 'Win8.1'],
+			['winvista', 'WinVista'],
+		]),
+	],
+	[
+		'messagebox',
+		new Map([
+			['idabort', 'IDABORT'],
+			['idcancel', 'IDCANCEL'],
+			['idignore', 'IDIGNORE'],
+			['idno', 'IDNO'],
+			['idok', 'IDOK'],
+			['idretry', 'IDRETRY'],
+			['idyes', 'IDYES'],
+			['mb_abortretryignore', 'MB_ABORTRETRYIGNORE'],
+			['mb_defbutton1', 'MB_DEFBUTTON1'],
+			['mb_defbutton2', 'MB_DEFBUTTON2'],
+			['mb_defbutton3', 'MB_DEFBUTTON3'],
+			['mb_defbutton4', 'MB_DEFBUTTON4'],
+			['mb_iconexclamation', 'MB_ICONEXCLAMATION'],
+			['mb_iconinformation', 'MB_ICONINFORMATION'],
+			['mb_iconquestion', 'MB_ICONQUESTION'],
+			['mb_iconstop', 'MB_ICONSTOP'],
+			['mb_ok', 'MB_OK'],
+			['mb_okcancel', 'MB_OKCANCEL'],
+			['mb_retrycancel', 'MB_RETRYCANCEL'],
+			['mb_right', 'MB_RIGHT'],
+			['mb_setforeground', 'MB_SETFOREGROUND'],
+			['mb_topmost', 'MB_TOPMOST'],
+			['mb_usericon', 'MB_USERICON'],
+			['mb_yesno', 'MB_YESNO'],
+			['mb_yesnocancel', 'MB_YESNOCANCEL'],
+		]),
+	],
+	[
+		'page',
+		new Map([
+			['components', 'components'],
+			['custom', 'custom'],
+			['directory', 'directory'],
+			['instfiles', 'instfiles'],
+			['license', 'license'],
+			['uninstconfirm', 'uninstConfirm'],
+		]),
+	],
+	[
+		'readregdword',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
+	],
+	[
+		'readregstr',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
+	],
+	[
+		'requestexecutionlevel',
+		new Map([
+			['admin', 'admin'],
+			['highest', 'highest'],
+			['none', 'none'],
+			['user', 'user'],
+		]),
+	],
+	[
+		'setautoclose',
+		new Map([
+			['false', 'false'],
+			['true', 'true'],
+		]),
+	],
+	[
+		'setcompress',
+		new Map([
+			['auto', 'auto'],
+			['force', 'force'],
+			['off', 'off'],
+			['on', 'on'],
+		]),
+	],
+	[
+		'setcompressor',
+		new Map([
+			['bzip2', 'bzip2'],
+			['lzma', 'lzma'],
+			['zlib', 'zlib'],
+		]),
+	],
+	[
+		'setctlcolors',
+		new Map([
+			['transparent', 'transparent'],
+		]),
+	],
+	[
+		'setdatablockoptimize',
+		new Map([
+			['false', 'false'],
+			['off', 'off'],
+			['on', 'on'],
+			['true', 'true'],
+		]),
+	],
+	[
+		'setdatesave',
+		new Map([
+			['false', 'false'],
+			['off', 'off'],
+			['on', 'on'],
+			['true', 'true'],
+		]),
+	],
+	[
+		'setdetailsprint',
+		new Map([
+			['both', 'both'],
+			['lastused', 'lastused'],
+			['listonly', 'listonly'],
+			['none', 'none'],
+			['textonly', 'textonly'],
+		]),
+	],
+	[
+		'setdetailsview',
+		new Map([
+			['hide', 'hide'],
+			['show', 'show'],
+		]),
+	],
+	[
+		'setfileattributes',
+		new Map([
+			['archive', 'ARCHIVE'],
+			['hidden', 'HIDDEN'],
+			['offline', 'OFFLINE'],
+			['readonly', 'READONLY'],
+			['system', 'SYSTEM'],
+			['temporary', 'TEMPORARY'],
+		]),
+	],
+	[
+		'setoverwrite',
+		new Map([
+			['ifdiff', 'ifdiff'],
+			['ifnewer', 'ifnewer'],
+			['lastused', 'lastused'],
+			['off', 'off'],
+			['on', 'on'],
+			['try', 'try'],
+		]),
+	],
+	[
+		'setpluginunload',
+		new Map([
+			['false', 'false'],
+			['true', 'true'],
+		]),
+	],
+	[
+		'setregview',
+		new Map([
+			['default', 'default'],
+		]),
+	],
+	[
+		'setshellvarcontext',
+		new Map([
+			['all', 'all'],
+			['current', 'current'],
+		]),
+	],
+	[
+		'setsilent',
+		new Map([
+			['normal', 'normal'],
+			['silent', 'silent'],
+		]),
+	],
+	[
+		'showinstdetails',
+		new Map([
+			['hide', 'hide'],
+			['nevershow', 'nevershow'],
+			['show', 'show'],
+		]),
+	],
+	[
+		'showuninstdetails',
+		new Map([
+			['hide', 'hide'],
+			['nevershow', 'nevershow'],
+			['show', 'show'],
+		]),
+	],
+	[
+		'showwindow',
+		new Map([
+			['sw_hide', 'SW_HIDE'],
+			['sw_show', 'SW_SHOW'],
+			['sw_showmaximized', 'SW_SHOWMAXIMIZED'],
+			['sw_showminimized', 'SW_SHOWMINIMIZED'],
+			['sw_shownormal', 'SW_SHOWNORMAL'],
+		]),
+	],
+	[
+		'silentinstall',
+		new Map([
+			['normal', 'normal'],
+			['silent', 'silent'],
+			['silentlog', 'silentlog'],
+		]),
+	],
+	[
+		'silentuninstall',
+		new Map([
+			['normal', 'normal'],
+			['silent', 'silent'],
+		]),
+	],
+	[
+		'target',
+		new Map([
+			['amd64', 'amd64'],
+			['x86', 'x86'],
+		]),
+	],
+	[
+		'unicode',
+		new Map([
+			['false', 'false'],
+			['true', 'true'],
+		]),
+	],
+	[
+		'uninstpage',
+		new Map([
+			['components', 'components'],
+			['custom', 'custom'],
+			['directory', 'directory'],
+			['instfiles', 'instfiles'],
+			['license', 'license'],
+			['uninstconfirm', 'uninstConfirm'],
+		]),
+	],
+	[
+		'windowicon',
+		new Map([
+			['false', 'false'],
+			['off', 'off'],
+			['on', 'on'],
+			['true', 'true'],
+		]),
+	],
+	[
+		'writeregbin',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
+	],
+	[
+		'writeregdword',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
+	],
+	[
+		'writeregexpandstr',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
+	],
+	[
+		'writeregmultistr',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
+	],
+	[
+		'writeregnone',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
+	],
+	[
+		'writeregstr',
+		new Map([
+			['hkcc', 'HKCC'],
+			['hkcr', 'HKCR'],
+			['hkcr32', 'HKCR32'],
+			['hkcr64', 'HKCR64'],
+			['hkcu', 'HKCU'],
+			['hkcu32', 'HKCU32'],
+			['hkcu64', 'HKCU64'],
+			['hkdd', 'HKDD'],
+			['hklm', 'HKLM'],
+			['hklm32', 'HKLM32'],
+			['hklm64', 'HKLM64'],
+			['hkpd', 'HKPD'],
+			['hku', 'HKU'],
+			['shctx', 'SHCTX'],
+		]),
+	],
+	[
+		'xpstyle',
+		new Map([
+			['off', 'off'],
+			['on', 'on'],
+		]),
+	],
+]);

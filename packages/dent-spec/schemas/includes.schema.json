@@ -1,0 +1,20 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://idleberg.github.io/nsis-org/dent-spec/schemas/v1/includes.schema.json",
+	"title": "Dent style includes table",
+	"type": "object",
+	"properties": {
+		"values": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"pattern": "^\\$\\{[^}]+\\}$"
+			},
+			"description": "Canonical spellings of macros from the NSIS bundled include libraries."
+		}
+	},
+	"required": [
+		"values"
+	],
+	"description": "Canonical casing of bundled include library macros."
+}

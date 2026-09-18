@@ -1,0 +1,66 @@
+{
+	"name": "@nsis/dent-spec",
+	"version": "0.0.0",
+	"description": "The Dent Style Specification: formatting rules, data tables and conformance cases for NSIS formatters",
+	"license": "MIT",
+	"scripts": {
+		"build": "npm run build:schemas && npm run build:types",
+		"build:schemas": "node --experimental-strip-types scripts/build-schemas.ts",
+		"build:types": "tsdown",
+		"lint:biome": "biome check",
+		"prepublishOnly": "npm run build",
+		"pretest": "npm run build:schemas -- --check",
+		"test": "vitest run"
+	},
+	"files": [
+		"cases/",
+		"dist/",
+		"schemas/",
+		"tables/",
+		"LICENSE",
+		"package.json",
+		"README.md",
+		"SPEC.md"
+	],
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts",
+		"./SPEC.md": "./SPEC.md",
+		"./cases/*": "./cases/*",
+		"./package.json": "./package.json",
+		"./schemas/*": "./schemas/*",
+		"./tables/*": "./tables/*"
+	},
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/idleberg/nsis-org.git"
+	},
+	"homepage": "https://github.com/idleberg/nsis-org/tree/main/packages/dent-spec#readme",
+	"keywords": [
+		"nsis",
+		"formatter",
+		"specification",
+		"conformance"
+	],
+	"publishConfig": {
+		"access": "public",
+		"typings": "dist/index.d.mts",
+		"exports": {
+			".": "./dist/index.mjs",
+			"./SPEC.md": "./SPEC.md",
+			"./cases/*": "./cases/*",
+			"./package.json": "./package.json",
+			"./schemas/*": "./schemas/*",
+			"./tables/*": "./tables/*"
+		}
+	},
+	"devDependencies": {
+		"@valibot/to-json-schema": "catalog:",
+		"jsonc": "catalog:",
+		"valibot": "catalog:",
+		"vitest": "catalog:"
+	}
+}

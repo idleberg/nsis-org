@@ -1,14 +1,12 @@
+/** biome-ignore-all lint/suspicious/noTemplateCurlyInString: NSIS definitions */
+
 /**
- * Maps lowercase keywords to their canonical casing as documented in the
- * official NSIS documentation ({@link https://nsis.sourceforge.io/Docs/}).
+ * Maps lowercased NSIS instructions and compiler commands to their canonical casing.
  *
- * Source: `makensis -CMDHELP` output.
- *
- * - Compiler commands use lowercase by convention.
- * - Instructions use the mixed-case form from the documentation.
+ * Generated from @nsis/dent-spec 0.0.0 by `npm run codegen` — do not edit.
  */
+
 export const canonicalCasing: Map<string, string> = new Map([
-	// Compiler commands (all lowercase by convention)
 	['!addincludedir', '!addincludedir'],
 	['!addplugindir', '!addplugindir'],
 	['!appendfile', '!appendfile'],
@@ -47,8 +45,6 @@ export const canonicalCasing: Map<string, string> = new Map([
 	['!uninstfinalize', '!uninstfinalize'],
 	['!verbose', '!verbose'],
 	['!warning', '!warning'],
-
-	// Instructions & block keywords (canonical PascalCase)
 	['abort', 'Abort'],
 	['addbrandingimage', 'AddBrandingImage'],
 	['addsize', 'AddSize'],

@@ -13,12 +13,15 @@ All packages claim ~220 commands, but:
 
 ## Preprocessor Directives
 
-| Missing Directive                                                             | From                 |
-| ----------------------------------------------------------------------------- | -------------------- |
-| `!elseif`, `!elseifdef`, `!elseifndef`, `!elseifmacrodef`, `!elseifmacrondef` | codemirror, textmate |
-| `!appendmemfile`                                                              | textmate             |
+| Missing Directive  | From     |
+| ------------------ | -------- |
+| `!appendmemfile`   | textmate |
 
-The codemirror Lezer grammar only has `!else` — the five `!elseif*` variants aren't assigned a token. The textmate `keyword.control` regex `!(ifdef|ifndef|if|...|else|endif)\b` can't match `!elseif` because there's no word boundary between `else` and `if`.
+`!elseif`, `!elseifdef`, `!elseifndef`, `!elseifmacrodef` and `!elseifmacrondef` were listed here as
+missing from codemirror and textmate. They are not NSIS commands: `!else` takes the condition as a
+separate token (`!else ifdef FOO`), as `Source/tokens.cpp` and the `TOK_P_ELSE` branch of
+`Source/script.cpp` show, and a script using the merged spelling does not compile. The packages that
+highlighted them were the ones that were wrong, and they no longer do.
 
 ## Built-in Variables
 

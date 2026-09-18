@@ -1,15 +1,17 @@
 /** biome-ignore-all lint/suspicious/noTemplateCurlyInString: NSIS definitions */
 
-/** Lowercase helper – builds a Set keyed by lowercase for O(1) lookup. */
-function lowerSet(keywords: string[]): Set<string> {
-	return new Set(keywords.map((k) => k.toLowerCase()));
-}
+/**
+ * Keyword roles that drive indentation, as defined by the Dent Style Specification.
+ *
+ * Generated from @nsis/dent-spec 0.0.0 by `npm run codegen` — do not edit.
+ */
 
 /**
  * Keyword roles for indentation.
  *
  * - **open**  — printed at the *current* level, then level increases.
  * - **close** — level decreases first, then printed at the new level.
+ * - **case**  — printed one level inside the parent, body one level further.
  * - **mid**   — printed one level *back* (like the opening keyword),
  *               but the level stays the same (e.g. `${Else}`, `!else`).
  * - **closeAfter** — printed at the *current* level, then level decreases
@@ -17,95 +19,79 @@ function lowerSet(keywords: string[]): Set<string> {
  */
 export const rules = {
 	/** Keywords that open a block (indent children). */
-	open: lowerSet([
+	open: new Set([
 		'!if',
 		'!ifdef',
 		'!ifmacrodef',
 		'!ifmacrondef',
 		'!ifndef',
 		'!macro',
-		'${Do}',
-		'${DoUntil}',
-		'${DoWhile}',
-		'${For}',
-		'${ForEach}',
-		'${If}',
-		'${IfNot}',
-		'${MementoSection}',
-		'${MementoSectionEx}',
-		'${MementoUnselectedSection}',
-		'${Select}',
-		'${Switch}',
-		'${Unless}',
-		'${While}',
-		'Function',
-		'PageEx',
-		'Section',
-		'SectionGroup',
+		'${do}',
+		'${dountil}',
+		'${dowhile}',
+		'${for}',
+		'${foreach}',
+		'${if}',
+		'${ifnot}',
+		'${mementosection}',
+		'${mementosectionex}',
+		'${mementounselectedsection}',
+		'${select}',
+		'${switch}',
+		'${unless}',
+		'${while}',
+		'function',
+		'pageex',
+		'section',
+		'sectiongroup',
 	]),
-
-	/**
-	 * Case-arm keywords — printed one level inside their parent switch/select,
-	 * with their body indented one further level. They do not push/pop the
-	 * indent stack, so consecutive cases naturally align and `${EndSwitch}`
-	 * only needs to pop the switch itself.
-	 */
-	case: lowerSet([
-		'${Case}',
-		'${Case2}',
-		'${Case3}',
-		'${Case4}',
-		'${Case5}',
-		'${CaseElse}',
-		'${Case_Else}',
-		'${Default}',
+	/** Case arms within a switch or select block. */
+	case: new Set([
+		'${case_else}',
+		'${case}',
+		'${case2}',
+		'${case3}',
+		'${case4}',
+		'${case5}',
+		'${caseelse}',
+		'${default}',
 	]),
-
-	/** Keywords that close a block (dedent to the opener's level). */
-	close: lowerSet([
+	/** Keywords that close a block (dedent themselves). */
+	close: new Set([
 		'!endif',
 		'!macroend',
-		'${EndIf}',
-		'${EndSelect}',
-		'${EndSwitch}',
-		'${EndUnless}',
-		'${EndWhile}',
-		'${Loop}',
-		'${LoopUntil}',
-		'${LoopWhile}',
-		'${MementoSectionEnd}',
-		'${Next}',
-		'FunctionEnd',
-		'PageExEnd',
-		'SectionEnd',
-		'SectionGroupEnd',
+		'${endif}',
+		'${endselect}',
+		'${endswitch}',
+		'${endunless}',
+		'${endwhile}',
+		'${loop}',
+		'${loopuntil}',
+		'${loopwhile}',
+		'${mementosectionend}',
+		'${next}',
+		'functionend',
+		'pageexend',
+		'sectionend',
+		'sectiongroupend',
 	]),
-
-	/**
-	 * Mid-block keywords — printed at the *parent* level (one back),
-	 * but they don't change the indentation depth.
-	 *
-	 * Example: `${Else}` aligns with `${If}`, and the body after it
-	 * stays one level deeper.
-	 */
-	mid: lowerSet([
+	/** Keywords printed at the opener's level without changing depth. */
+	mid: new Set([
 		'!else',
 		'!elseif',
-		'${Else}',
-		'${ElseIf}',
-		'${ElseIfNot}',
-		'${ElseUnless}',
-		'${AndIf}',
-		'${AndIfNot}',
-		'${AndUnless}',
-		'${OrIf}',
-		'${OrIfNot}',
-		'${OrUnless}',
+		'${andif}',
+		'${andifnot}',
+		'${andunless}',
+		'${else}',
+		'${elseif}',
+		'${elseifnot}',
+		'${elseunless}',
+		'${orif}',
+		'${orifnot}',
+		'${orunless}',
 	]),
-
-	/**
-	 * Keyword printed at the *current* level, then level decreases.
-	 * Used for `${Break}` — it's the last statement in a case arm.
-	 */
-	closeAfter: lowerSet(['${Break}']),
+	/** Keywords printed at the current level that then dedent. */
+	closeAfter: new Set([
+		'${break}',
+	]),
 };

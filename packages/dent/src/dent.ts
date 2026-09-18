@@ -1,5 +1,4 @@
 import { parse } from '@nsis/parser';
-import { detectNewline } from 'detect-newline';
 import { type CommentStyle, print } from './printer.ts';
 
 export type { CommentStyle } from './printer.ts';
@@ -89,6 +88,10 @@ export function createFormatter(options: DentOptions = {}): DentFunctions {
 	/**
 	 * Determines the desired end-of-line characters for the output.
 	 *
+	 * Detection follows §4 of the Dent Style Specification: the output is LF only when the
+	 * input contains an LF and no CRLF. A single CRLF anywhere — or no line ending at all —
+	 * yields CRLF, so a file carrying any Windows endings keeps them.
+	 *
 	 * @param {string} input - The input string (used as fallback for detection).
 	 * @returns {string} The end-of-line characters to use in the output.
 	 */
@@ -97,8 +100,7 @@ export function createFormatter(options: DentOptions = {}): DentFunctions {
 			return mergedOptions.endOfLine === 'crlf' ? '\r\n' : '\n';
 		}
 
-		const detected = detectNewline(input);
-		return detected ?? '\r\n';
+		return input.includes('\n') && !input.includes('\r\n') ? '\n' : '\r\n';
 	}
 
 	return { format, check };

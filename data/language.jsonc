@@ -399,13 +399,10 @@
 		"!verbose",
 		"!warning"
 	],
+	// `!else` takes the condition as a separate token (`!else ifdef FOO`); there are no
+	// `!elseif*` commands — see Source/tokens.cpp and the TOK_P_ELSE branch in Source/script.cpp.
 	"compilerBlocks": [
 		"!else",
-		"!elseif",
-		"!elseifdef",
-		"!elseifmacrodef",
-		"!elseifmacrondef",
-		"!elseifndef",
 		"!endif",
 		"!if",
 		"!ifdef",

@@ -24,8 +24,8 @@
 
 <span class="hljs-comment">; Prefix collisions: !if/!ifdef, !else/!elseif/!elseifdef</span>
 <span class="hljs-keyword">!if</span> <span class="hljs-number">1</span> &lt; <span class="hljs-number">2</span>
-<span class="hljs-keyword">!elseif</span> <span class="hljs-number">1</span> == <span class="hljs-number">1</span>
-<span class="hljs-keyword">!elseifdef</span> MISSING
+!elseif <span class="hljs-number">1</span> == <span class="hljs-number">1</span>
+!elseifdef MISSING
 <span class="hljs-keyword">!endif</span>
 
 <span class="hljs-comment">; Prefix collisions: !macro/!macroend/!macroundef</span>

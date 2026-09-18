@@ -1,0 +1,56 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://idleberg.github.io/nsis-org/dent-spec/schemas/v1/blocks.schema.json",
+	"title": "Dent style blocks table",
+	"type": "object",
+	"properties": {
+		"open": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"minLength": 1
+			},
+			"description": "Printed at the current level, then the level increases."
+		},
+		"case": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"minLength": 1
+			},
+			"description": "Case arms: printed one level inside their parent, body one level further."
+		},
+		"close": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"minLength": 1
+			},
+			"description": "The level decreases first, then the keyword is printed."
+		},
+		"mid": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"minLength": 1
+			},
+			"description": "Printed one level back, leaving the level unchanged, e.g. `${Else}`."
+		},
+		"closeAfter": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"minLength": 1
+			},
+			"description": "Printed at the current level, then the level decreases, e.g. `${Break}`."
+		}
+	},
+	"required": [
+		"open",
+		"case",
+		"close",
+		"mid",
+		"closeAfter"
+	],
+	"description": "Keyword roles defining block structure."
+}

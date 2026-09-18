@@ -1,0 +1,38 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://idleberg.github.io/nsis-org/dent-spec/schemas/v1/variables.schema.json",
+	"title": "Dent style variables table",
+	"type": "object",
+	"properties": {
+		"variables": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"minLength": 1
+			},
+			"description": "Built-in variable names, without the leading `$`."
+		},
+		"defines": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"minLength": 1
+			},
+			"description": "Built-in define names, without the surrounding `${}`."
+		},
+		"langStrings": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"minLength": 1
+			},
+			"description": "Built-in language string names, including the leading `^`."
+		}
+	},
+	"required": [
+		"variables",
+		"defines",
+		"langStrings"
+	],
+	"description": "Canonical casing of NSIS built-in variables, defines and language strings."
+}

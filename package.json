@@ -3,6 +3,7 @@
 	"private": true,
 	"scripts": {
 		"build": "turbo run build",
+		"check:changesets": "node --experimental-strip-types scripts/check-spec-changesets.ts",
 		"lint": "turbo run lint:biome",
 		"start": "pnpm run --filter=web dev",
 		"test": "turbo run test"

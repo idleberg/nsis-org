@@ -5,6 +5,7 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "tsdown",
+		"codegen": "node --experimental-strip-types scripts/codegen.ts",
 		"dev": "npm run build -- --watch",
 		"lint": "concurrently --prefix-colors blue,green,magenta npm:lint:*",
 		"lint:biome": "biome check",
@@ -13,6 +14,7 @@
 		"prepublishOnly": "npm run build",
 		"publish:jsr": "deno publish",
 		"publish:npm": "np",
+		"pretest": "npm run codegen -- --check",
 		"test": "vitest run"
 	},
 	"files": [
@@ -42,10 +44,10 @@
 		"exports": "./dist/dent.mjs"
 	},
 	"dependencies": {
-		"@nsis/parser": "workspace:*",
-		"detect-newline": "^4.0.1"
+		"@nsis/parser": "workspace:*"
 	},
 	"devDependencies": {
+		"@nsis/dent-spec": "workspace:*",
 		"vitest": "catalog:"
 	}
 }

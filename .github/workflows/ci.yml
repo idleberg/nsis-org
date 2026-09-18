@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - ".github/workflows/ci.yml"
+      - ".changeset/**"
+      - "**/cases/**"
       - "**/e2e/**"
       - "**/src/**"
       - "mise.toml"
@@ -53,6 +55,9 @@ jobs:
 
       - name: Check peer dependencies
         run: pnpm peers check
+
+      - name: Check specification changesets
+        run: pnpm run check:changesets
 
       - name: Lint Source
         run: pnpm run --if-present --recursive lint:biome:ci
