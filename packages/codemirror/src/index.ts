@@ -11,7 +11,12 @@ import {
 import { nsisHighlighting } from './highlight.ts';
 import { dedentOn } from './macro-specializers.ts';
 import { parser } from './parser.ts';
-import { specializeIdentifier, specializeIdentifierLoose } from './specializers.ts';
+import {
+	extendIdentifier,
+	extendIdentifierLoose,
+	specializeIdentifier,
+	specializeIdentifierLoose,
+} from './specializers.ts';
 
 function blockIndent(closingPattern: RegExp) {
 	return (cx: TreeIndentContext) => {
@@ -61,7 +66,10 @@ export const nsisLanguage = LRLanguage.define({
 	name: 'nsis',
 	parser: parser.configure({
 		props: parserProps,
-		specializers: [{ from: specializeIdentifier, to: specializeIdentifierLoose }],
+		specializers: [
+			{ from: specializeIdentifier, to: specializeIdentifierLoose },
+			{ from: extendIdentifier, to: extendIdentifierLoose },
+		],
 	}),
 	languageData,
 });

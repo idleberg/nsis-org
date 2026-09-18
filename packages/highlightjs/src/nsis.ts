@@ -6,7 +6,9 @@
  * Category: scripting
  */
 import type { HLJSApi } from 'highlight.js';
-import { blockKeywords, compilerFlags, keywords, literals, parameterNames } from './macros.ts' with { type: 'macro' };
+import { blockKeywords, compilerFlags, elseConditions, keywords, literals, parameterNames } from './macros.ts' with {
+	type: 'macro',
+};
 
 export default function (hljs: HLJSApi) {
 	const regex = hljs.regex;
@@ -93,7 +95,11 @@ export default function (hljs: HLJSApi) {
 	const COMPILER = {
 		// !compiler_flags
 		className: 'keyword',
-		begin: regex.concat(/!/, regex.either(...compilerFlags()), /\b/),
+		begin: regex.concat(
+			/!/,
+			regex.either(regex.concat(/else[ \t]+/, regex.either(...elseConditions())), ...compilerFlags()),
+			/\b/,
+		),
 	};
 
 	const ESCAPE_CHARS = {

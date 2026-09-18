@@ -2,6 +2,7 @@ import {
 	ArgumentValue,
 	CommandName,
 	Constant,
+	elseCondition,
 	// biome-ignore lint/suspicious/noShadowRestrictedNames: Function is a valid NSIS identifier
 	Function,
 	FunctionEnd,
@@ -367,4 +368,14 @@ export function specializeIdentifier(value: string) {
 
 export function specializeIdentifierLoose(value: string) {
 	return keywordsLower[value.toLowerCase()] ?? (isConstant.test(value) ? Constant : -1);
+}
+
+const elseConditions = new Set(['if', 'ifdef', 'ifndef', 'ifmacrodef', 'ifmacrondef']);
+
+export function extendIdentifier(value: string) {
+	return elseConditions.has(value) ? elseCondition : -1;
+}
+
+export function extendIdentifierLoose(value: string) {
+	return elseConditions.has(value.toLowerCase()) ? elseCondition : -1;
 }

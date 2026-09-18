@@ -82,6 +82,28 @@ Script(
     Command(CommandName, ArgumentValue),
     PreprocEndif))
 
+# Case-insensitive else conditions
+
+!IFDEF DEBUG
+  Nop
+!ELSE IFNDEF RELEASE
+  Nop
+!Else IfMacroDef MyMacro
+  Nop
+!ENDIF
+
+==>
+
+Script(
+  PreprocConditional(
+    PreprocIf, Constant,
+    Command(CommandName),
+    PreprocElse, PreprocElseCondition, Constant,
+    Command(CommandName),
+    PreprocElse, PreprocElseCondition, Identifier,
+    Command(CommandName),
+    PreprocEndif))
+
 # Case-insensitive argument values
 
 SilentInstall SILENT
