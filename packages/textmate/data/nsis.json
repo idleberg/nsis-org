@@ -99,7 +99,7 @@
 			"name": "keyword.other.nsis"
 		},
 		{
-			"match": "^\\s*(?i)!(ifdef|ifndef|if|ifmacrodef|ifmacrondef|elseifdef|elseifndef|elseifmacrodef|elseifmacrondef|elseif|else|endif)\\b",
+			"match": "^\\s*(?i)!(ifdef|ifndef|if|ifmacrodef|ifmacrondef|else|endif)\\b",
 			"name": "keyword.control.nsis"
 		},
 		{

@@ -292,11 +292,6 @@ const keywords: Record<string, number> = {
 	'!ifmacrondef': PreprocIf,
 
 	'!else': PreprocElse,
-	'!elseif': PreprocElse,
-	'!elseifdef': PreprocElse,
-	'!elseifndef': PreprocElse,
-	'!elseifmacrodef': PreprocElse,
-	'!elseifmacrondef': PreprocElse,
 	'!endif': PreprocEndif,
 	'!macro': PreprocMacro,
 	'!macroend': PreprocMacroEnd,
