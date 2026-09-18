@@ -46,7 +46,7 @@ catalog:
   shiki: ^4.4.3
   svelte-check: ^4.7.6
   svelte: ^5.57.0
-  tree-sitter-nsis: ^0.4.0
+  tree-sitter-nsis: ^0.4.1
   unplugin-macros: ^0.23.2
   vite: ^8.2.2
   vitest-browser-svelte: ^3.1.0

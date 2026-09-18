@@ -187,8 +187,8 @@ catalogs:
       specifier: ^4.7.6
       version: 4.7.6
     tree-sitter-nsis:
-      specifier: ^0.4.0
-      version: 0.4.0
+      specifier: ^0.4.1
+      version: 0.4.1
     unplugin-macros:
       specifier: ^0.23.2
       version: 0.23.2
@@ -397,7 +397,7 @@ importers:
     devDependencies:
       tree-sitter-nsis:
         specifier: 'catalog:'
-        version: 0.4.0
+        version: 0.4.1
 
   packages/nlf:
     dependencies:
@@ -562,7 +562,7 @@ importers:
         version: 4.3.3
       tree-sitter-nsis:
         specifier: 'catalog:'
-        version: 0.4.0
+        version: 0.4.1
       vite:
         specifier: 'catalog:'
         version: 8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.0)
@@ -4627,8 +4627,8 @@ packages:
     resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
     hasBin: true
 
-  tree-sitter-nsis@0.4.0:
-    resolution: {integrity: sha512-QBe3QRlbw0PoChalg9rwg8bwKrYAXAd0IXNtudDcMAixoqRiSuAo8OD4fOwvJe5dzd4W5Uidah5OM/RIeO70gA==}
+  tree-sitter-nsis@0.4.1:
+    resolution: {integrity: sha512-VJFlN3SnAEUqaadWtC9Muib08LwHnkR8wunt683C8lhKmr7ry/SHOLe7MAL/wLAgwNJiPYQUBzooIO0sKQbyfA==}
 
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
@@ -8866,7 +8866,7 @@ snapshots:
 
   tree-kill@1.2.2: {}
 
-  tree-sitter-nsis@0.4.0: {}
+  tree-sitter-nsis@0.4.1: {}
 
   trim-lines@3.0.1: {}
 
