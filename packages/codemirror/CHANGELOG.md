@@ -1,5 +1,11 @@
 # @nsis/codemirror
 
+## 0.14.6
+
+### Patch Changes
+
+- 8e7bb0a: fix: highlighter conditions after `!else`
+
 ## 0.14.5
 
 ### Patch Changes

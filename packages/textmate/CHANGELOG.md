@@ -1,5 +1,11 @@
 # @nsis/textmate
 
+## 0.1.4
+
+### Patch Changes
+
+- 8e7bb0a: fix: highlighter conditions after `!else`
+
 ## 0.1.3
 
 ### Patch Changes

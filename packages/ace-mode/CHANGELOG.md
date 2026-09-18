@@ -1,5 +1,11 @@
 # @nsis/ace-mode
 
+## 1.8.6
+
+### Patch Changes
+
+- 8e7bb0a: fix: highlighter conditions after `!else`
+
 ## 1.8.5
 
 ### Patch Changes
