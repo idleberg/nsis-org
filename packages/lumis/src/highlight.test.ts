@@ -21,4 +21,20 @@ describe('highlight', () => {
 		expect(output).toContain('<span class="l-keyword">Name</span>');
 		expect(output).toContain('l-string');
 	});
+
+	it('should highlight conditions after !else', async () => {
+		const highlighter = await createHighlighter({ languages: [nsis] });
+		const output = highlighter.highlight('!ifdef FOO\n!else ifdef BAR\n!endif\n', htmlLinked({ language: nsis }));
+
+		expect(output).toContain(
+			'<span class="l-keyword-directive">!else</span> <span class="l-keyword-directive">ifdef</span> BAR',
+		);
+	});
+
+	it('should not highlight plain identifiers as constants', async () => {
+		const highlighter = await createHighlighter({ languages: [nsis] });
+		const output = highlighter.highlight('DetailPrint FOO\n', htmlLinked({ language: nsis }));
+
+		expect(output).toContain('<span class="l-keyword">DetailPrint</span> FOO');
+	});
 });

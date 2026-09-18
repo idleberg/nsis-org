@@ -57,6 +57,14 @@ export function compilerFlags(): string[] {
 }
 
 /**
+ * `!else` takes an optional condition, e.g. `!else ifdef FOO`. The valid conditions
+ * are the `!if` variants without their exclamation mark.
+ */
+export function elseConditions(): string[] {
+	return language.compilerBlocks.filter((block) => block.startsWith('!if')).map(withoutPrefix);
+}
+
+/**
  * Unlike the other lists, `beginKeywords` expects a whitespace-separated string.
  */
 export function blockKeywords(): string {

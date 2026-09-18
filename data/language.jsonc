@@ -401,11 +401,6 @@
 	],
 	"compilerBlocks": [
 		"!else",
-		"!elseif",
-		"!elseifdef",
-		"!elseifmacrodef",
-		"!elseifmacrondef",
-		"!elseifndef",
 		"!endif",
 		"!if",
 		"!ifdef",

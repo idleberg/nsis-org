@@ -90,7 +90,6 @@ export const rules = {
 	 */
 	mid: lowerSet([
 		'!else',
-		'!elseif',
 		'${Else}',
 		'${ElseIf}',
 		'${ElseIfNot}',

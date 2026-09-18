@@ -83,4 +83,14 @@ describe('important', () => {
 	it('does not match unknown commands', () => {
 		expect(patternOf('important').test('!nope')).toBe(false);
 	});
+
+	it('matches else conditions as part of the directive', () => {
+		for (const condition of ['if', 'ifdef', 'ifndef', 'ifmacrodef', 'ifmacrondef']) {
+			expect(`!else ${condition} FOO`.match(patternOf('important'))?.[0]).toBe(`!else ${condition}`);
+		}
+	});
+
+	it('does not treat other words after !else as conditions', () => {
+		expect('!else ifn FOO'.match(patternOf('important'))?.[0]).toBe('!else');
+	});
 });
