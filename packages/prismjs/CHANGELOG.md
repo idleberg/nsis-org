@@ -1,5 +1,11 @@
 # @nsis/prismjs
 
+## 0.10.5
+
+### Patch Changes
+
+- 8e7bb0a: fix: highlighter conditions after `!else`
+
 ## 0.10.4
 
 ### Patch Changes
