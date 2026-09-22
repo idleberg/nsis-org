@@ -26,5 +26,7 @@ playwright-report/
 # Project specific
 *.exe
 *.nsi
+# ... except the spec's conformance fixtures, which are the package's payload
+!packages/dent-spec/cases/**/*.nsi
 # Added by code-review-graph
 .code-review-graph/

@@ -6,6 +6,7 @@ export const nsisHighlighting = styleTags({
 	PreprocKeyword: t.processingInstruction,
 	PreprocIf: t.processingInstruction,
 	PreprocElse: t.processingInstruction,
+	PreprocElseCondition: t.processingInstruction,
 	PreprocEndif: t.processingInstruction,
 	PreprocMacro: t.processingInstruction,
 	PreprocMacroEnd: t.processingInstruction,

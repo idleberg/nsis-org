@@ -691,12 +691,12 @@ test('MementoSectionEx / MementoSectionEnd indents correctly', () => {
 
 // --- Compiler conditional indentation ---
 
-test('!if / !elseif / !else / !endif indents correctly', () => {
+test('!if / !else if / !else / !endif indents correctly', () => {
 	const { format } = createFormatter();
 	const input =
-		'!if ${X} == 1\nDetailPrint "one"\n!elseif ${X} == 2\nDetailPrint "two"\n!else\nDetailPrint "other"\n!endif\n';
+		'!if ${X} == 1\nDetailPrint "one"\n!else if ${X} == 2\nDetailPrint "two"\n!else\nDetailPrint "other"\n!endif\n';
 	expect(format(input)).toBe(
-		'!if ${X} == 1\n\tDetailPrint "one"\n!elseif ${X} == 2\n\tDetailPrint "two"\n!else\n\tDetailPrint "other"\n!endif\n',
+		'!if ${X} == 1\n\tDetailPrint "one"\n!else if ${X} == 2\n\tDetailPrint "two"\n!else\n\tDetailPrint "other"\n!endif\n',
 	);
 });
 

@@ -1,6 +1,6 @@
 {
 	"name": "@nsis/lumis-wasm",
-	"version": "0.26.0",
+	"version": "0.26.1",
 	"description": "Self-contained Lumis language package for NSIS",
 	"license": "MIT",
 	"repository": {

@@ -1,5 +1,11 @@
 # @nsis/highlightjs
 
+## 0.1.6
+
+### Patch Changes
+
+- 8e7bb0a: fix: highlighter conditions after `!else`
+
 ## 0.1.5
 
 ### Patch Changes

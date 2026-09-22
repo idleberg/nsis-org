@@ -1,5 +1,11 @@
 # @nsis/lumis-wasm
 
+## 0.26.1
+
+### Patch Changes
+
+- 8e7bb0a: fix: highlighter conditions after `!else`
+
 ## 0.26.0
 
 ### Minor Changes

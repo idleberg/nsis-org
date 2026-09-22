@@ -1,5 +1,11 @@
 # @nsis/dent
 
+## 0.16.1
+
+### Patch Changes
+
+- 271970b: fix: remove unused compiler keywords
+
 ## 0.16.0
 
 ### Minor Changes

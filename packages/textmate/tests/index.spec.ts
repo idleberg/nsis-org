@@ -43,4 +43,32 @@ describe('Shiki Integration', () => {
 
 		highlighter.dispose();
 	});
+
+	it('should scope else conditions as part of the directive', async () => {
+		const { createHighlighter } = await import('shiki');
+		const highlighter = await createHighlighter({
+			themes: ['nord'],
+			langs: [
+				{
+					...grammar,
+					name: 'nsis',
+				},
+			] as LanguageRegistration[],
+		});
+
+		for (const condition of ['if', 'ifdef', 'ifndef', 'ifmacrodef', 'ifmacrondef']) {
+			const [line] = highlighter.codeToTokensBase(`!else ${condition} FOO`, {
+				lang: 'nsis',
+				theme: 'nord',
+				includeExplanation: true,
+			});
+			const directive = line.find((token) => token.content.includes('!else'));
+			const scopes = directive?.explanation?.flatMap((part) => part.scopes.map((scope) => scope.scopeName));
+
+			expect(directive?.content).toBe(`!else ${condition}`);
+			expect(scopes).toContain('keyword.control.nsis');
+		}
+
+		highlighter.dispose();
+	});
 });

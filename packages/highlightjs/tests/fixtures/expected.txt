@@ -22,10 +22,10 @@
   <span class="hljs-keyword">InstallDir</span> <span class="hljs-string">&quot;<span class="hljs-variable constant_">$PROGRAMFILES</span>\installer_name&quot;</span>
 <span class="hljs-keyword">!endif</span>
 
-<span class="hljs-comment">; Prefix collisions: !if/!ifdef, !else/!elseif/!elseifdef</span>
+<span class="hljs-comment">; Prefix collisions: !if/!ifdef, !else/!else if/!else ifdef</span>
 <span class="hljs-keyword">!if</span> <span class="hljs-number">1</span> &lt; <span class="hljs-number">2</span>
-!elseif <span class="hljs-number">1</span> == <span class="hljs-number">1</span>
-!elseifdef MISSING
+<span class="hljs-keyword">!else if</span> <span class="hljs-number">1</span> == <span class="hljs-number">1</span>
+<span class="hljs-keyword">!else ifdef</span> MISSING
 <span class="hljs-keyword">!endif</span>
 
 <span class="hljs-comment">; Prefix collisions: !macro/!macroend/!macroundef</span>

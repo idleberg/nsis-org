@@ -78,7 +78,6 @@ export const rules = {
 	/** Keywords printed at the opener's level without changing depth. */
 	mid: new Set([
 		'!else',
-		'!elseif',
 		'${andif}',
 		'${andifnot}',
 		'${andunless}',
