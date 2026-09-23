@@ -1,6 +1,6 @@
 # Dent Style Specification
 
-**Version:** 1.0.0-draft · **Status:** draft
+**Version:** 0.1.0 · **Status:** draft
 
 Dent style is an opinionated formatting style for [NSIS](https://nsis.sourceforge.io/) scripts.
 This document, together with the data files in `tables/` and the conformance cases in `cases/`,
