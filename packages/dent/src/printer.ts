@@ -114,9 +114,10 @@ function printComment(node: CommentNode, level: number, options: PrinterOptions)
 		return lines
 			.map((line, i) => {
 				if (i === 0) return `${prefix}/*${line}`;
-				const stripped = line.trimStart();
-				if (i === lines.length - 1) return `${prefix} ${stripped}*/`;
-				return `${prefix} ${stripped}`;
+				if (i === lines.length - 1) return `${prefix}${line}*/`;
+				if (line.trim() === '') return '';
+				// The parser already made the line relative to the opening `/*`.
+				return `${prefix}${line}`;
 			})
 			.join(options.eol);
 	}

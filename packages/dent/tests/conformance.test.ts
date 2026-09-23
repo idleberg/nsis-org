@@ -89,12 +89,13 @@ describe('Dent Style Specification conformance', () => {
 		const files = await readdir(caseDir);
 		const input = await readFile(join(caseDir, 'input.nsi'), 'utf-8');
 		const options = await readOptions(caseDir);
-		const { format } = createFormatter(options);
-
 		if (files.includes('error')) {
-			expect(() => format(input)).toThrow();
+			// Invalid options (§3) are rejected when the formatter is created, not when it formats.
+			expect(() => createFormatter(options).format(input)).toThrow();
 			return;
 		}
+
+		const { format } = createFormatter(options);
 
 		const expected = await readFile(join(caseDir, 'output.nsi'), 'utf-8');
 

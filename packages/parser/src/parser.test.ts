@@ -235,8 +235,8 @@ test('BOM prefix is stripped', () => {
 
 // --- Strict keyword validation ---
 
-test('Unknown keyword rejects', () => {
-	expect(() => parse('FooBar "arg"\n')).toThrow();
+test('Unknown keyword is kept as written', () => {
+	expect(parse('FooBar "arg"\n')).toEqual([{ type: 'instruction', keyword: 'FooBar', args: ['"arg"'] }]);
 });
 
 test('Unknown compiler command rejects', () => {
@@ -257,24 +257,24 @@ function parseErrorStart(input: string) {
 }
 
 test('Parse error reports the source line', () => {
-	expect(parseErrorStart('Nop\nFooBar\n').line).toBe(2);
+	expect(parseErrorStart('Nop\nDetailPrint "x\n').line).toBe(2);
 });
 
 test('Parse error line accounts for line continuations', () => {
 	// Each joined continuation removes a newline from the preprocessed text, so a naive
 	// position would drift one line earlier per continuation.
-	const input = 'DetailPrint \\\n  "a"\nDetailPrint \\\n  "b"\nFooBar\n';
+	const input = 'DetailPrint \\\n  "a"\nDetailPrint \\\n  "b"\nDetailPrint "x\n';
 	const start = parseErrorStart(input);
 	expect(start.line).toBe(5);
-	expect(start.column).toBe(7);
+	expect(start.column).toBe(13);
 });
 
 test('Parse error offset points into the original source', () => {
-	const input = 'Nop\nDetailPrint \\\n  "a"\nFooBar\n';
+	const input = 'Nop\nDetailPrint \\\n  "a"\nDetailPrint "x\n';
 	const start = parseErrorStart(input);
 	expect(start.line).toBe(4);
 	// The reported offset must index the source the caller passed in, not the joined text.
-	expect(input.slice(start.offset - 6, start.offset)).toBe('FooBar');
+	expect(input.slice(start.offset, start.offset + 2)).toBe('"x');
 });
 
 // --- Plugin calls ---

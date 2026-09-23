@@ -74,6 +74,15 @@ const INSTRUCTION_KEYWORDS = [
 ];
 
 const INSTRUCTION_LOOKUP = new Set(INSTRUCTION_KEYWORDS.map(kw => kw.toLowerCase()));
+
+// Makes a block comment's inner lines relative to the indentation of its opening `/*` (spec §11).
+// A line that does not start with that exact indentation is dedented fully instead.
+function rebaseBlockComment(value, indent) {
+  return value
+    .split('\n')
+    .map((line, i) => (i === 0 ? line : line.startsWith(indent) ? line.slice(indent.length) : line.trimStart()))
+    .join('\n');
+}
 }}
 
 Script
@@ -97,8 +106,8 @@ CommentLine
   { return { type: 'comment', style: style === '#' ? 'hash' : 'semicolon', value: value.trimStart() }; }
 
 BlockComment
-  = _ "/*" value:$(!"*/" (. / [\r\n]))* "*/" _ LineEnd?
-  { return { type: 'comment', style: 'block', value }; }
+  = indent:$_ "/*" value:$(!"*/" (. / [\r\n]))* "*/" _ LineEnd?
+  { return { type: 'comment', style: 'block', value: rebaseBlockComment(value, indent) }; }
 
 QuotedLabelLine
   = _ "\"" label:$((!(":\"") [^"])*) ":\"" !":" trailing:TrailingComment? _ LineEnd
@@ -139,6 +148,7 @@ Keyword "keyword"
   / MacroKeyword
   / PluginCallKeyword
   / InstructionKeyword
+  / UnknownKeyword
 
 CompilerKeyword
   = kw:$("!" [a-zA-Z]+) &{ return COMPILER_KEYWORDS.has(kw.toLowerCase()); } { return kw; }
@@ -157,6 +167,10 @@ PluginCallKeyword
 InstructionKeyword
   = kw:$([a-zA-Z][a-zA-Z0-9]*) &{ return INSTRUCTION_LOOKUP.has(kw.toLowerCase()); } { return kw; }
 
+// Spec §6.4: a keyword in none of the tables is kept as written.
+UnknownKeyword
+  = $([a-zA-Z_][a-zA-Z0-9_]*)
+
 // --- Arguments ---
 
 Arguments
@@ -172,7 +186,8 @@ QuotedString
   / $( '`' ('$\\`' / [^`\r\n])* '`' )
 
 BareToken
-  = $[^ \t\r\n;#]+
+  // An unmatched opening quote is an unterminated string, not a bare token (spec §2).
+  = !["'`] @$[^ \t\r\n;#]+
 
 // --- Comments ---
 
