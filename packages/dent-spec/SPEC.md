@@ -220,7 +220,11 @@ Examples: `cases/casing/builtin-variables`.
 A keyword in none of the tables MUST be printed exactly as written. An implementation MUST NOT
 guess a casing for it. Its arguments are formatted like those of any other instruction.
 
-Examples: `cases/casing/unknown-keywords`.
+This includes compiler commands: an unrecognised `!` keyword such as `!foo` MUST NOT be a parse
+error. Rejecting unknown commands is makensis's job; a formatter that did so would need a new
+release for every command makensis adds. An unrecognised keyword has no block role (§5.2).
+
+Examples: `cases/casing/unknown-keywords`, `cases/casing/unknown-compiler-commands`.
 
 ## 7. Blank lines
 

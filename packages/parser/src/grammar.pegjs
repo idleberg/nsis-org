@@ -167,9 +167,9 @@ PluginCallKeyword
 InstructionKeyword
   = kw:$([a-zA-Z][a-zA-Z0-9]*) &{ return INSTRUCTION_LOOKUP.has(kw.toLowerCase()); } { return kw; }
 
-// Spec §6.4: a keyword in none of the tables is kept as written.
+// Spec §6.4: a keyword in none of the tables is kept as written, compiler commands included.
 UnknownKeyword
-  = $([a-zA-Z_][a-zA-Z0-9_]*)
+  = $("!"? [a-zA-Z_][a-zA-Z0-9_]*)
 
 // --- Arguments ---
 
