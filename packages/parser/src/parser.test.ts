@@ -239,8 +239,8 @@ test('Unknown keyword is kept as written', () => {
 	expect(parse('FooBar "arg"\n')).toEqual([{ type: 'instruction', keyword: 'FooBar', args: ['"arg"'] }]);
 });
 
-test('Unknown compiler command rejects', () => {
-	expect(() => parse('!foobar "arg"\n')).toThrow();
+test('Unknown compiler command is kept as written', () => {
+	expect(parse('!foobar "arg"\n')).toEqual([{ type: 'instruction', keyword: '!foobar', args: ['"arg"'] }]);
 });
 
 // --- Error locations ---

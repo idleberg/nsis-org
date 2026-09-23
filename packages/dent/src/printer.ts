@@ -193,10 +193,9 @@ function wrapInstruction(
 	const joinFn = (tokens: string[]) => (isArithmetic ? tokens.join(' ') : joinInstructionArgs(tokens, keyword));
 	const joined = joinFn(args);
 	const singleLine = args.length > 0 ? `${indent}${keyword} ${joined}` : `${indent}${keyword}`;
-	const fullLine = trailingComment ? `${singleLine} ${trailingComment}` : singleLine;
-
-	if (width(fullLine) <= options.printWidth) {
-		return fullLine;
+	// A trailing comment does not count toward the width (§10).
+	if (width(singleLine) <= options.printWidth) {
+		return trailingComment ? `${singleLine} ${trailingComment}` : singleLine;
 	}
 
 	const contIndent = indent + (options.useTabs ? '\t' : ' '.repeat(options.indentSize));

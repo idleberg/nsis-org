@@ -314,7 +314,10 @@ Examples: `cases/quotes/normalize`, `cases/quotes/single-quote-option`.
 
 When `print_width` is greater than 0 and a line would exceed it, the line is broken between
 arguments: each fragment except the last ends with a space and a `\` continuation, and
-continuation lines are indented one level deeper than the first line. The keyword always stays
+continuation lines are indented one level deeper than the first line. Fragments are filled
+greedily: arguments are added to the current fragment for as long as it, plus the two columns
+of ` \`, fits within `print_width`, and the next argument starts a new fragment. The two columns
+are reserved on every fragment, the last included. The keyword always stays
 on the first line, and an argument is never split internally, so a single long argument may
 exceed `print_width`. Values joined by `|` (§8.2) form a single argument, so they are never
 broken apart and keep their compact form when a line is wrapped.
@@ -325,10 +328,12 @@ columns, and a combining accent takes one code point but no column.
 
 When `print_width` is `0`, no wrapping occurs and lines may be arbitrarily long.
 
-A trailing comment stays attached to the last fragment.
+A trailing comment does not count toward the width: a line whose code fits within `print_width`
+is not wrapped, however long its comment. When a line is wrapped, the comment stays attached to
+the last fragment.
 
 Examples: `cases/wrapping/print-width`, `cases/wrapping/pipes`, `cases/wrapping/disabled`,
-`cases/wrapping/code-points`.
+`cases/wrapping/code-points`, `cases/wrapping/trailing-comments`.
 
 ## 11. Comments
 
