@@ -278,9 +278,11 @@ Examples: `cases/parameters/global-switches`, `cases/parameters/instruction-scop
 
 ### 8.2 Pipe-separated arguments
 
-An unquoted argument containing `|` (such as a `MessageBox` flag list) is split on `|` and
-rejoined without surrounding spaces, so `MB_OK | MB_ICONSTOP` becomes `MB_OK|MB_ICONSTOP`.
-`${…}` groups are never split.
+Outside quotes, a `|` merges with the arguments on either side of it: the spaces around it are
+removed, so `MB_OK | MB_ICONSTOP` becomes `MB_OK|MB_ICONSTOP`. This applies to every instruction
+except those in §8.3, not only to `MessageBox` flag lists, and the neighbours may be quoted
+strings or `${…}` groups. A `|` inside a quoted string is left alone. The merged group counts as
+one argument, so line wrapping (§10) never breaks it.
 
 Examples: `cases/arguments/pipes`.
 
