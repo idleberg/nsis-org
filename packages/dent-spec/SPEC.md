@@ -8,10 +8,10 @@ defines it.
 
 Known implementations:
 
-| Implementation | Language | Package |
-| --- | --- | --- |
+| Implementation                                                       | Language   | Package      |
+| -------------------------------------------------------------------- | ---------- | ------------ |
 | [Dent](https://github.com/idleberg/nsis-org/tree/main/packages/dent) | TypeScript | `@nsis/dent` |
-| [Ardent](https://github.com/idleberg/ardent) | Rust | `ardent` |
+| [Ardent](https://github.com/idleberg/ardent)                         | Rust       | `ardent`     |
 
 "Dent" names the style. `@nsis/dent` is one implementation of it, not the authority over it:
 where an implementation disagrees with this document, the implementation is wrong.
@@ -43,12 +43,12 @@ is written back to a file, and diagnostic message wording.
 
 A case is a directory under `cases/`, named `<area>/<name>`:
 
-| File | Required | Meaning |
-| --- | --- | --- |
-| `input.nsi` | yes | Source handed to `format`, byte for byte |
-| `output.nsi` | unless `error` | The only accepted result |
-| `error` | unless `output.nsi` | `format` MUST return an error; its wording is unspecified |
-| `options.toml` | no | Options for this case; absent means the defaults in §3 |
+| File           | Required            | Meaning                                                   |
+| -------------- | ------------------- | --------------------------------------------------------- |
+| `input.nsi`    | yes                 | Source handed to `format`, byte for byte                  |
+| `output.nsi`   | unless `error`      | The only accepted result                                  |
+| `error`        | unless `output.nsi` | `format` MUST return an error; its wording is unspecified |
+| `options.toml` | no                  | Options for this case; absent means the defaults in §3    |
 
 Case files are byte-exact: line endings, trailing whitespace and the presence or absence of a
 final newline are all significant, and MUST NOT be normalised by tooling.
@@ -94,15 +94,15 @@ Examples: `cases/preprocessing/byte-order-mark`, `cases/preprocessing/continuati
 
 ## 3. Options
 
-| Key | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| `comment_style` | `"hash"` \| `"semi"` \| unset | unset | Marker for single-line comments (§11.2) |
-| `end_of_line` | `"lf"` \| `"crlf"` \| unset | unset | Line ending; unset means detect (§4) |
-| `indent_size` | integer ≥ 0 | `2` | Spaces per level; ignored when `use_tabs` (§5.1) |
-| `print_width` | integer ≥ 0 | `120` | Wrap column; `0` disables wrapping (§10) |
-| `single_quote` | boolean | `false` | Prefer `'` over `"` (§9) |
-| `trim_empty_lines` | boolean | `true` | Collapse and strip blank lines (§7.2) |
-| `use_tabs` | boolean | `true` | Indent with tabs (§5.1) |
+| Key                | Type                          | Default | Meaning                                          |
+| ------------------ | ----------------------------- | ------- | ------------------------------------------------ |
+| `comment_style`    | `"hash"` \| `"semi"` \| unset | unset   | Marker for single-line comments (§11.2)          |
+| `end_of_line`      | `"lf"` \| `"crlf"` \| unset   | unset   | Line ending; unset means detect (§4)             |
+| `indent_size`      | integer ≥ 0                   | `2`     | Spaces per level; ignored when `use_tabs` (§5.1) |
+| `print_width`      | integer ≥ 0                   | `120`   | Wrap column; `0` disables wrapping (§10)         |
+| `single_quote`     | boolean                       | `false` | Prefer `'` over `"` (§9)                         |
+| `trim_empty_lines` | boolean                       | `true`  | Collapse and strip blank lines (§7.2)            |
+| `use_tabs`         | boolean                       | `true`  | Indent with tabs (§5.1)                          |
 
 Keys are snake_case in `options.toml`; an implementation MAY expose them under its own naming
 convention. `schemas/options.schema.json` is the normative schema.
@@ -137,7 +137,7 @@ Examples: `cases/end-of-line/crlf-explicit`, `cases/end-of-line/lf-explicit`,
 ### 5.1 Indent unit
 
 One level of indentation is one tab when `use_tabs` is `true`, and `indent_size` spaces
-otherwise. A line at level *n* is prefixed by the unit repeated *n* times. Blank lines carry no
+otherwise. A line at level _n_ is prefixed by the unit repeated _n_ times. Blank lines carry no
 indentation.
 
 Examples: `cases/indentation/tabs`, `cases/indentation/spaces`, `cases/indentation/spaces-four`.
@@ -147,13 +147,13 @@ Examples: `cases/indentation/tabs`, `cases/indentation/spaces`, `cases/indentati
 `tables/blocks.json` assigns each block keyword one of five roles. Given a level counter starting
 at 0 and a stack of saved levels:
 
-| Role | Printed at | Effect |
-| --- | --- | --- |
-| `open` | current level | push current level, then level += 1 |
-| `close` | popped level | pop the stack into level, then print |
-| `mid` | level on top of stack | none |
-| `case` | top of stack + 1 | level = that + 1 |
-| `closeAfter` | current level | level = top of stack + 1 |
+| Role         | Printed at            | Effect                               |
+| ------------ | --------------------- | ------------------------------------ |
+| `open`       | current level         | push current level, then level += 1  |
+| `close`      | popped level          | pop the stack into level, then print |
+| `mid`        | level on top of stack | none                                 |
+| `case`       | top of stack + 1      | level = that + 1                     |
+| `closeAfter` | current level         | level = top of stack + 1             |
 
 Any other instruction is printed at the current level and changes nothing. When the stack is
 empty, a `close`, `mid`, `case` or `closeAfter` keyword behaves as if the saved level were 0, so

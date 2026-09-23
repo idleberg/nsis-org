@@ -12,22 +12,22 @@ implementation is wrong.
 
 ## Contents
 
-| Path | What it is |
-| --- | --- |
-| [`SPEC.md`](./SPEC.md) | The specification: normative prose, rule by rule |
-| `tables/*.json` | The data the rules refer to — casing, includes, parameters, variables, block roles |
-| `cases/<area>/<name>/` | Conformance cases: `input.nsi`, `output.nsi` (or an `error` marker), optional `options.toml` |
-| `schemas/*.schema.json` | JSON Schema for the tables and for `options.toml` |
+| Path                    | What it is                                                                                   |
+| ----------------------- | -------------------------------------------------------------------------------------------- |
+| [`SPEC.md`](./SPEC.md)  | The specification: normative prose, rule by rule                                             |
+| `tables/*.json`         | The data the rules refer to — casing, includes, parameters, variables, block roles           |
+| `cases/<area>/<name>/`  | Conformance cases: `input.nsi`, `output.nsi` (or an `error` marker), optional `options.toml` |
+| `schemas/*.schema.json` | JSON Schema for the tables and for `options.toml`                                            |
 
 ## Using it
 
 An implementation runs every case and compares bytes:
 
 ```js
-import { readFile } from 'node:fs/promises';
+import { readFile } from "node:fs/promises";
 
-const input = await readFile('cases/blocks/switch-case/input.nsi', 'utf-8');
-const expected = await readFile('cases/blocks/switch-case/output.nsi', 'utf-8');
+const input = await readFile("cases/blocks/switch-case/input.nsi", "utf-8");
+const expected = await readFile("cases/blocks/switch-case/output.nsi", "utf-8");
 
 // Defaults apply when a case has no options.toml
 expect(format(input)).toBe(expected);
