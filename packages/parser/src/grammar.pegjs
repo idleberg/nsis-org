@@ -187,7 +187,8 @@ QuotedString
 
 BareToken
   // An unmatched opening quote is an unterminated string, not a bare token (spec §2).
-  = !["'`] @$[^ \t\r\n;#]+
+  // `;` and `#` only start a comment at the beginning of a token, as in makensis (spec §11.1).
+  = !["'`;#] @$[^ \t\r\n]+
 
 // --- Comments ---
 
