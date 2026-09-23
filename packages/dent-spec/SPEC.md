@@ -131,10 +131,12 @@ When `end_of_line` is unset, the ending is detected from the input:
 A single CRLF anywhere in an otherwise LF input is enough to make the output CRLF: the rule is
 deliberately conservative, so a file that carries any Windows endings keeps them.
 
-The output MUST end with exactly one line ending.
+The output MUST end with exactly one line ending, unless nothing is left to print: empty input,
+or input of only blank lines that trimming removes (§7.2), MUST yield empty output.
 
 Examples: `cases/end-of-line/crlf-explicit`, `cases/end-of-line/lf-explicit`,
-`cases/end-of-line/detect-mixed`, `cases/end-of-line/no-line-ending`.
+`cases/end-of-line/detect-mixed`, `cases/end-of-line/no-line-ending`,
+`cases/end-of-line/empty-input`, `cases/end-of-line/blank-input`.
 
 ## 5. Indentation
 

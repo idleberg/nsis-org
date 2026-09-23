@@ -89,7 +89,8 @@ export function print(nodes: CSTNode[], options: PrinterOptions): string {
 		}
 	}
 
-	return lines.join(options.eol) + options.eol;
+	// Nothing to print yields empty output, not a lone line ending (§4).
+	return lines.length === 0 ? '' : lines.join(options.eol) + options.eol;
 }
 
 // ---------------------------------------------------------------------------
