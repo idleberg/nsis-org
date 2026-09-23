@@ -77,7 +77,10 @@ An implementation SHOULD state which version of this specification it conforms t
 An implementation MUST behave as if it performed these steps in order:
 
 1. **Preprocess** — strip a leading byte order mark, then join backslash continuation lines
-   (a `\` at end of line) into single logical lines.
+   (a `\` at end of line) into single logical lines. As in makensis, a join removes the `\`,
+   any whitespace between it and the line break, the line break, and the next line's leading
+   whitespace, and inserts nothing. Whitespace before the `\` is kept, so `ab \` + `cd` joins to
+   `ab cd`, while `ab\` + `cd` joins to `abcd`, inside a string or not.
 2. **Parse** — build a concrete syntax tree of instructions, labels, comments and blank lines.
    Every byte of the input is represented; nothing is discarded.
 3. **Print** — emit each node with canonical casing, normalised arguments, and the indentation
@@ -90,6 +93,7 @@ Constructs the specification says nothing about MUST be preserved as written. In
 unrecognised instruction keyword keeps its author's spelling (§6.4).
 
 Examples: `cases/preprocessing/byte-order-mark`, `cases/preprocessing/continuations`,
+`cases/preprocessing/continuations-inside-tokens`,
 `cases/preprocessing/unterminated-string`.
 
 ## 3. Options
