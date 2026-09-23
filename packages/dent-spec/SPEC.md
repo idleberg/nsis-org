@@ -326,13 +326,15 @@ Examples: `cases/wrapping/print-width`, `cases/wrapping/pipes`, `cases/wrapping/
 ### 11.1 Placement
 
 A comment on its own line is printed at the current indentation level. A trailing comment stays
-on its line, separated from the code by one space. Exactly one space follows the comment marker.
+on its line, separated from the code by one space. Exactly one space follows the comment marker,
+and trailing whitespace is removed (§8), so an empty comment is printed as its bare marker.
 
 As in makensis, `;` and `#` start a comment only at the beginning of a token: after whitespace or
 directly after a closing quote. Inside an unquoted token they are part of it, so
 `!define URL https://nsis.sf.net/#Download` has no comment.
 
-Examples: `cases/comments/placement`, `cases/comments/inside-token`.
+Examples: `cases/comments/placement`, `cases/comments/inside-token`,
+`cases/comments/trailing-whitespace`.
 
 ### 11.2 Markers
 

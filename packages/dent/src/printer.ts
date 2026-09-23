@@ -122,7 +122,7 @@ function printComment(node: CommentNode, level: number, options: PrinterOptions)
 			.join(options.eol);
 	}
 
-	return `${prefix}${commentMarker(node.style, options)} ${node.value}`;
+	return `${prefix}${markedComment(node.style, node.value, options)}`;
 }
 
 /**
@@ -173,7 +173,13 @@ function printInstruction(node: InstructionNode, level: number, options: Printer
 }
 
 function printTrailingComment(comment: Comment, options: PrinterOptions): string {
-	return `${commentMarker(comment.style, options)} ${comment.value}`;
+	return markedComment(comment.style, comment.value, options);
+}
+
+/** An empty comment is just its marker, so it leaves no trailing space (§8). */
+function markedComment(style: CommentNode['style'], value: string, options: PrinterOptions): string {
+	const marker = commentMarker(style, options);
+	return value ? `${marker} ${value}` : marker;
 }
 
 function wrapInstruction(

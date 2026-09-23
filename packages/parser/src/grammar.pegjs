@@ -103,7 +103,7 @@ BlankLine
 
 CommentLine
   = _ style:("#" / ";") value:$[^\r\n]* LineEnd
-  { return { type: 'comment', style: style === '#' ? 'hash' : 'semicolon', value: value.trimStart() }; }
+  { return { type: 'comment', style: style === '#' ? 'hash' : 'semicolon', value: value.trim() }; }
 
 BlockComment
   = indent:$_ "/*" value:$(!"*/" (. / [\r\n]))* "*/" _ LineEnd?
@@ -194,7 +194,7 @@ BareToken
 
 TrailingComment
   = _ style:("#" / ";") value:$[^\r\n]*
-  { return { style: style === '#' ? 'hash' : 'semicolon', value: value.trimStart() }; }
+  { return { style: style === '#' ? 'hash' : 'semicolon', value: value.trim() }; }
 
 // --- Primitives ---
 
