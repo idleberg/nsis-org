@@ -3,7 +3,7 @@ import { ensureBlankAroundBlocks, trimAndCollapseBlanks } from './blank-lines.ts
 import { canonicalCasing } from './canonical-casing.ts';
 import { canonicalIncludes } from './canonical-includes.ts';
 import { builtinDefines } from './canonical-variables.ts';
-import { isArithmeticKeyword, joinInstructionArgs, normalizeInstructionArgs } from './normalize.ts';
+import { groupPipes, isArithmeticKeyword, joinInstructionArgs, normalizeInstructionArgs } from './normalize.ts';
 import { rules } from './rules.ts';
 
 export type CommentStyle = 'hash' | 'semi';
@@ -197,7 +197,7 @@ function wrapInstruction(
 	const resultLines: string[] = [];
 	let current = `${indent}${keyword}`;
 
-	for (const arg of args) {
+	for (const arg of isArithmetic ? args : groupPipes(args)) {
 		const candidate = `${current} ${arg}`;
 		if (candidate.length + 2 > options.printWidth && current.length > indent.length) {
 			resultLines.push(`${current} \\`);

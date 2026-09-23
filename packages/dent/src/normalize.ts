@@ -219,19 +219,21 @@ export function splitArithmeticTokens(args: string[]): string[] {
 }
 
 export function joinWithCompactPipes(args: string[]): string {
-	let result = '';
+	return groupPipes(args).join(' ');
+}
+
+/** Merges `|` and its neighbours into one argument, so wrapping never breaks or spaces them (§10). */
+export function groupPipes(args: string[]): string[] {
+	const groups: string[] = [];
 	for (let i = 0; i < args.length; i++) {
 		const arg = args[i] as string;
-		if (arg === '|') {
-			result += '|';
-		} else if (i > 0 && args[i - 1] === '|') {
-			result += arg;
+		if (groups.length > 0 && (arg === '|' || args[i - 1] === '|')) {
+			groups[groups.length - 1] += arg;
 		} else {
-			if (result) result += ' ';
-			result += arg;
+			groups.push(arg);
 		}
 	}
-	return result;
+	return groups;
 }
 
 function stripQuoteDelimiters(arg: string): [string, string] | undefined {

@@ -308,13 +308,14 @@ When `print_width` is greater than 0 and a line would exceed it, the line is bro
 arguments: each fragment except the last ends with a space and a `\` continuation, and
 continuation lines are indented one level deeper than the first line. The keyword always stays
 on the first line, and an argument is never split internally, so a single long argument may
-exceed `print_width`.
+exceed `print_width`. Values joined by `|` (§8.2) form a single argument, so they are never
+broken apart and keep their compact form when a line is wrapped.
 
 When `print_width` is `0`, no wrapping occurs and lines may be arbitrarily long.
 
 A trailing comment stays attached to the last fragment.
 
-Examples: `cases/wrapping/print-width`, `cases/wrapping/disabled`.
+Examples: `cases/wrapping/print-width`, `cases/wrapping/pipes`, `cases/wrapping/disabled`.
 
 ## 11. Comments
 
