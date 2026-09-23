@@ -35,9 +35,9 @@ version's `cases/` directory, `format` returns the case's `output.nsi` **byte fo
 given its `input.nsi` and its `options.toml` — or returns an error when the case ships an
 `error` marker instead of an `output.nsi`.
 
-The following are **not** specified, and are described only informally in Appendix A:
-command line interfaces, exit codes, file discovery, file encoding and byte order marks,
-and diagnostic message wording.
+The following are **not** specified, and are described only informally in Appendices A and B:
+command line interfaces, exit codes, file discovery, file encoding, whether a byte order mark
+is written back to a file, and diagnostic message wording.
 
 ### 1.2 Conformance cases
 
@@ -363,4 +363,7 @@ Implementations ship comparable command line tools, but none of this is required
 
 `format` operates on text, so decoding is the caller's concern. Implementations read UTF-8 and
 strip a leading byte order mark during preprocessing (§2); the mark is therefore absent from the
-output. NSIS also accepts UTF-16 sources, which implementations may or may not read.
+output of `format`. makensis reads the mark to pick a file's encoding, so a tool that writes
+formatted output back to a file restores the mark when the file had one, and a file whose only
+difference is the mark counts as formatted. NSIS also accepts UTF-16 sources, which
+implementations may or may not read.
