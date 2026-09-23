@@ -1,0 +1,2 @@
+DetailPrint "a"
+DetailPrint "b"

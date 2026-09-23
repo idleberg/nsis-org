@@ -26,5 +26,7 @@ playwright-report/
 # Project specific
 *.exe
 *.nsi
+!packages/dent-spec/cases/**/*.nsi
+
 # Added by code-review-graph
 .code-review-graph/

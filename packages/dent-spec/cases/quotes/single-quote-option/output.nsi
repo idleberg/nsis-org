@@ -1,0 +1,2 @@
+DetailPrint 'hello'
+DetailPrint 'world'
