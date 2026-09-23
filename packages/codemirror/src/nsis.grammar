@@ -80,9 +80,12 @@ macroBody {
 PreprocConditional {
   PreprocIf value* newline
   body
-  (PreprocElse value* newline body)*
+  (PreprocElse PreprocElseCondition? value* newline body)*
   PreprocEndif
 }
+
+// The optional condition in `!else if`, `!else ifdef` etc. It is only a keyword right after `!else`.
+PreprocElseCondition[@dynamicPrecedence=1] { elseCondition }
 
 statement {
   (PreprocDirective | PluginCall | VariableDeclaration | MacroCall | Command) newline
@@ -175,6 +178,9 @@ Label { Identifier ":" }
 
   @precedence { BlockComment, LineComment, LabelReference, Number, Variable, DefineReference, LangStringReference, Flag, ColonColon, Identifier, Operator, space, ":" }
 }
+
+// Declared before specializeIdentifier so it runs first, otherwise all-caps `IFDEF` becomes a Constant.
+@external extend {Identifier} extendIdentifier from "./specializers.ts" { elseCondition }
 
 @external specialize {Identifier} specializeIdentifier from "./specializers.ts" {
   Function, FunctionEnd, Section, SectionEnd, SectionGroup, SectionGroupEnd,

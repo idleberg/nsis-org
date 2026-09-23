@@ -96,6 +96,51 @@ Script(
     Command(CommandName, ArgumentValue),
     PreprocEndif))
 
+# Conditional compilation with else conditions
+
+!if 1 == 0
+  Nop
+!else if 1 == 1
+  Nop
+!else ifdef DEBUG
+  Nop
+!else ifndef DEBUG
+  Nop
+!else ifmacrodef MyMacro
+  Nop
+!else ifmacrondef MyMacro
+  Nop
+!endif
+
+==>
+
+Script(
+  PreprocConditional(
+    PreprocIf, Number, Operator, Number,
+    Command(CommandName),
+    PreprocElse, PreprocElseCondition, Number, Operator, Number,
+    Command(CommandName),
+    PreprocElse, PreprocElseCondition, Constant,
+    Command(CommandName),
+    PreprocElse, PreprocElseCondition, Constant,
+    Command(CommandName),
+    PreprocElse, PreprocElseCondition, Identifier,
+    Command(CommandName),
+    PreprocElse, PreprocElseCondition, Identifier,
+    Command(CommandName),
+    PreprocEndif))
+
+# Else conditions are plain identifiers elsewhere
+
+!define if
+DetailPrint ifdef
+
+==>
+
+Script(
+  PreprocDirective(PreprocKeyword, Identifier),
+  Command(CommandName, Identifier))
+
 # Plugin call
 
 nsDialogs::Create 1018

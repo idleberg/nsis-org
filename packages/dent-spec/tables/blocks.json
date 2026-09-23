@@ -56,7 +56,6 @@
 	],
 	"mid": [
 		"!else",
-		"!elseif",
 		"${AndIf}",
 		"${AndIfNot}",
 		"${AndUnless}",

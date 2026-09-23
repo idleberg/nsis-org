@@ -67,7 +67,7 @@ Tree-sitter is a strict superset of textmate — textmate is missing ~50 macros:
 | Area                    | Most Complete                      | Notable Gaps                                        |
 | ----------------------- | ---------------------------------- | --------------------------------------------------- |
 | Core commands           | ace/prismjs/codemirror/tree-sitter | textmate missing 2, hljs missing 1                  |
-| Preprocessor directives | ace/prismjs/hljs                   | codemirror missing 5 `!elseif*`; textmate missing 6 |
+| Preprocessor directives | ace/prismjs/hljs/codemirror        | textmate missing 1 (`!appendmemfile`)               |
 | Built-in variables      | textmate/tree-sitter               | hljs missing 3                                      |
 | Constants               | tree-sitter                        | hljs missing 2; ace/prismjs missing 12              |
 | Option literals         | ace/prismjs                        | codemirror missing 11; hljs missing 3               |

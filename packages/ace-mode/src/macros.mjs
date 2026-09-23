@@ -25,6 +25,16 @@ export function compilerPattern() {
 	return new RegExp(`^\\s*${optimizePattern(language.compiler)}\\b`);
 }
 
+/**
+ * `!else` takes an optional condition, e.g. `!else ifdef FOO`. The valid conditions
+ * are the `!if` variants without their exclamation mark.
+ */
+function elsePattern() {
+	const conditions = language.compilerBlocks.filter((block) => block.startsWith('!if')).map((block) => block.slice(1));
+
+	return `!else(?:[ \\t]+${optimizePattern(conditions)})?`;
+}
+
 export function compilerBlockPattern() {
-	return new RegExp(`^\\s*${optimizePattern(language.compilerBlocks)}\\b`);
+	return new RegExp(`^\\s*(?:${elsePattern()}|${optimizePattern(language.compilerBlocks)})\\b`);
 }
