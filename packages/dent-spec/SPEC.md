@@ -237,11 +237,17 @@ Examples: `cases/casing/unknown-keywords`, `cases/casing/unknown-compiler-comman
 
 ### 7.1 Structural blank lines
 
-These rules apply whatever `trim_empty_lines` is set to. A blank line MUST be present:
+These rules apply whatever `trim_empty_lines` is set to. Here a _block opener_ is a keyword with
+the `open` or `case` role and a _block closer_ one with the `close` role (§5.2). A blank line MUST
+be present:
 
 1. Above every block opener and every label, unless the preceding node is itself a block opener,
-   a comment, or (for a label) another label.
-2. Below every block closer, unless the following node is another block closer or a block opener.
+   a `mid` keyword, a comment, or (for a label) another label.
+2. Below every block closer, unless the following node is another block closer, a block opener,
+   a `mid` keyword or a `closeAfter` keyword.
+
+A `mid` keyword such as `${Else}` closes one branch and opens the next, so it stays attached to the
+lines on both sides of it. `${Break}` ends its arm and stays attached to the lines above it.
 
 A blank line MUST NOT appear between consecutive labels: adjacent labels are aliases for one
 jump target, and nothing may separate them, not even a blank line the author wrote.
@@ -249,8 +255,8 @@ jump target, and nothing may separate them, not even a blank line the author wro
 A comment directly above a chunk opener belongs to it: the blank line goes above the comment,
 not between the comment and what it documents.
 
-Examples: `cases/blank-lines/structural`, `cases/blocks/sections`, `cases/labels/aliases`,
-`cases/labels/spacing`.
+Examples: `cases/blank-lines/structural`, `cases/blank-lines/mid-keywords`, `cases/blocks/sections`,
+`cases/labels/aliases`, `cases/labels/spacing`.
 
 ### 7.2 Trimming
 
