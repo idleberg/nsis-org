@@ -315,11 +315,16 @@ on the first line, and an argument is never split internally, so a single long a
 exceed `print_width`. Values joined by `|` (§8.2) form a single argument, so they are never
 broken apart and keep their compact form when a line is wrapped.
 
+Width is counted in Unicode code points, and a tab counts as one. This is not the width a
+terminal or editor displays: a CJK character or an emoji takes one code point but usually two
+columns, and a combining accent takes one code point but no column.
+
 When `print_width` is `0`, no wrapping occurs and lines may be arbitrarily long.
 
 A trailing comment stays attached to the last fragment.
 
-Examples: `cases/wrapping/print-width`, `cases/wrapping/pipes`, `cases/wrapping/disabled`.
+Examples: `cases/wrapping/print-width`, `cases/wrapping/pipes`, `cases/wrapping/disabled`,
+`cases/wrapping/code-points`.
 
 ## 11. Comments
 

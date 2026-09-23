@@ -1,0 +1,3 @@
+#:schema https://idleberg.github.io/nsis-org/dent-spec/schemas/v1/options.schema.json
+
+print_width = 30

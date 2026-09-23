@@ -195,7 +195,7 @@ function wrapInstruction(
 	const singleLine = args.length > 0 ? `${indent}${keyword} ${joined}` : `${indent}${keyword}`;
 	const fullLine = trailingComment ? `${singleLine} ${trailingComment}` : singleLine;
 
-	if (fullLine.length <= options.printWidth) {
+	if (width(fullLine) <= options.printWidth) {
 		return fullLine;
 	}
 
@@ -205,7 +205,7 @@ function wrapInstruction(
 
 	for (const arg of isArithmetic ? args : groupPipes(args)) {
 		const candidate = `${current} ${arg}`;
-		if (candidate.length + 2 > options.printWidth && current.length > indent.length) {
+		if (width(candidate) + 2 > options.printWidth && width(current) > width(indent)) {
 			resultLines.push(`${current} \\`);
 			current = `${contIndent}${arg}`;
 		} else {
@@ -219,4 +219,9 @@ function wrapInstruction(
 	resultLines.push(current);
 
 	return resultLines.join(options.eol);
+}
+
+/** Line width in Unicode code points, not UTF-16 units, so an emoji counts once (§10). */
+function width(text: string): number {
+	return [...text].length;
 }
