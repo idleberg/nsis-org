@@ -1,0 +1,5 @@
+detailprint "a"
+
+
+
+detailprint "b"
