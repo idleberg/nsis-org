@@ -214,7 +214,7 @@ Examples: `cases/casing/builtin-variables`.
 ### 6.4 Unknown keywords
 
 A keyword in none of the tables MUST be printed exactly as written. An implementation MUST NOT
-guess a casing for it.
+guess a casing for it. Its arguments are formatted like those of any other instruction.
 
 Examples: `cases/casing/unknown-keywords`.
 
@@ -332,9 +332,13 @@ When `comment_style` is unset, a single-line comment keeps the marker it was wri
 respectively.
 
 Block comments (`/* … */`) MUST NOT be rewritten: their marker is never changed, and their inner
-lines keep their relative text, re-indented to the comment's level.
+lines keep their relative text, re-indented to the comment's level. An inner line is relative to
+the whitespace before the opening `/*`, compared exactly, with no tab-width arithmetic: whatever
+follows that whitespace is kept. An inner line that does not begin with it is placed at the
+comment's level.
 
-Examples: `cases/comments/block-indent`, `cases/comments/preserved-markers`,
+Examples: `cases/comments/block-indent`, `cases/comments/block-indent-uneven`,
+`cases/comments/preserved-markers`,
 `cases/comments/unified-hash`, `cases/comments/unified-semi`.
 
 ## 12. Labels

@@ -2,5 +2,5 @@ section
 myPlugin::doSomething "$instdir"
 ${myCustomMacro} foo
 !insertmacro myMacro "bar"
-FooBar baz
+FooBar baz $instdir
 sectionend
