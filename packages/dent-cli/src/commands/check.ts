@@ -9,6 +9,7 @@ import {
 	dentOptionsFrom,
 	formatParseError,
 	hasStdin,
+	keepBom,
 	prepareAction,
 	processFiles,
 	readStdin,
@@ -38,7 +39,7 @@ export function checkCommand(): Command {
 }
 
 async function runCheck(patterns: string[], options: CheckOptions): Promise<void> {
-	const { check } = createFormatter(dentOptionsFrom(options));
+	const check = keepBom(createFormatter(dentOptionsFrom(options)).check);
 
 	if (!patterns.length && hasStdin()) {
 		logger.start('Checking standard input...');

@@ -8,6 +8,7 @@ import {
 	dentOptionsFrom,
 	formatParseError,
 	hasStdin,
+	keepBom,
 	prepareAction,
 	processFiles,
 	readStdin,
@@ -32,7 +33,7 @@ export function formatCommand(): Command {
 }
 
 async function runFormat(patterns: string[], options: FormatOptions): Promise<void> {
-	const { check } = createFormatter(dentOptionsFrom(options));
+	const check = keepBom(createFormatter(dentOptionsFrom(options)).check);
 
 	if (!patterns.length && hasStdin()) {
 		const rawContents = await readStdin();
