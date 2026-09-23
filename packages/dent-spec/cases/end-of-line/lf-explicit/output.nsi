@@ -1,0 +1,3 @@
+Section
+	DetailPrint "x"
+SectionEnd

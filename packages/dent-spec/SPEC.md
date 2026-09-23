@@ -89,6 +89,9 @@ partially-formatted output for it.
 Constructs the specification says nothing about MUST be preserved as written. In particular, an
 unrecognised instruction keyword keeps its author's spelling (§6.4).
 
+Examples: `cases/preprocessing/byte-order-mark`, `cases/preprocessing/continuations`,
+`cases/preprocessing/unterminated-string`.
+
 ## 3. Options
 
 | Key | Type | Default | Meaning |
@@ -109,6 +112,8 @@ convention. `schemas/options.schema.json` is the normative schema.
 An implementation MUST reject options where `use_tabs` is `false` and `indent_size` is not a
 positive integer. All other combinations MUST be accepted.
 
+Examples: `cases/options/invalid-indent-size`.
+
 ## 4. End of line
 
 When `end_of_line` is set, every line ending in the output MUST be `\n` for `"lf"` or `\r\n`
@@ -124,7 +129,8 @@ deliberately conservative, so a file that carries any Windows endings keeps them
 
 The output MUST end with exactly one line ending.
 
-Examples: `cases/end-of-line/crlf-explicit`, `cases/end-of-line/detect-mixed`.
+Examples: `cases/end-of-line/crlf-explicit`, `cases/end-of-line/lf-explicit`,
+`cases/end-of-line/detect-mixed`, `cases/end-of-line/no-line-ending`.
 
 ## 5. Indentation
 
@@ -210,6 +216,8 @@ Examples: `cases/casing/builtin-variables`.
 A keyword in none of the tables MUST be printed exactly as written. An implementation MUST NOT
 guess a casing for it.
 
+Examples: `cases/casing/unknown-keywords`.
+
 ## 7. Blank lines
 
 ### 7.1 Structural blank lines
@@ -226,7 +234,8 @@ jump target, and nothing may separate them, not even a blank line the author wro
 A comment directly above a chunk opener belongs to it: the blank line goes above the comment,
 not between the comment and what it documents.
 
-Examples: `cases/blocks/sections`, `cases/labels/aliases`.
+Examples: `cases/blank-lines/structural`, `cases/blocks/sections`, `cases/labels/aliases`,
+`cases/labels/spacing`.
 
 ### 7.2 Trimming
 
@@ -241,6 +250,8 @@ Examples: `cases/blank-lines/trim`, `cases/blank-lines/preserved-single`,
 
 Arguments are separated by exactly one space. Leading and trailing whitespace on a line is
 removed, except for indentation.
+
+Examples: `cases/arguments/spacing`.
 
 ### 8.1 Parameter casing
 
@@ -261,12 +272,16 @@ An unquoted argument containing `|` (such as a `MessageBox` flag list) is split 
 rejoined without surrounding spaces, so `MB_OK | MB_ICONSTOP` becomes `MB_OK|MB_ICONSTOP`.
 `${…}` groups are never split.
 
+Examples: `cases/arguments/pipes`.
+
 ### 8.3 Arithmetic arguments
 
 For `IntOp` and `IntPtrOp`, the arguments are tokenised into operands and operators
 (`>>>`, `||`, `&&`, `<<`, `>>`, `+`, `-`, `*`, `/`, `%`, `|`, `&`, `^`, `~`, `!`) and rejoined
 with single spaces. A `-` that follows another operator is a sign and stays attached to its
 operand. `${…}` groups are never split.
+
+Examples: `cases/arguments/arithmetic`.
 
 ## 9. Quotes
 
@@ -308,6 +323,8 @@ Examples: `cases/wrapping/print-width`, `cases/wrapping/disabled`.
 A comment on its own line is printed at the current indentation level. A trailing comment stays
 on its line, separated from the code by one space. Exactly one space follows the comment marker.
 
+Examples: `cases/comments/placement`.
+
 ### 11.2 Markers
 
 When `comment_style` is unset, a single-line comment keeps the marker it was written with
@@ -317,15 +334,15 @@ respectively.
 Block comments (`/* … */`) MUST NOT be rewritten: their marker is never changed, and their inner
 lines keep their relative text, re-indented to the comment's level.
 
-Examples: `cases/comments/preserved-markers`, `cases/comments/unified-hash`,
-`cases/comments/unified-semi`.
+Examples: `cases/comments/block-indent`, `cases/comments/preserved-markers`,
+`cases/comments/unified-hash`, `cases/comments/unified-semi`.
 
 ## 12. Labels
 
 A label is printed at the current indentation level, immediately followed by `:`. Consecutive
 labels stay adjacent (§7.1).
 
-Examples: `cases/labels/aliases`.
+Examples: `cases/labels/aliases`, `cases/labels/spacing`.
 
 ---
 
