@@ -121,13 +121,16 @@ Examples: `cases/options/invalid-indent-size`.
 
 ## 4. End of line
 
+In the input, `\r\n`, `\n` and a lone `\r` each end a line; a file may mix them.
+
 When `end_of_line` is set, every line ending in the output MUST be `\n` for `"lf"` or `\r\n`
 for `"crlf"`.
 
 When `end_of_line` is unset, the ending is detected from the input:
 
 1. If the input contains at least one `\n` and no `\r\n`, the output uses `\n`.
-2. Otherwise the output uses `\r\n`. An input with no line ending at all therefore yields `\r\n`.
+2. Otherwise the output uses `\r\n`. An input with no line ending at all therefore yields `\r\n`,
+   and so does an input whose lines end only in a lone `\r`.
 
 A single CRLF anywhere in an otherwise LF input is enough to make the output CRLF: the rule is
 deliberately conservative, so a file that carries any Windows endings keeps them.
@@ -137,7 +140,8 @@ or input of only blank lines that trimming removes (§7.2), MUST yield empty out
 
 Examples: `cases/end-of-line/crlf-explicit`, `cases/end-of-line/lf-explicit`,
 `cases/end-of-line/detect-mixed`, `cases/end-of-line/no-line-ending`,
-`cases/end-of-line/empty-input`, `cases/end-of-line/blank-input`.
+`cases/end-of-line/empty-input`, `cases/end-of-line/blank-input`,
+`cases/end-of-line/lone-cr`.
 
 ## 5. Indentation
 
