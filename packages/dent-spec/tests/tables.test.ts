@@ -62,10 +62,10 @@ describe('table invariants', () => {
 	});
 
 	it('assigns every block keyword exactly one role', () => {
-		const { $schema: _schema, ...roles } = blocks;
 		const seen = new Map<string, string>();
 
-		for (const [role, keywords] of Object.entries(roles)) {
+		// `v.parse` drops `$schema` along with every other unknown key, so `blocks` is roles only.
+		for (const [role, keywords] of Object.entries(blocks)) {
 			for (const keyword of keywords) {
 				const previous = seen.get(keyword);
 				expect(previous, `${keyword} is both "${previous}" and "${role}"`).toBeUndefined();
@@ -75,9 +75,7 @@ describe('table invariants', () => {
 	});
 
 	it('knows the canonical casing of every block keyword', () => {
-		const { $schema: _schema, ...roles } = blocks;
-
-		for (const keyword of Object.values(roles).flat()) {
+		for (const keyword of Object.values(blocks).flat()) {
 			expect(known.get(keyword.toLowerCase()), `${keyword} missing from casing/includes`).toBe(keyword);
 		}
 	});
@@ -97,7 +95,11 @@ describe('vocabulary coverage', () => {
 	 */
 	it('covers every keyword in data/language.jsonc', async () => {
 		const path = join(root, '..', '..', 'data', 'language.jsonc');
-		const language = JSONC.parse(await readFile(path, 'utf-8')) as Record<string, string[]>;
+		// Named keys rather than an index signature, so each lookup is `string[]`, not `string[] | undefined`.
+		const language = JSONC.parse(await readFile(path, 'utf-8')) as Record<
+			'keywords' | 'blocks' | 'compiler' | 'compilerBlocks',
+			string[]
+		>;
 
 		const vocabulary = [...language.keywords, ...language.blocks, ...language.compiler, ...language.compilerBlocks];
 

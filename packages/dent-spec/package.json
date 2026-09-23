@@ -7,9 +7,10 @@
 		"build": "npm run build:schemas && npm run build:types",
 		"build:schemas": "node --experimental-strip-types scripts/build-schemas.ts",
 		"build:types": "tsdown",
+		"check:types": "tsc --noEmit",
 		"lint:biome": "biome check",
 		"prepublishOnly": "npm run build",
-		"pretest": "npm run build:schemas -- --check",
+		"pretest": "npm run build:schemas -- --check && npm run check:types",
 		"test": "vitest run"
 	},
 	"files": [
