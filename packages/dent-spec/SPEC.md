@@ -114,7 +114,8 @@ convention. `schemas/options.schema.json` is the normative schema.
 ### 3.1 Validation
 
 An implementation MUST reject options where `use_tabs` is `false` and `indent_size` is not a
-positive integer. All other combinations MUST be accepted.
+positive integer, and any value the schema does not allow, such as a negative `print_width` or
+an unknown `comment_style`. All other combinations MUST be accepted.
 
 Examples: `cases/options/invalid-indent-size`.
 
