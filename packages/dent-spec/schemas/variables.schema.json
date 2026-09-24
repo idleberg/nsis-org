@@ -18,7 +18,7 @@
 				"type": "string",
 				"minLength": 1
 			},
-			"description": "Built-in define names, without the surrounding `${}`."
+			"description": "Built-in define names, including the surrounding `${}`."
 		},
 		"langStrings": {
 			"type": "array",

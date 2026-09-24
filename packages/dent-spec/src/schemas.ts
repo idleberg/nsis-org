@@ -71,7 +71,10 @@ export const ParametersTableSchema = v.pipe(
 export const VariablesTableSchema = v.pipe(
 	v.object({
 		variables: v.pipe(v.array(canonicalSpelling), v.description('Built-in variable names, without the leading `$`.')),
-		defines: v.pipe(v.array(canonicalSpelling), v.description('Built-in define names, without the surrounding `${}`.')),
+		defines: v.pipe(
+			v.array(canonicalSpelling),
+			v.description('Built-in define names, including the surrounding `${}`.'),
+		),
 		langStrings: v.pipe(
 			v.array(canonicalSpelling),
 			v.description('Built-in language string names, including the leading `^`.'),
