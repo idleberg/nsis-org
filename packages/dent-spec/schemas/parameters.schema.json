@@ -1,0 +1,44 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://idleberg.github.io/nsis-org/dent-spec/schemas/v1/parameters.schema.json",
+	"title": "Dent style parameters table",
+	"type": "object",
+	"properties": {
+		"global": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"pattern": "^\\/[^=]+$"
+			},
+			"description": "Switches valid across instructions, e.g. `/REBOOTOK`."
+		},
+		"globalPrefixes": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"pattern": "^\\/[^=]+=$"
+			},
+			"description": "Switches taking a value, matched by prefix, e.g. `/TIMEOUT=`."
+		},
+		"instruction": {
+			"type": "object",
+			"propertyNames": {
+				"type": "string"
+			},
+			"additionalProperties": {
+				"type": "array",
+				"items": {
+					"type": "string",
+					"minLength": 1
+				}
+			},
+			"description": "Parameters valid for one instruction, keyed by lowercased instruction name."
+		}
+	},
+	"required": [
+		"global",
+		"globalPrefixes",
+		"instruction"
+	],
+	"description": "Canonical casing of instruction parameters."
+}

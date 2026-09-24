@@ -11,6 +11,30 @@ function isBlockClose(node: CSTNode): boolean {
 	return node.type === 'instruction' && rules.close.has(node.keyword.toLowerCase());
 }
 
+function isMid(node: CSTNode): boolean {
+	return node.type === 'instruction' && rules.mid.has(node.keyword.toLowerCase());
+}
+
+/**
+ * A node after which the next line sits inside a block: an opener, or a `mid` keyword
+ * such as `${Else}`, which opens the next branch (§7.1).
+ */
+function opensInside(node: CSTNode): boolean {
+	return isBlockOpen(node) || isMid(node);
+}
+
+/**
+ * A node that ends the lines above it: a closer, a `mid` keyword, which closes the
+ * previous branch, or a `closeAfter` keyword such as `${Break}` (§7.1).
+ */
+function closesAbove(node: CSTNode): boolean {
+	return (
+		isBlockClose(node) ||
+		isMid(node) ||
+		(node.type === 'instruction' && rules.closeAfter.has(node.keyword.toLowerCase()))
+	);
+}
+
 function isLabel(node: CSTNode): boolean {
 	return node.type === 'label';
 }
@@ -29,7 +53,7 @@ function wantsBlankBetween(prev: CSTNode, node: CSTNode): boolean {
 
 	// A chunk that opens right inside another one, or right below its own
 	// comment, stays attached to it.
-	if (isBlockOpen(prev) || prev.type === 'comment') return false;
+	if (opensInside(prev) || prev.type === 'comment') return false;
 
 	// Adjacent labels are aliases and stay glued together, like adjacent
 	// block openers.
@@ -77,14 +101,14 @@ export function ensureBlankAroundBlocks(nodes: CSTNode[]): CSTNode[] {
 		if (prevNonBlank && !lastIsBlank && node.type !== 'blank') {
 			if (wantsBlankBetween(prevNonBlank, node)) {
 				result.push({ type: 'blank' });
-			} else if (node.type === 'comment' && !isBlockOpen(prevNonBlank) && prevNonBlank.type !== 'comment') {
+			} else if (node.type === 'comment' && !opensInside(prevNonBlank) && prevNonBlank.type !== 'comment') {
 				let j = i + 1;
 				while (j < nodes.length && ((nodes[j] as CSTNode).type === 'blank' || (nodes[j] as CSTNode).type === 'comment'))
 					j++;
 				if (j < nodes.length && commentOpensChunk(prevNonBlank, nodes[j] as CSTNode)) {
 					result.push({ type: 'blank' });
 				}
-			} else if (isBlockClose(prevNonBlank) && !isBlockClose(node) && !isBlockOpen(node)) {
+			} else if (isBlockClose(prevNonBlank) && !closesAbove(node) && !isBlockOpen(node)) {
 				result.push({ type: 'blank' });
 			}
 		}

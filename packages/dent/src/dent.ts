@@ -1,5 +1,4 @@
 import { parse } from '@nsis/parser';
-import { detectNewline } from 'detect-newline';
 import { type CommentStyle, print } from './printer.ts';
 
 export type { CommentStyle } from './printer.ts';
@@ -30,7 +29,8 @@ export type DentFunctions = {
  *
  * @param {Options} options - The options for the Dent formatter.
  * @returns An object with `format` and `check` functions.
- * @throws {Error} Throws an error if the options are invalid.
+ * @throws {TypeError} If an option has the wrong type.
+ * @throws {RangeError} If an option is out of range, or `useTabs` is `false` without a positive `indentSize`.
  */
 export function createFormatter(options: DentOptions = {}): DentFunctions {
 	const mergedOptions: DentOptions = {
@@ -43,9 +43,11 @@ export function createFormatter(options: DentOptions = {}): DentFunctions {
 		...options,
 	};
 
+	validateOptions(mergedOptions);
+
 	if (mergedOptions.useTabs === false) {
-		if (!mergedOptions.indentSize || Number.isNaN(mergedOptions.indentSize) || mergedOptions.indentSize <= 0) {
-			throw Error('The indentSize option expects a positive integer');
+		if (!(mergedOptions.indentSize ?? defaultIndentation)) {
+			throw new RangeError('The indentSize option expects a positive integer');
 		}
 	}
 
@@ -89,6 +91,10 @@ export function createFormatter(options: DentOptions = {}): DentFunctions {
 	/**
 	 * Determines the desired end-of-line characters for the output.
 	 *
+	 * Detection follows §4 of the Dent Style Specification: the output is LF only when the
+	 * input contains an LF and no CRLF. A single CRLF anywhere — or no line ending at all —
+	 * yields CRLF, so a file carrying any Windows endings keeps them.
+	 *
 	 * @param {string} input - The input string (used as fallback for detection).
 	 * @returns {string} The end-of-line characters to use in the output.
 	 */
@@ -97,9 +103,44 @@ export function createFormatter(options: DentOptions = {}): DentFunctions {
 			return mergedOptions.endOfLine === 'crlf' ? '\r\n' : '\n';
 		}
 
-		const detected = detectNewline(input);
-		return detected ?? '\r\n';
+		return input.includes('\n') && !input.includes('\r\n') ? '\n' : '\r\n';
 	}
 
 	return { format, check };
+}
+
+const enumOptions = { commentStyle: ['hash', 'semi'], endOfLine: ['lf', 'crlf'] } as const;
+const integerOptions = ['indentSize', 'printWidth'] as const;
+const booleanOptions = ['singleQuote', 'trimEmptyLines', 'useTabs'] as const;
+
+/**
+ * Rejects option values outside `schemas/options.schema.json`: a wrong type throws a `TypeError`,
+ * a value of the right type but out of range throws a `RangeError`. An option set to `undefined`
+ * counts as omitted, and unknown keys are ignored.
+ */
+function validateOptions(options: DentOptions): void {
+	for (const [key, allowed] of Object.entries(enumOptions)) {
+		const value = options[key as keyof typeof enumOptions];
+		if (value === undefined) continue;
+		if (typeof value !== 'string') throw new TypeError(`The ${key} option expects a string`);
+		if (!(allowed as readonly string[]).includes(value)) {
+			throw new RangeError(`The ${key} option expects one of: ${allowed.join(', ')}`);
+		}
+	}
+
+	for (const key of integerOptions) {
+		const value = options[key];
+		if (value === undefined) continue;
+		if (typeof value !== 'number') throw new TypeError(`The ${key} option expects a number`);
+		if (!Number.isInteger(value) || value < 0) {
+			throw new RangeError(`The ${key} option expects a non-negative integer`);
+		}
+	}
+
+	for (const key of booleanOptions) {
+		const value = options[key];
+		if (value !== undefined && typeof value !== 'boolean') {
+			throw new TypeError(`The ${key} option expects a boolean`);
+		}
+	}
 }

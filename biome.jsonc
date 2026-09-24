@@ -7,7 +7,15 @@
 			"!packages/codemirror/src/parser.ts",
 			"!packages/codemirror/src/parser.terms.ts",
 			"!packages/parser/src/grammar.js",
-			"!packages/parser/src/grammar.d.ts"
+			"!packages/parser/src/grammar.d.ts",
+			// Generated from packages/dent-spec/src/schemas.ts
+			"!packages/dent-spec/schemas/**",
+			// Generated from @nsis/dent-spec
+			"!packages/dent/src/canonical-casing.ts",
+			"!packages/dent/src/canonical-includes.ts",
+			"!packages/dent/src/canonical-parameters.ts",
+			"!packages/dent/src/canonical-variables.ts",
+			"!packages/dent/src/rules.ts"
 		]
 	},
 	"overrides": [

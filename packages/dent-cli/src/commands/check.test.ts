@@ -18,8 +18,8 @@ function diffOutput(): string {
 
 const UNFORMATTED = 'Section "demo"\n  DetailPrint "x"\nSectionEnd\n';
 const FORMATTED = 'Section "demo"\n\tDetailPrint "x"\nSectionEnd\n';
-// `StrStr` is not an NSIS instruction, so this cannot be parsed.
-const UNPARSEABLE = 'Section "demo"\n\tStrStr $0 "a" "b"\nSectionEnd\n';
+// The string is never closed, so this cannot be parsed.
+const UNPARSEABLE = 'Section "demo"\n\tDetailPrint "x\nSectionEnd\n';
 
 function buildRoot() {
 	return new Command('dent').exitOverride().option('-D, --debug', '', false).addCommand(checkCommand());

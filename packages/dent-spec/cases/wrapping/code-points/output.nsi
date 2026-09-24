@@ -1,0 +1,3 @@
+DetailPrint "😀😀😀😀" "abcdefghi"
+DetailPrint "😀😀😀😀" \
+	"abcdefghij"

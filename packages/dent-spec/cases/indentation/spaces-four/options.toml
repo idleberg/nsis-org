@@ -1,0 +1,4 @@
+#:schema https://idleberg.github.io/nsis-org/dent-spec/schemas/v1/options.schema.json
+
+use_tabs = false
+indent_size = 4

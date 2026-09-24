@@ -1,0 +1,3 @@
+section
+detailprint "abc
+sectionend

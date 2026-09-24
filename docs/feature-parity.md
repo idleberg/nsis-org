@@ -13,9 +13,15 @@ All packages claim ~220 commands, but:
 
 ## Preprocessor Directives
 
-| Missing Directive | From     |
-| ----------------- | -------- |
-| `!appendmemfile`  | textmate |
+| Missing Directive  | From     |
+| ------------------ | -------- |
+| `!appendmemfile`   | textmate |
+
+`!elseif`, `!elseifdef`, `!elseifndef`, `!elseifmacrodef` and `!elseifmacrondef` were listed here as
+missing from codemirror and textmate. They are not NSIS commands: `!else` takes the condition as a
+separate token (`!else ifdef FOO`), as `Source/tokens.cpp` and the `TOK_P_ELSE` branch of
+`Source/script.cpp` show, and a script using the merged spelling does not compile. The packages that
+highlighted them were the ones that were wrong, and they no longer do.
 
 ## Built-in Variables
 
@@ -61,7 +67,7 @@ Tree-sitter is a strict superset of textmate — textmate is missing ~50 macros:
 | Area                    | Most Complete                      | Notable Gaps                                        |
 | ----------------------- | ---------------------------------- | --------------------------------------------------- |
 | Core commands           | ace/prismjs/codemirror/tree-sitter | textmate missing 2, hljs missing 1                  |
-| Preprocessor directives | ace/prismjs/hljs/codemirror        | textmate missing 1                                  |
+| Preprocessor directives | ace/prismjs/hljs/codemirror        | textmate missing 1 (`!appendmemfile`)               |
 | Built-in variables      | textmate/tree-sitter               | hljs missing 3                                      |
 | Constants               | tree-sitter                        | hljs missing 2; ace/prismjs missing 12              |
 | Option literals         | ace/prismjs                        | codemirror missing 11; hljs missing 3               |

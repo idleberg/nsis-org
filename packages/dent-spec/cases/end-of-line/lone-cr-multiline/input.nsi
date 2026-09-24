@@ -1,0 +1,1 @@
+Section "Main"/*    Explains    the section*/DetailPrint \"hello"SectionEnd

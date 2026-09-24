@@ -80,6 +80,20 @@ export async function resolveFiles(patterns: string[]): Promise<string[]> {
 	return Array.fromAsync(glob(expanded, { cwd: process.cwd() }));
 }
 
+const BOM = '\uFEFF';
+
+/**
+ * Wraps `check` so a leading byte order mark survives. Formatting strips the mark, yet makensis
+ * reads it to pick the file's encoding, so a file that is written back must keep it.
+ */
+export function keepBom(check: (input: string) => string | null): (input: string) => string | null {
+	return (input) => {
+		if (!input.startsWith(BOM)) return check(input);
+		const result = check(input.slice(BOM.length));
+		return result === null ? null : BOM + result;
+	};
+}
+
 export function formatParseError(error: unknown): string {
 	if (error instanceof SyntaxError && 'location' in error) {
 		const loc = (error as SyntaxError & { location: { start: { line: number; column: number } } }).location;

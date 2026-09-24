@@ -474,19 +474,19 @@ test('JSDoc-style block comment preserves star alignment', () => {
 test('Multi-line block comment is re-indented inside a block', () => {
 	const { format } = createFormatter();
 	const result = format('Function .onInit\n/*\n line one\n line two\n*/\nNop\nFunctionEnd\n');
-	expect(result).toBe('Function .onInit\n\t/*\n\t line one\n\t line two\n\t */\n\tNop\nFunctionEnd\n');
+	expect(result).toBe('Function .onInit\n\t/*\n\t line one\n\t line two\n\t*/\n\tNop\nFunctionEnd\n');
 });
 
 test('Multi-line block comment at top level has no indentation', () => {
 	const { format } = createFormatter();
 	const result = format('/*\n line one\n line two\n*/\n');
-	expect(result).toBe('/*\n line one\n line two\n */\n');
+	expect(result).toBe('/*\n line one\n line two\n*/\n');
 });
 
 test('Multi-line block comment with space indentation', () => {
 	const { format } = createFormatter({ useTabs: false, indentSize: 2 });
 	const result = format('Function .onInit\n/*\n  first\n  second\n*/\nFunctionEnd\n');
-	expect(result).toBe('Function .onInit\n  /*\n   first\n   second\n   */\nFunctionEnd\n');
+	expect(result).toBe('Function .onInit\n  /*\n    first\n    second\n  */\nFunctionEnd\n');
 });
 
 // --- Blank lines around blocks ---

@@ -1,0 +1,2 @@
+detailprint "hello"
+detailprint 'world'

@@ -1,0 +1,53 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://idleberg.github.io/nsis-org/dent-spec/schemas/v1/options.schema.json",
+	"title": "Dent style formatter options",
+	"type": "object",
+	"properties": {
+		"comment_style": {
+			"enum": [
+				"hash",
+				"semi"
+			],
+			"type": "string",
+			"description": "Marker for single-line comments. Omitted keeps each comment as written; block comments are never rewritten."
+		},
+		"end_of_line": {
+			"enum": [
+				"lf",
+				"crlf"
+			],
+			"type": "string",
+			"description": "Line ending style. Omitted means auto-detect from the input."
+		},
+		"indent_size": {
+			"type": "integer",
+			"minimum": 0,
+			"default": 2,
+			"description": "Spaces per indent level. Ignored when `use_tabs` is true."
+		},
+		"trim_empty_lines": {
+			"type": "boolean",
+			"default": true,
+			"description": "Collapse consecutive blank lines and strip leading/trailing blanks."
+		},
+		"use_tabs": {
+			"type": "boolean",
+			"default": true,
+			"description": "Indent with tabs rather than spaces."
+		},
+		"print_width": {
+			"type": "integer",
+			"minimum": 0,
+			"default": 120,
+			"description": "Maximum line width before wrapping with `\\` continuations. 0 disables wrapping."
+		},
+		"single_quote": {
+			"type": "boolean",
+			"default": false,
+			"description": "Prefer single quotes over double quotes."
+		}
+	},
+	"required": [],
+	"description": "Formatter options for a conformance case."
+}

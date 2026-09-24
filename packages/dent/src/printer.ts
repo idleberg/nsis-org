@@ -3,7 +3,7 @@ import { ensureBlankAroundBlocks, trimAndCollapseBlanks } from './blank-lines.ts
 import { canonicalCasing } from './canonical-casing.ts';
 import { canonicalIncludes } from './canonical-includes.ts';
 import { builtinDefines } from './canonical-variables.ts';
-import { isArithmeticKeyword, joinInstructionArgs, normalizeInstructionArgs } from './normalize.ts';
+import { groupPipes, isArithmeticKeyword, joinInstructionArgs, normalizeInstructionArgs } from './normalize.ts';
 import { rules } from './rules.ts';
 
 export type CommentStyle = 'hash' | 'semi';
@@ -89,7 +89,8 @@ export function print(nodes: CSTNode[], options: PrinterOptions): string {
 		}
 	}
 
-	return lines.join(options.eol) + options.eol;
+	// Nothing to print yields empty output, not a lone line ending (§4).
+	return lines.length === 0 ? '' : lines.join(options.eol) + options.eol;
 }
 
 // ---------------------------------------------------------------------------
@@ -105,7 +106,7 @@ function printComment(node: CommentNode, level: number, options: PrinterOptions)
 	const prefix = indentStr(level, options);
 
 	if (node.style === 'block') {
-		const lines = node.value.split(/\r?\n/);
+		const lines = node.value.split(/\r\n?|\n/);
 
 		if (lines.length === 1) {
 			return `${prefix}/*${node.value}*/`;
@@ -114,14 +115,15 @@ function printComment(node: CommentNode, level: number, options: PrinterOptions)
 		return lines
 			.map((line, i) => {
 				if (i === 0) return `${prefix}/*${line}`;
-				const stripped = line.trimStart();
-				if (i === lines.length - 1) return `${prefix} ${stripped}*/`;
-				return `${prefix} ${stripped}`;
+				if (i === lines.length - 1) return `${prefix}${line}*/`;
+				if (line.trim() === '') return '';
+				// The parser already made the line relative to the opening `/*`.
+				return `${prefix}${line}`;
 			})
 			.join(options.eol);
 	}
 
-	return `${prefix}${commentMarker(node.style, options)} ${node.value}`;
+	return `${prefix}${markedComment(node.style, node.value, options)}`;
 }
 
 /**
@@ -172,7 +174,13 @@ function printInstruction(node: InstructionNode, level: number, options: Printer
 }
 
 function printTrailingComment(comment: Comment, options: PrinterOptions): string {
-	return `${commentMarker(comment.style, options)} ${comment.value}`;
+	return markedComment(comment.style, comment.value, options);
+}
+
+/** An empty comment is just its marker, so it leaves no trailing space (§8). */
+function markedComment(style: CommentNode['style'], value: string, options: PrinterOptions): string {
+	const marker = commentMarker(style, options);
+	return value ? `${marker} ${value}` : marker;
 }
 
 function wrapInstruction(
@@ -186,19 +194,18 @@ function wrapInstruction(
 	const joinFn = (tokens: string[]) => (isArithmetic ? tokens.join(' ') : joinInstructionArgs(tokens, keyword));
 	const joined = joinFn(args);
 	const singleLine = args.length > 0 ? `${indent}${keyword} ${joined}` : `${indent}${keyword}`;
-	const fullLine = trailingComment ? `${singleLine} ${trailingComment}` : singleLine;
-
-	if (fullLine.length <= options.printWidth) {
-		return fullLine;
+	// A trailing comment does not count toward the width (§10).
+	if (width(singleLine) <= options.printWidth) {
+		return trailingComment ? `${singleLine} ${trailingComment}` : singleLine;
 	}
 
 	const contIndent = indent + (options.useTabs ? '\t' : ' '.repeat(options.indentSize));
 	const resultLines: string[] = [];
 	let current = `${indent}${keyword}`;
 
-	for (const arg of args) {
+	for (const arg of isArithmetic ? args : groupPipes(args)) {
 		const candidate = `${current} ${arg}`;
-		if (candidate.length + 2 > options.printWidth && current.length > indent.length) {
+		if (width(candidate) + 2 > options.printWidth && width(current) > width(indent)) {
 			resultLines.push(`${current} \\`);
 			current = `${contIndent}${arg}`;
 		} else {
@@ -212,4 +219,9 @@ function wrapInstruction(
 	resultLines.push(current);
 
 	return resultLines.join(options.eol);
+}
+
+/** Line width in Unicode code points, not UTF-16 units, so an emoji counts once (§10). */
+function width(text: string): number {
+	return [...text].length;
 }

@@ -21,11 +21,20 @@ Do not edit directly — edit the `.grammar` / `.pegjs` source files instead, th
 
 - `packages/codemirror/src/parser.ts` and `parser.terms.ts` — from `src/nsis.grammar` (lezer-generator)
 - `packages/parser/src/grammar.js` and `grammar.d.ts` — from `src/grammar.pegjs` (peggy)
+- `packages/dent/src/canonical-*.ts` and `rules.ts` — from `packages/dent-spec/tables/*.json`
+  (`pnpm --filter @nsis/dent run codegen`)
+- `packages/dent-spec/schemas/*.schema.json` — from `packages/dent-spec/src/schemas.ts`
+  (`pnpm --filter @nsis/dent-spec run build:schemas`)
 
 ## Architecture
 
 - **@nsis/codemirror** has its own Lezer grammar, independent from **@nsis/parser** (PEG-based).
 - **@nsis/dent** is the indentation library; **dent-cli** and **dent-ui** (Svelte 5) wrap it.
+- **@nsis/dent-spec** is the Dent Style Specification — the authority on what Dent style is. It owns
+  the formatting rules (`SPEC.md`), the data tables both implementations generate their lookups from,
+  and the conformance cases both run. A rule change goes here first; where an implementation and a
+  case disagree, the implementation is wrong. Ardent (the Rust implementation, sibling repo) conforms
+  to the same cases. See `docs/adr/0001-dent-spec-is-normative.md`.
 - **@nsis/nlf** reads/writes NSIS Language Files; **nlf-cli** and **vite-plugin-nlf** wrap it.
 
 ## Conventions
@@ -55,6 +64,11 @@ Always verify that tests actually work after writing them!
 ## NSIS
 
 - Documentation for NSIS commands is available via `makensis -CMDHELP <command>`. Omit the command to get the full command reference.
+- `data/language.jsonc` is the NSIS *vocabulary* (which words exist, used by the highlighters);
+  `packages/dent-spec/tables/` holds *style* decisions (how they are printed). Adding a word to the
+  vocabulary without a casing entry fails `@nsis/dent-spec`'s tests.
+- For include-library macros and built-in names, the `.nsh` files and `Source/` of NSIS itself are the
+  ground truth — `makensis -CMDHELP` does not cover them.
 
 <!-- code-review-graph MCP tools -->
 ## MCP Tools: code-review-graph

@@ -30,7 +30,7 @@ export type LabelNode = {
 
 export type CSTNode = BlankNode | CommentNode | InstructionNode | LabelNode;
 
-const CONTINUATION = /\\[ \t]*\r?\n[ \t]*/g;
+const CONTINUATION = /\\[ \t]*(?:\r\n?|\n)[ \t]*/g;
 
 type Position = { offset: number; line: number; column: number };
 
@@ -48,11 +48,8 @@ function preprocess(source: string): { text: string; segments: Array<[number, nu
 	let cursor = 0;
 
 	for (const match of source.matchAll(CONTINUATION)) {
+		// makensis inserts nothing in place of a continuation (spec §2).
 		text += source.slice(cursor, match.index);
-		// The injected space stands in for the whole continuation, so anchor it to the
-		// backslash that started it.
-		segments.push([text.length, match.index]);
-		text += ' ';
 		cursor = match.index + match[0].length;
 		segments.push([text.length, cursor]);
 	}

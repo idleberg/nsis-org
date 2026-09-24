@@ -1,12 +1,12 @@
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import type { CommentStyle } from '@nsis/dent';
+import { type CommentStyle, createFormatter } from '@nsis/dent';
 import { Command } from 'commander';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { logger } from '../log.ts';
 import { applyFormattingOptions } from './options.ts';
-import { dentOptionsFrom, loadScript, prepareAction, processFiles, resolveFiles } from './shared.ts';
+import { dentOptionsFrom, keepBom, loadScript, prepareAction, processFiles, resolveFiles } from './shared.ts';
 
 describe('dentOptionsFrom', () => {
 	it('maps CLI options to dent formatter options', () => {
@@ -330,5 +330,21 @@ describe('processFiles', () => {
 
 		expect(capturedRaw).toBe('Name "x"\n');
 		expect(capturedResult).toBe('Name "y"\n');
+	});
+});
+
+describe('keepBom', () => {
+	const check = keepBom(createFormatter().check);
+
+	it('restores a leading byte order mark on the result', () => {
+		expect(check('\uFEFFname "a"\n')).toBe('\uFEFFName "a"\n');
+	});
+
+	it('treats a formatted file with a byte order mark as unchanged', () => {
+		expect(check('\uFEFFName "a"\n')).toBeNull();
+	});
+
+	it('adds no mark to input without one', () => {
+		expect(check('name "a"\n')).toBe('Name "a"\n');
 	});
 });
