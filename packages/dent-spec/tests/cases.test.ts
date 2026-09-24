@@ -55,7 +55,8 @@ describe('case layout', () => {
 		expect(files.filter((file) => !allowed.has(file))).toEqual([]);
 	});
 
-	it.each(cases)('%s has non-empty files', async (id) => {
+	// The empty-input case is empty by design.
+	it.each(cases.filter((id) => id !== 'end-of-line/empty-input'))('%s has non-empty files', async (id) => {
 		const { size } = await stat(join(casesDir, id, 'input.nsi'));
 
 		expect(size).toBeGreaterThan(0);
