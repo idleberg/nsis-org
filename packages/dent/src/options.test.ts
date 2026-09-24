@@ -29,3 +29,7 @@ test('Valid, undefined and unknown options are accepted', () => {
 	expect(invalid({ commentStyle: undefined, endOfLine: undefined, printWidth: undefined })).not.toThrow();
 	expect(invalid({ unknownOption: 42 })).not.toThrow();
 });
+
+test('An undefined indentSize falls back to the default with spaces', () => {
+	expect(invalid({ useTabs: false, indentSize: undefined })).not.toThrow();
+});

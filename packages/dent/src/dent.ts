@@ -46,7 +46,7 @@ export function createFormatter(options: DentOptions = {}): DentFunctions {
 	validateOptions(mergedOptions);
 
 	if (mergedOptions.useTabs === false) {
-		if (!mergedOptions.indentSize || mergedOptions.indentSize <= 0) {
+		if (!(mergedOptions.indentSize ?? defaultIndentation)) {
 			throw new RangeError('The indentSize option expects a positive integer');
 		}
 	}
