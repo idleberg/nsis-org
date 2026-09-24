@@ -18,6 +18,7 @@
 		"dist/",
 		"schemas/",
 		"tables/",
+		"IMPLEMENTING.md",
 		"LICENSE",
 		"package.json",
 		"README.md",

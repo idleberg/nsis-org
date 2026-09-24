@@ -6,13 +6,6 @@ Dent style is an opinionated formatting style for [NSIS](https://nsis.sourceforg
 This document, together with the data files in `tables/` and the conformance cases in `cases/`,
 defines it.
 
-Known implementations:
-
-| Implementation                                                       | Language   | Package      |
-| -------------------------------------------------------------------- | ---------- | ------------ |
-| [Dent](https://github.com/idleberg/nsis-org/tree/main/packages/dent) | TypeScript | `@nsis/dent` |
-| [Ardent](https://github.com/idleberg/ardent)                         | Rust       | `ardent`     |
-
 "Dent" names the style. `@nsis/dent` is one implementation of it, not the authority over it:
 where an implementation disagrees with this document, the implementation is wrong.
 
@@ -35,9 +28,16 @@ version's `cases/` directory, `format` returns the case's `output.nsi` **byte fo
 given its `input.nsi` and its `options.toml` — or returns an error when the case ships an
 `error` marker instead of an `output.nsi`.
 
-The following are **not** specified, and are described only informally in Appendices A and B:
-command line interfaces, exit codes, file discovery, file encoding, whether a byte order mark
-is written back to a file, and diagnostic message wording.
+The following are **not** specified: command line interfaces, exit codes, file discovery, file
+encoding, whether a byte order mark is written back to a file, and diagnostic message wording.
+[`IMPLEMENTING.md`](./IMPLEMENTING.md) describes how the known implementations handle them.
+
+Most rules are matters of style. A few are tie-breakers that exist only so that every
+implementation returns the same bytes: how continuation lines are joined (§2), end-of-line
+detection (§4), unbalanced blocks (§5.2), how line width is counted (§10), and how block comment
+indentation is compared (§11.2). They are as normative as the rest.
+
+Paragraphs marked **Note** explain a rule; they add no requirements.
 
 ### 1.2 Conformance cases
 
@@ -113,9 +113,9 @@ convention. `schemas/options.schema.json` is the normative schema.
 
 ### 3.1 Validation
 
-An implementation MUST reject options where `use_tabs` is `false` and `indent_size` is not a
-positive integer, and any value the schema does not allow, such as a negative `print_width` or
-an unknown `comment_style`. All other combinations MUST be accepted.
+An implementation MUST reject options where `use_tabs` is `false` and `indent_size` is 0. All
+other combinations of values the schema allows MUST be accepted. How an implementation treats a
+value outside the schema is not specified.
 
 Examples: `cases/options/invalid-indent-size`.
 
@@ -132,8 +132,8 @@ When `end_of_line` is unset, the ending is detected from the input:
 2. Otherwise the output uses `\r\n`. An input with no line ending at all therefore yields `\r\n`,
    and so does an input whose lines end only in a lone `\r`.
 
-A single CRLF anywhere in an otherwise LF input is enough to make the output CRLF: the rule is
-deliberately conservative, so a file that carries any Windows endings keeps them.
+> **Note:** A single CRLF anywhere in an otherwise LF input is enough to make the output CRLF: the
+> rule is deliberately conservative, so a file that carries any Windows endings keeps them.
 
 The output MUST end with exactly one line ending, unless nothing is left to print: empty input,
 or input of only blank lines that trimming removes (§7.2), MUST yield empty output.
@@ -155,8 +155,9 @@ Examples: `cases/indentation/tabs`, `cases/indentation/spaces`, `cases/indentati
 
 ### 5.2 Keyword roles
 
-`tables/blocks.json` assigns each block keyword one of five roles. Given a level counter starting
-at 0 and a stack of saved levels:
+`tables/blocks.json` assigns each block keyword one of five roles. The indentation MUST be what
+the following model produces; an implementation need not use a counter and a stack itself.
+Given a level counter starting at 0 and a stack of saved levels:
 
 | Role         | Printed at            | Effect                               |
 | ------------ | --------------------- | ------------------------------------ |
@@ -216,9 +217,11 @@ Inside arguments, the following MUST be rewritten to the canonical spellings in
 - `${name}` — built-in defines, e.g. `${nsisdir}` becomes `${NSISDIR}`.
 - `$(^name)` — built-in language strings, e.g. `$(^name)` becomes `$(^Name)`.
 
-Built-in names cannot be shadowed by user declarations, which is what makes rewriting them safe.
 The following MUST be left untouched: user-defined variables and defines, environment variables
 (`$%PATH%`), and escape sequences (`$$`, `$\n`, `$\r`, `$\t`, `$\"`, `$\'`, ``$\` ``).
+
+> **Note:** Built-in names cannot be shadowed by user declarations, which is what makes rewriting
+> them safe.
 
 Examples: `cases/casing/builtin-variables`.
 
@@ -228,8 +231,10 @@ A keyword in none of the tables MUST be printed exactly as written. An implement
 guess a casing for it. Its arguments are formatted like those of any other instruction.
 
 This includes compiler commands: an unrecognised `!` keyword such as `!foo` MUST NOT be a parse
-error. Rejecting unknown commands is makensis's job; a formatter that did so would need a new
-release for every command makensis adds. An unrecognised keyword has no block role (§5.2).
+error. An unrecognised keyword has no block role (§5.2).
+
+> **Note:** Rejecting unknown commands is makensis's job; a formatter that did so would need a new
+> release for every command makensis adds.
 
 Examples: `cases/casing/unknown-keywords`, `cases/casing/unknown-compiler-commands`.
 
@@ -246,14 +251,14 @@ be present:
 2. Below every block closer, unless the following node is another block closer, a block opener,
    a `mid` keyword or a `closeAfter` keyword.
 
-A `mid` keyword such as `${Else}` closes one branch and opens the next, so it stays attached to the
-lines on both sides of it. `${Break}` ends its arm and stays attached to the lines above it.
-
-A blank line MUST NOT appear between consecutive labels: adjacent labels are aliases for one
-jump target, and nothing may separate them, not even a blank line the author wrote.
+A blank line MUST NOT appear between consecutive labels, not even one the author wrote.
 
 A comment directly above a chunk opener belongs to it: the blank line goes above the comment,
 not between the comment and what it documents.
+
+> **Note:** A `mid` keyword such as `${Else}` closes one branch and opens the next, so it stays
+> attached to the lines on both sides of it; `${Break}` ends its arm and stays attached to the
+> lines above it. Adjacent labels are aliases for one jump target, so nothing separates them.
 
 Examples: `cases/blank-lines/structural`, `cases/blank-lines/mid-keywords`, `cases/blocks/sections`,
 `cases/labels/aliases`, `cases/labels/spacing`.
@@ -281,9 +286,10 @@ An argument whose lowercased spelling is listed for the instruction in the `inst
 in `global`, that spelling is used. An argument of the form `prefix=value` whose `prefix=` is
 listed in `globalPrefixes` has its prefix canonicalised, and its value normalised per §6.3.
 
-Instruction-scoped entries take precedence over global ones. Not every switch is uppercase:
-`tables/parameters.json` records the spelling from the NSIS documentation, which is why
-`RMDir /r` stays lowercase while `/REBOOTOK` does not.
+Instruction-scoped entries take precedence over global ones.
+
+> **Note:** Not every switch is uppercase: `tables/parameters.json` records the spelling from the
+> NSIS documentation, which is why `RMDir /r` stays lowercase while `/REBOOTOK` does not.
 
 Examples: `cases/parameters/global-switches`, `cases/parameters/instruction-scoped`.
 
@@ -337,9 +343,11 @@ on the first line, and an argument is never split internally, so a single long a
 exceed `print_width`. Values joined by `|` (§8.2) form a single argument, so they are never
 broken apart and keep their compact form when a line is wrapped.
 
-Width is counted in Unicode code points, and a tab counts as one. This is not the width a
-terminal or editor displays: a CJK character or an emoji takes one code point but usually two
-columns, and a combining accent takes one code point but no column.
+Width is counted in Unicode code points, and a tab counts as one.
+
+> **Note:** This is not the width a terminal or editor displays: a CJK character or an emoji takes
+> one code point but usually two columns, and a combining accent takes one code point but no
+> column.
 
 When `print_width` is `0`, no wrapping occurs and lines may be arbitrarily long.
 
@@ -387,23 +395,3 @@ A label is printed at the current indentation level, immediately followed by `:`
 labels stay adjacent (§7.1).
 
 Examples: `cases/labels/aliases`, `cases/labels/spacing`.
-
----
-
-## Appendix A: Command line behaviour (non-normative)
-
-Implementations ship comparable command line tools, but none of this is required for conformance:
-
-- A `format` command writes to standard output, or edits files in place with `--write`.
-- A `check` command exits non-zero when a file is not formatted.
-- `--eol` defaults to the platform convention (CRLF on Windows, LF elsewhere) rather than to the
-  detection in §4, so command line output does not depend on the input's endings.
-
-## Appendix B: Encoding (non-normative)
-
-`format` operates on text, so decoding is the caller's concern. Implementations read UTF-8 and
-strip a leading byte order mark during preprocessing (§2); the mark is therefore absent from the
-output of `format`. makensis reads the mark to pick a file's encoding, so a tool that writes
-formatted output back to a file restores the mark when the file had one, and a file whose only
-difference is the mark counts as formatted. NSIS also accepts UTF-16 sources, which
-implementations may or may not read.

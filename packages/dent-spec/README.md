@@ -12,12 +12,13 @@ implementation is wrong.
 
 ## Contents
 
-| Path                    | What it is                                                                                   |
-| ----------------------- | -------------------------------------------------------------------------------------------- |
-| [`SPEC.md`](./SPEC.md)  | The specification: normative prose, rule by rule                                             |
-| `tables/*.json`         | The data the rules refer to — casing, includes, parameters, variables, block roles           |
-| `cases/<area>/<name>/`  | Conformance cases: `input.nsi`, `output.nsi` (or an `error` marker), optional `options.toml` |
-| `schemas/*.schema.json` | JSON Schema for the tables and for `options.toml`                                            |
+| Path                                   | What it is                                                                                   |
+| -------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [`SPEC.md`](./SPEC.md)                 | The specification: normative prose, rule by rule                                             |
+| [`IMPLEMENTING.md`](./IMPLEMENTING.md) | Non-normative notes: known implementations, command line behaviour, encoding                 |
+| `tables/*.json`                        | The data the rules refer to — casing, includes, parameters, variables, block roles           |
+| `cases/<area>/<name>/`                 | Conformance cases: `input.nsi`, `output.nsi` (or an `error` marker), optional `options.toml` |
+| `schemas/*.schema.json`                | JSON Schema for the tables and for `options.toml`                                            |
 
 ## Using it
 
