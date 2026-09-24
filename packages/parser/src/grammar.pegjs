@@ -79,7 +79,7 @@ const INSTRUCTION_LOOKUP = new Set(INSTRUCTION_KEYWORDS.map(kw => kw.toLowerCase
 // A line that does not start with that exact indentation is dedented fully instead.
 function rebaseBlockComment(value, indent) {
   return value
-    .split('\n')
+    .split(/\r\n?|\n/)
     .map((line, i) => (i === 0 ? line : line.startsWith(indent) ? line.slice(indent.length) : line.trimStart()))
     .join('\n');
 }

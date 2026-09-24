@@ -106,7 +106,7 @@ function printComment(node: CommentNode, level: number, options: PrinterOptions)
 	const prefix = indentStr(level, options);
 
 	if (node.style === 'block') {
-		const lines = node.value.split(/\r?\n/);
+		const lines = node.value.split(/\r\n?|\n/);
 
 		if (lines.length === 1) {
 			return `${prefix}/*${node.value}*/`;

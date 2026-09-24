@@ -141,7 +141,7 @@ or input of only blank lines that trimming removes (§7.2), MUST yield empty out
 Examples: `cases/end-of-line/crlf-explicit`, `cases/end-of-line/lf-explicit`,
 `cases/end-of-line/detect-mixed`, `cases/end-of-line/no-line-ending`,
 `cases/end-of-line/empty-input`, `cases/end-of-line/blank-input`,
-`cases/end-of-line/lone-cr`.
+`cases/end-of-line/lone-cr`, `cases/end-of-line/lone-cr-multiline`.
 
 ## 5. Indentation
 

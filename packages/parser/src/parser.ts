@@ -30,7 +30,7 @@ export type LabelNode = {
 
 export type CSTNode = BlankNode | CommentNode | InstructionNode | LabelNode;
 
-const CONTINUATION = /\\[ \t]*\r?\n[ \t]*/g;
+const CONTINUATION = /\\[ \t]*(?:\r\n?|\n)[ \t]*/g;
 
 type Position = { offset: number; line: number; column: number };
 
