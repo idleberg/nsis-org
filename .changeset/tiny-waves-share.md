@@ -1,5 +1,5 @@
 ---
-"@nsis/parser": path
+"@nsis/parser": patch
 ---
 
 - ; and # inside tokens
