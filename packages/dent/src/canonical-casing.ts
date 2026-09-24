@@ -3,7 +3,7 @@
 /**
  * Maps lowercased NSIS instructions and compiler commands to their canonical casing.
  *
- * Generated from @nsis/dent-spec 0.0.0 by `npm run codegen` — do not edit.
+ * Generated from @nsis/dent-spec by `npm run codegen` — do not edit.
  */
 
 export const canonicalCasing: Map<string, string> = new Map([

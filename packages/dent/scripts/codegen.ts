@@ -48,7 +48,7 @@ function header(description: string): string {
 		'/**',
 		` * ${description}`,
 		' *',
-		` * Generated from @nsis/dent-spec ${specVersion} by \`npm run codegen\` — do not edit.`,
+		' * Generated from @nsis/dent-spec by `npm run codegen` — do not edit.',
 		' */',
 		'',
 	].join('\n');

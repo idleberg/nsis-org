@@ -3,7 +3,7 @@
 /**
  * Keyword roles that drive indentation, as defined by the Dent Style Specification.
  *
- * Generated from @nsis/dent-spec 0.0.0 by `npm run codegen` — do not edit.
+ * Generated from @nsis/dent-spec by `npm run codegen` — do not edit.
  */
 
 /**
