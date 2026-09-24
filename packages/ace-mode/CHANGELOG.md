@@ -1,5 +1,14 @@
 # @nsis/ace-mode
 
+## 1.8.7
+
+### Patch Changes
+
+- e7eba33: Stop highlighting `!elseif`, `!elseifdef`, `!elseifmacrodef`, `!elseifmacrondef` and
+  `!elseifndef` as compiler directives. NSIS has no such commands: `!else` takes the condition as
+  a separate token (`!else ifdef FOO`), as `Source/tokens.cpp` and the `TOK_P_ELSE` branch of
+  `Source/script.cpp` show. A script using the merged spelling does not compile.
+
 ## 1.8.6
 
 ### Patch Changes

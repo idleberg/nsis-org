@@ -1,5 +1,33 @@
 # @nsis/dent
 
+## 0.17.0
+
+### Minor Changes
+
+- e7eba33: Generate the lookup tables from `@nsis/dent-spec` and run its conformance cases, so Dent and
+  Ardent can no longer drift apart.
+  
+  Two behavioural changes come out of this:
+  
+  - `$(^ComponentsSubText2_NoInstTypes)` and `$(^UnComponentsSubText2_NoInstTypes)` are now
+    recased like every other built-in language string. They were missing from the table.
+  - End-of-line detection follows §4 of the specification: with `endOfLine` unset, the output is
+    LF only when the input contains an LF and no CRLF. Previously the most frequent ending won, so
+    a mostly-LF file with a stray CRLF was written as LF and is now written as CRLF. Set
+    `endOfLine` explicitly to opt out of detection entirely.
+  
+  The `detect-newline` dependency is gone as a result.
+- 0ecfbac: - options outside the schema now throw where they used to be accepted
+  - end-of-line detection changed, which can flip the output for mixed-ending files
+  - tables are generated from the spec, which adds two language strings
+
+### Patch Changes
+
+- 0ecfbac: - comment trailing whitespace, compact piped values, code-point width, trailing comments left out of the width, block comment indentation, mid/closeAfter blank lines, empty input, lone CR, and indentSize: undefined
+- Updated dependencies [0ecfbac]
+- Updated dependencies [0ecfbac]
+  - @nsis/parser@0.2.0
+
 ## 0.16.1
 
 ### Patch Changes
