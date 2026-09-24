@@ -6,8 +6,7 @@
 [![Version](https://img.shields.io/npm/v/@nsis/dent?style=for-the-badge)](https://www.npmjs.org/package/@nsis/dent)
 [![Build](https://img.shields.io/github/actions/workflow/status/idleberg/nsis-org/ci.yml?style=for-the-badge)](https://github.com/idleberg/nsis-org/actions)
 
-> [!NOTE]  
-> This is the repository for the formatting library powering the ~~[Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=idleberg.nsis) and~~ [Pulsar](https://packages.pulsar-edit.dev/packages/language-nsis) packages. Chances are you were looking for the [CLI tool](https://github.com/idleberg/nsis-org/tree/main/packages/dent-cli).
+Dent formats NSIS scripts, conforming the [dent-spec](https://github.com/idleberg/nsis-org/tree/main/packages/dent-spec).
 
 [Demo Time](https://idleberg.github.io/nsis-org/dent/) 🙌
 
