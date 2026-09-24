@@ -1,5 +1,15 @@
 # @nsis/dent-cli
 
+## 0.10.6
+
+### Patch Changes
+
+- 0ecfbac: keep byte order mark when writing files
+- Updated dependencies [0ecfbac]
+- Updated dependencies [e7eba33]
+- Updated dependencies [0ecfbac]
+  - @nsis/dent@0.17.0
+
 ## 0.10.5
 
 ### Patch Changes

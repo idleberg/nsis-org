@@ -1,6 +1,6 @@
 {
 	"name": "@nsis/dent-spec",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "The Dent Style Specification: formatting rules, data tables and conformance cases for NSIS formatters",
 	"license": "MIT",
 	"scripts": {
