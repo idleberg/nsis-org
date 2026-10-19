@@ -1,5 +1,5 @@
 {
-	"name": "@nsis/ardent",
+	"name": "@nsis/ardent-wasm",
 	"version": "0.0.0",
 	"description": "An opinionated code formatter for NSIS scripts",
 	"license": "MIT",
@@ -45,7 +45,7 @@
 		"type": "git",
 		"url": "git+https://github.com/idleberg/nsis-org.git"
 	},
-	"homepage": "https://github.com/idleberg/nsis-org/tree/main/packages/ardent#readme",
+	"homepage": "https://github.com/idleberg/nsis-org/tree/main/packages/ardent-wasm#readme",
 	"keywords": [
 		"nsis",
 		"formatter",

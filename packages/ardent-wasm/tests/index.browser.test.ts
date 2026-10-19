@@ -1,4 +1,4 @@
-import { createFormatter } from '@nsis/ardent';
+import { createFormatter } from '@nsis/ardent-wasm';
 import { expect, it } from 'vitest';
 
 // The browser resolves the default export condition, which fetches the module asynchronously.

@@ -1,4 +1,4 @@
-import { createFormatter } from '@nsis/ardent';
+import { createFormatter } from '@nsis/ardent-wasm';
 import { describe, expect, it } from 'vitest';
 
 describe('createFormatter', () => {

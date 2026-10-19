@@ -8,7 +8,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { dirname, join, relative } from 'node:path';
-import { type ArdentOptions, createFormatter } from '@nsis/ardent';
+import { type ArdentOptions, createFormatter } from '@nsis/ardent-wasm';
 import { describe, expect, it } from 'vitest';
 
 const specDir = dirname(createRequire(import.meta.url).resolve('@nsis/dent-spec/package.json'));

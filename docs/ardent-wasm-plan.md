@@ -1,7 +1,7 @@
 # Ardent WASM Plan
 
 Plan to end the ardent/dent dual-maintenance burden by compiling the ardent Rust crate to WebAssembly
-and publishing it on npm as `@nsis/ardent`. Where the build lives is recorded in
+and publishing it on npm as `@nsis/ardent-wasm`. Where the build lives is recorded in
 [ADR 0002](adr/0002-ardent-wasm-lives-in-nsis-org.md).
 
 ## Context
@@ -16,12 +16,12 @@ platform matrix.
 
 ## Status
 
-**Step one is done:** `packages/ardent` builds, passes the specification's conformance cases in
+**Step one is done:** `packages/ardent-wasm` builds, passes the specification's conformance cases in
 Node.js, and loads in a browser. Nothing uses it yet.
 
 ## Design
 
-- **Crate:** `packages/ardent/Cargo.toml` depends on `ardent = "=0.17.0"` from crates.io. The ardent
+- **Crate:** `packages/ardent-wasm/Cargo.toml` depends on `ardent = "=0.17.0"` from crates.io. The ardent
   repository is unchanged; its library compiles for `wasm32-unknown-unknown` as published.
   `src/lib.rs` only translates types: a camelCase `ArdentOptions` struct (tsify, so the TypeScript
   types come from Rust) and a `Formatter` class with `format` and `check`. Options are deserialised by
@@ -48,13 +48,13 @@ Node.js, and loads in a browser. Nothing uses it yet.
 
 ## Follow-ups
 
-- Switch consumers from `@nsis/dent` to `@nsis/ardent`: `packages/dent-ui`, `packages/dent-cli`,
+- Switch consumers from `@nsis/dent` to `@nsis/ardent-wasm`: `packages/dent-ui`, `packages/dent-cli`,
   `nsis-bridge`, `vscode-nsis`, `beautifier-dent`, and the ardent docs playground (which would remove the
   "powered by Dent, not Ardent" note in ardent's `web/src/content/docs/playground.mdx`).
 - Deprecate `@nsis/dent` and `@nsis/parser`, with a final `@nsis/dent` release that re-exports
-  `@nsis/ardent` and a deprecation notice.
+  `@nsis/ardent-wasm` and a deprecation notice.
 - Move the conformance case runner (case discovery and the `options.toml` reader) into
-  `@nsis/dent-spec`, so Dent and `@nsis/ardent` stop keeping copies.
+  `@nsis/dent-spec`, so Dent and `@nsis/ardent-wasm` stop keeping copies.
 
 ## Alternatives considered
 

@@ -52,7 +52,7 @@ A tool that formats NSIS scripts in Dent style. There are two: `@nsis/dent` (Typ
 _Avoid_: Formatter (ambiguous between the tool and the style), port, clone
 
 **Distribution**:
-A packaging of an implementation for another runtime, such as `@nsis/ardent`, which is Ardent
+A packaging of an implementation for another runtime, such as `@nsis/ardent-wasm`, which is Ardent
 compiled to WebAssembly. A distribution conforms because its implementation does; any difference
 between the two is a defect, not a divergence.
 _Avoid_: Port, binding (in prose), implementation

@@ -1,9 +1,9 @@
-# @nsis/ardent
+# @nsis/ardent-wasm
 
 > An opinionated code formatter for NSIS scripts
 
-![License](https://img.shields.io/npm/l/%40nsis%2Fardent?style=for-the-badge)
-[![Version](https://img.shields.io/npm/v/@nsis/ardent?style=for-the-badge)](https://www.npmjs.org/package/@nsis/ardent)
+![License](https://img.shields.io/npm/l/%40nsis%2Fardent-wasm?style=for-the-badge)
+[![Version](https://img.shields.io/npm/v/@nsis/ardent-wasm?style=for-the-badge)](https://www.npmjs.org/package/@nsis/ardent-wasm)
 [![Build](https://img.shields.io/github/actions/workflow/status/idleberg/nsis-org/ci.yml?style=for-the-badge)](https://github.com/idleberg/nsis-org/actions)
 
 Formats NSIS scripts in Dent style, conforming to the [Dent Style Specification](../dent-spec#readme). This
@@ -12,12 +12,12 @@ the `ardent` binary and produces the same output.
 
 ## Installation
 
-`npm install @nsis/ardent`
+`npm install @nsis/ardent-wasm`
 
 ## Usage
 
 ```ts
-import { createFormatter } from "@nsis/ardent";
+import { createFormatter } from "@nsis/ardent-wasm";
 
 const { format, check } = createFormatter(/* user options */);
 
@@ -74,8 +74,8 @@ version number. A release that bundles an Ardent version with different output i
 Building requires Rust with the `wasm32-unknown-unknown` target and `wasm-pack`; `mise install` sets up both.
 
 ```sh
-pnpm --filter @nsis/ardent build
-pnpm --filter @nsis/ardent test
+pnpm --filter @nsis/ardent-wasm build
+pnpm --filter @nsis/ardent-wasm test
 ```
 
 The tests run the conformance cases of the specification version that the bundled Ardent release
