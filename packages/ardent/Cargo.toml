@@ -1,0 +1,27 @@
+[package]
+name = "ardent-wasm"
+version = "0.0.0"
+publish = false
+edition = "2024"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# Pinned exactly: bumping it changes formatting output, which needs its own changeset.
+ardent = "=0.17.0"
+serde = { version = "1", features = ["derive"] }
+serde-wasm-bindgen = "0.6"
+tsify-next = { version = "0.5", default-features = false, features = ["js"] }
+wasm-bindgen = "0.2"
+
+# Tuned for size: formatting is not a hot loop, and browser consumers download every byte.
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ["-Os"]

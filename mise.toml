@@ -1,6 +1,8 @@
 [tools]
 node = "24"
 lefthook = "latest"
+rust = { version = "latest", targets = "wasm32-unknown-unknown" }
+"aqua:rustwasm/wasm-pack" = "0.14.0"
 
 [hooks]
 postinstall = "lefthook install"
