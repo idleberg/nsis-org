@@ -3,14 +3,14 @@ import { collectConsoleErrors, expectNoConsoleErrors } from './helpers.ts';
 
 test('UI component renders', async ({ page }) => {
 	const errors = collectConsoleErrors(page);
-	await page.goto('/dent/');
+	await page.goto('/dent-ui/');
 	await expect(page.locator('#app')).not.toBeEmpty();
 	expectNoConsoleErrors(errors);
 });
 
 test('formats the sample script on load', async ({ page }) => {
 	const errors = collectConsoleErrors(page);
-	await page.goto('/dent/');
+	await page.goto('/dent-ui/');
 
 	const inputEditor = page.locator('[aria-label="NSIS input editor"]');
 	await expect(inputEditor.locator('.cm-content')).toContainText('requestExecutionLevel');
@@ -23,7 +23,7 @@ test('formats the sample script on load', async ({ page }) => {
 
 test('formats ill-cased NSIS', async ({ page }) => {
 	const errors = collectConsoleErrors(page);
-	await page.goto('/dent/');
+	await page.goto('/dent-ui/');
 
 	const inputEditor = page.locator('[aria-label="NSIS input editor"]');
 	await expect(inputEditor).toBeVisible();
