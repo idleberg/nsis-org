@@ -39,6 +39,11 @@ jobs:
         env:
           MISE_NODE_VERSION: ${{ matrix.node-version }}
 
+      - name: Set up Rust cache
+        uses: Swatinem/rust-cache@63fed3e2fecf6f7b51dc6f043341b79ef82a9ae7 # v2.9.2
+        with:
+          workspaces: packages/ardent-wasm
+
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
@@ -65,7 +70,7 @@ jobs:
         run: pnpm run --if-present --recursive lint:biome:ci
 
       - name: Lint Rust
-        run: pnpm run --if-present --recursive lint:rust
+        run: pnpm exec turbo run lint:rust
 
       - name: Build Source
         run: pnpm run --if-present build

@@ -19,7 +19,9 @@
 			"outputs": ["dist/**", "src/grammar.js", "src/grammar.d.ts"]
 		},
 		"lint:biome": {},
-		"lint:rust": {},
+		"lint:rust": {
+			"inputs": ["src/**/*.rs", "Cargo.toml", "Cargo.lock", "rustfmt.toml"]
+		},
 		"test": {
 			"dependsOn": ["^build"]
 		},
