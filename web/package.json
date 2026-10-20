@@ -9,7 +9,7 @@
 		"test": "playwright test --tsconfig tsconfig.e2e.json"
 	},
 	"devDependencies": {
-		"@astrojs/svelte": "^9.0.1",
+		"@astrojs/svelte": "^9.1.0",
 		"@codemirror/commands": "catalog:",
 		"@codemirror/language": "catalog:",
 		"@codemirror/state": "catalog:",
@@ -30,7 +30,7 @@
 		"@nsis/textmate": "workspace:*",
 		"@playwright/test": "catalog:",
 		"@tailwindcss/vite": "^4.3.3",
-		"astro": "7.3.3",
+		"astro": "7.4.1",
 		"highlight.js": "catalog:",
 		"prismjs": "catalog:",
 		"shiki": "catalog:",

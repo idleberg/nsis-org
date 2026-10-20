@@ -51,7 +51,7 @@
 		"log-symbols": "^7.0.1"
 	},
 	"devDependencies": {
-		"execa": "^10.0.1",
+		"execa": "^10.2.0",
 		"vitest": "catalog:"
 	}
 }
