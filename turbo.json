@@ -19,6 +19,7 @@
 			"outputs": ["dist/**", "src/grammar.js", "src/grammar.d.ts"]
 		},
 		"lint:biome": {},
+		"lint:rust": {},
 		"test": {
 			"dependsOn": ["^build"]
 		},

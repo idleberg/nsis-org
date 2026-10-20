@@ -1,0 +1,64 @@
+{
+	"name": "@nsis/ardent-wasm",
+	"version": "0.0.0",
+	"description": "An opinionated code formatter for NSIS scripts",
+	"license": "MIT",
+	"scripts": {
+		"build": "node scripts/build.js",
+		"lint": "concurrently --prefix-colors blue,green npm:lint:biome npm:lint:rust",
+		"lint:biome": "biome check",
+		"lint:biome:ci": "biome ci",
+		"lint:rust": "cargo fmt --check && cargo clippy --target wasm32-unknown-unknown -- --deny warnings",
+		"prepublishOnly": "npm run build",
+		"publish:npm": "np",
+		"pretest": "playwright install chromium",
+		"test": "vitest run"
+	},
+	"files": [
+		"dist/ardent_wasm.d.ts",
+		"dist/ardent_wasm.js",
+		"dist/ardent_wasm_bg.wasm",
+		"src/index.d.ts",
+		"src/index.js",
+		"src/node.js",
+		"src/web.js",
+		"LICENSE",
+		"package.json",
+		"README.md"
+	],
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./src/index.d.ts",
+			"node": "./src/node.js",
+			"default": "./src/web.js"
+		}
+	},
+	"sideEffects": [
+		"./src/node.js",
+		"./src/web.js"
+	],
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/idleberg/nsis-org.git"
+	},
+	"homepage": "https://github.com/idleberg/nsis-org/tree/main/packages/ardent-wasm#readme",
+	"keywords": [
+		"nsis",
+		"formatter",
+		"wasm"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"devDependencies": {
+		"@nsis/dent-spec": "0.1.0",
+		"@vitest/browser": "catalog:",
+		"@vitest/browser-playwright": "catalog:",
+		"playwright": "catalog:",
+		"vitest": "catalog:"
+	}
+}

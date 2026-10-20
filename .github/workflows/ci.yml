@@ -10,6 +10,8 @@ on:
       - "**/cases/**"
       - "**/e2e/**"
       - "**/src/**"
+      - "**/Cargo.lock"
+      - "**/Cargo.toml"
       - "mise.toml"
       - "package.json"
       - "pnpm-lock.yaml"
@@ -61,6 +63,9 @@ jobs:
 
       - name: Lint Source
         run: pnpm run --if-present --recursive lint:biome:ci
+
+      - name: Lint Rust
+        run: pnpm run --if-present --recursive lint:rust
 
       - name: Build Source
         run: pnpm run --if-present build

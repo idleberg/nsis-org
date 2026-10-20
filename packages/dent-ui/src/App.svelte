@@ -3,7 +3,7 @@ import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { indentOnInput } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
-import { createFormatter } from '@nsis/dent';
+import { createFormatter } from '@nsis/ardent-wasm';
 import { onDestroy, onMount } from 'svelte';
 import Editor from './Editor.svelte';
 

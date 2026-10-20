@@ -6,10 +6,10 @@ implementation behave alike.
 
 ## Known implementations
 
-| Implementation                                                       | Language   | Package      |
-| -------------------------------------------------------------------- | ---------- | ------------ |
-| [Dent](https://github.com/idleberg/nsis-org/tree/main/packages/dent) | TypeScript | `@nsis/dent` |
-| [Ardent](https://github.com/idleberg/ardent)                         | Rust       | `ardent`     |
+| Implementation                                                       | Language   | Packages                         |
+| -------------------------------------------------------------------- | ---------- | -------------------------------- |
+| [Dent](https://github.com/idleberg/nsis-org/tree/main/packages/dent) | TypeScript | `@nsis/dent`                     |
+| [Ardent](https://github.com/idleberg/ardent)                         | Rust       | `ardent` (crate), `@nsis/ardent-wasm` |
 
 ## Command line behaviour
 

@@ -1,6 +1,11 @@
 [tools]
 node = "24"
 lefthook = "latest"
+rust = { version = "latest", targets = "wasm32-unknown-unknown", components = "rustfmt,clippy" }
+"aqua:rustwasm/wasm-pack" = "0.14.0"
+
+[env]
+_.path = ["{{config_root}}/node_modules/.bin"]
 
 [hooks]
 postinstall = "lefthook install"
