@@ -13,7 +13,7 @@
 		"@commitlint/cli": "^21.2.4",
 		"@commitlint/config-conventional": "^21.2.4",
 		"@idleberg/configs": "catalog:",
-		"@types/node": "^26.6.5",
+		"@types/node": "catalog:",
 		"concurrently": "^10.0.6",
 		"np": "^12.1.1",
 		"tsdown": "^0.23.1",
