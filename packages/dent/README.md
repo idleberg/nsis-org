@@ -8,8 +8,6 @@
 
 Dent formats NSIS scripts, conforming the [dent-spec](https://github.com/idleberg/nsis-org/tree/main/packages/dent-spec).
 
-[Demo Time](https://idleberg.github.io/nsis-org/dent/) 🙌
-
 ## Installation
 
 `npm install @nsis/dent`
