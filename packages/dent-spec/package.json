@@ -60,6 +60,7 @@
 		}
 	},
 	"devDependencies": {
+		"@types/node": "catalog:",
 		"@valibot/to-json-schema": "catalog:",
 		"jsonc": "catalog:",
 		"valibot": "catalog:",
