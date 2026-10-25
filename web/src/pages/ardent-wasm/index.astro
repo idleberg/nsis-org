@@ -1,0 +1,19 @@
+---
+import DentUI from '@nsis/dent-ui/DentUI.svelte';
+import sample from '../../data/misformatted.nsi?raw';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="An opinionated code formatter for NSIS scripts" />
+		<title>Playground | @nsis/ardent-wasm</title>
+	</head>
+	<body>
+		<div id="app">
+			<DentUI client:only="svelte" engine="ardent" sample={sample} />
+		</div>
+	</body>
+</html>

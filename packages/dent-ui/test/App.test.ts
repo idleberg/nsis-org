@@ -7,7 +7,13 @@ describe('App', () => {
 	it('renders the heading', async () => {
 		render(App);
 
-		await expect.element(page.getByRole('heading', { name: 'Dent' })).toBeVisible();
+		await expect.element(page.getByRole('heading', { name: 'Ardent', exact: true })).toBeVisible();
+	});
+
+	it('names the heading after the engine', async () => {
+		render(App, { engine: 'dent' });
+
+		await expect.element(page.getByRole('heading', { name: 'Dent', exact: true })).toBeVisible();
 	});
 
 	it('renders formatter settings fieldset', async () => {

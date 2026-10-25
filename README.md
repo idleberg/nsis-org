@@ -20,4 +20,5 @@ A collection of npm packages for the broader NSIS eco-system.
 
 ## Web
 
-- [dent-ui](https://idleberg.github.io/nsis-org/dent-ui/)
+- [dent-ui](https://idleberg.github.io/nsis-org/ardent/) with ardent
+- [dent-ui](https://idleberg.github.io/nsis-org/dent/) with dent
