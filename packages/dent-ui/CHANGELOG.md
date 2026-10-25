@@ -1,5 +1,16 @@
 # @nsis/dent-ui
 
+## 0.4.0
+
+### Minor Changes
+
+- 4624557: switch formatter to ardent
+
+### Patch Changes
+
+- Updated dependencies [4624557]
+  - @nsis/ardent-wasm@0.1.0
+
 ## 0.3.5
 
 ### Patch Changes
