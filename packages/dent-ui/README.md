@@ -21,6 +21,8 @@
 > [!NOTE]
 > By default, NSIS keywords are matched case-insensitively (e.g. `messagebox` and `MessageBox` are both highlighted). Set `strict` to `true` to require canonical casing.
 
+Formatting uses [`@nsis/ardent-wasm`](../ardent-wasm#readme). Set `engine` to `"dent"` to use the classic [`@nsis/dent`](../dent#readme) instead. Only the selected engine is downloaded.
+
 ## License
 
 This work is licensed under [The MIT License](LICENSE).

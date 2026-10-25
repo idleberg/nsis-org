@@ -459,6 +459,9 @@ importers:
       '@nsis/codemirror':
         specifier: workspace:*
         version: link:../codemirror
+      '@nsis/dent':
+        specifier: workspace:*
+        version: link:../dent
       svelte:
         specifier: 'catalog:'
         version: 5.57.2

@@ -3,11 +3,35 @@ import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { indentOnInput } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
-import { createFormatter } from '@nsis/ardent-wasm';
 import { onDestroy, onMount } from 'svelte';
 import Editor from './Editor.svelte';
 
-let { strict = false, sample = '' }: { strict?: boolean; sample?: string } = $props();
+let {
+	strict = false,
+	sample = '',
+	engine = 'ardent',
+}: { strict?: boolean; sample?: string; engine?: 'ardent' | 'dent' } = $props();
+
+// Each engine is its own chunk, so neither weighs on the initial bundle.
+const engines = {
+	ardent: () => import('@nsis/ardent-wasm'),
+	dent: () => import('@nsis/dent'),
+};
+
+// Re-imports only when `engine` changes; the module cache makes repeat switches free.
+const formatter = $derived(engines[engine]());
+let loading = $state(true);
+
+// Reading `formatter` here starts the download on mount rather than on the first format.
+$effect(() => {
+	const pending = formatter;
+	const done = () => {
+		if (pending === formatter) loading = false;
+	};
+
+	loading = true;
+	pending.then(done, done);
+});
 
 let dark = $state(document.documentElement.dataset.theme !== 'light');
 let themePreference = $state(localStorage.getItem('theme') || 'system');
@@ -69,16 +93,23 @@ function scheduleAutoFormat() {
 	debounceTimer = setTimeout(formatInput, 400);
 }
 
-function formatInput() {
-	error = '';
-	const source = inputView?.state.doc.toString() ?? '';
-
-	if (!source.trim()) {
-		setOutput('');
-		return;
-	}
+async function formatInput() {
+	const requested = engine;
 
 	try {
+		const { createFormatter } = await formatter;
+
+		// A newer engine took over while this one loaded.
+		if (requested !== engine) return;
+
+		error = '';
+		const source = inputView?.state.doc.toString() ?? '';
+
+		if (!source.trim()) {
+			setOutput('');
+			return;
+		}
+
 		const { format } = createFormatter({
 			useTabs,
 			singleQuote,
@@ -247,7 +278,9 @@ const outputExtensions = [EditorState.readOnly.of(true), EditorView.lineWrapping
 	<label class="auto-label">
 		<input type="checkbox" bind:checked={autoFormat} /> Auto-format
 	</label>
-	{#if status}
+	{#if loading}
+		<span class="status" role="status" aria-live="polite">Loading formatter engine…</span>
+	{:else if status}
 		<span class="status" role="status" aria-live="polite">{status}</span>
 	{/if}
 	{#if error}

@@ -42,6 +42,7 @@
 		"@lezer/highlight": "catalog:",
 		"@nsis/codemirror": "workspace:*",
 		"@nsis/ardent-wasm": "workspace:*",
+		"@nsis/dent": "workspace:*",
 		"svelte": "catalog:"
 	},
 	"devDependencies": {
