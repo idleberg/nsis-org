@@ -175,7 +175,7 @@ const outputExtensions = [EditorState.readOnly.of(true), EditorView.lineWrapping
 </script>
 
 <header>
-	<h1>Dent</h1>
+	<h1>{engine === 'dent' ? 'Dent' : 'Ardent'}</h1>
 	<fieldset class="settings" aria-label="Formatter settings">
 		<label
 			><input
