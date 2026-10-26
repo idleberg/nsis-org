@@ -21,5 +21,5 @@ A collection of npm packages for the broader NSIS eco-system.
 
 ## Web
 
-- [ardent-wasm](https://idleberg.github.io/nsis-org/ardent/)
+- [ardent-wasm](https://idleberg.github.io/nsis-org/ardent-wasm/)
 - [dent](https://idleberg.github.io/nsis-org/dent/)
