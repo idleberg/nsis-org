@@ -34,6 +34,8 @@ catalog:
   "@lumis-sh/themes": ^0.2.2
   "@playwright/test": ^1.64.1
   "@sveltejs/vite-plugin-svelte": ^7.3.1
+  "@twinkleplop/core": ^0.3.1
+  "@twinkleplop/theme-atom-one": ^0.2.4
   "@types/node": ^26.6.5
   "@valibot/to-json-schema": ^1.8.0
   "@vitest/browser-playwright": ^5.0.5

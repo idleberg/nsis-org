@@ -232,6 +232,12 @@ catalogs:
     '@sveltejs/vite-plugin-svelte':
       specifier: ^7.3.1
       version: 7.3.1
+    '@twinkleplop/core':
+      specifier: ^0.3.1
+      version: 0.3.1
+    '@twinkleplop/theme-atom-one':
+      specifier: ^0.2.4
+      version: 0.2.4
     '@types/node':
       specifier: ^26.6.5
       version: 26.6.5
@@ -594,6 +600,25 @@ importers:
         specifier: 'catalog:'
         version: 5.0.5(@types/node@26.6.5)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
 
+  packages/twinkleplop:
+    dependencies:
+      '@twinkleplop/core':
+        specifier: 'catalog:'
+        version: 0.3.1
+    devDependencies:
+      '@nsis/dent-spec':
+        specifier: workspace:*
+        version: link:../dent-spec
+      jsonc:
+        specifier: 'catalog:'
+        version: 3.0.0
+      unplugin-macros:
+        specifier: 'catalog:'
+        version: 0.23.3(esbuild@0.28.2)(rolldown@1.2.14)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@26.6.5)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
+
   packages/vite-plugin-nlf:
     dependencies:
       '@nsis/nlf':
@@ -666,12 +691,18 @@ importers:
       '@nsis/textmate':
         specifier: workspace:*
         version: link:../packages/textmate
+      '@nsis/twinkleplop':
+        specifier: workspace:*
+        version: link:../packages/twinkleplop
       '@playwright/test':
         specifier: 'catalog:'
         version: 1.64.1
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@twinkleplop/theme-atom-one':
+        specifier: 'catalog:'
+        version: 0.2.4
       astro:
         specifier: 7.4.1
         version: 7.4.1(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)
@@ -2198,6 +2229,12 @@ packages:
     resolution: {integrity: sha512-PgjBpLPW/WDsKzeBmNuw2QHtPxT/PtcloN3rHFTqVyMsqkLlyHVJbSusuhYoYFdi08lZ9Stryw66UOuPg/yW0w==}
     cpu: [arm64]
     os: [win32]
+
+  '@twinkleplop/core@0.3.1':
+    resolution: {integrity: sha512-fMbce7NcJlVROsyI34tz3DCWkAWRWLRlBNCbgwz36mm6yoEO09eyafi8JRN5HJGQIzMr0qjXQ3t3asc7MFSh8Q==}
+
+  '@twinkleplop/theme-atom-one@0.2.4':
+    resolution: {integrity: sha512-Rie0ez0EutHYj9HBmU1v8QAzQk0cJGphdUhRlKj0wUn3mWruwAYlAx8xN+GYymeCVTSkxA83PM/R+ImG70fHKw==}
 
   '@tybys/wasm-util@0.10.4':
     resolution: {integrity: sha512-W3c4gRigFS0T/Ma4qIYF3GDAc5AQdHb1yL5znJT1Zv1YaD9Kitx656wBjvr19qbiosmZT8lWDM5BEMynUqX65A==}
@@ -6265,6 +6302,12 @@ snapshots:
 
   '@turbo/windows-arm64@2.11.9':
     optional: true
+
+  '@twinkleplop/core@0.3.1': {}
+
+  '@twinkleplop/theme-atom-one@0.2.4':
+    dependencies:
+      '@twinkleplop/core': 0.3.1
 
   '@tybys/wasm-util@0.10.4':
     dependencies:

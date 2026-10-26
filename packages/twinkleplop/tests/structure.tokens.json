@@ -1,0 +1,902 @@
+[
+	{
+		"type": "comment",
+		"start": 0,
+		"end": 30,
+		"match": "; installer for an example app"
+	},
+	{
+		"type": "comment",
+		"start": 31,
+		"end": 45,
+		"match": "# hash comment"
+	},
+	{
+		"type": "comment",
+		"start": 46,
+		"end": 66,
+		"match": "/* block\n   comment "
+	},
+	{
+		"type": "comment",
+		"start": 66,
+		"end": 68,
+		"match": "*/"
+	},
+	{
+		"type": "keyword",
+		"start": 69,
+		"end": 77,
+		"match": "!include"
+	},
+	{
+		"type": "string",
+		"start": 78,
+		"end": 88,
+		"match": "\"MUI2.nsh\""
+	},
+	{
+		"type": "keyword",
+		"start": 89,
+		"end": 96,
+		"match": "!define"
+	},
+	{
+		"type": "parameter",
+		"start": 97,
+		"end": 104,
+		"match": "/ifndef"
+	},
+	{
+		"type": "identifier",
+		"start": 105,
+		"end": 113,
+		"match": "APP_NAME"
+	},
+	{
+		"type": "string",
+		"start": 114,
+		"end": 123,
+		"match": "\"Example\""
+	},
+	{
+		"type": "keyword",
+		"start": 124,
+		"end": 131,
+		"match": "!define"
+	},
+	{
+		"type": "identifier",
+		"start": 132,
+		"end": 139,
+		"match": "VERSION"
+	},
+	{
+		"type": "number",
+		"start": 140,
+		"end": 147,
+		"match": "1.2.3.4"
+	},
+	{
+		"type": "keyword",
+		"start": 148,
+		"end": 154,
+		"match": "!ifdef"
+	},
+	{
+		"type": "identifier",
+		"start": 155,
+		"end": 160,
+		"match": "DEBUG"
+	},
+	{
+		"type": "keyword",
+		"start": 163,
+		"end": 171,
+		"match": "!warning"
+	},
+	{
+		"type": "string",
+		"start": 172,
+		"end": 185,
+		"match": "\"debug build\""
+	},
+	{
+		"type": "keyword",
+		"start": 186,
+		"end": 191,
+		"match": "!else"
+	},
+	{
+		"type": "identifier",
+		"start": 192,
+		"end": 197,
+		"match": "ifdef"
+	},
+	{
+		"type": "identifier",
+		"start": 198,
+		"end": 205,
+		"match": "RELEASE"
+	},
+	{
+		"type": "keyword",
+		"start": 208,
+		"end": 213,
+		"match": "!echo"
+	},
+	{
+		"type": "string",
+		"start": 214,
+		"end": 223,
+		"match": "\"release\""
+	},
+	{
+		"type": "keyword",
+		"start": 224,
+		"end": 230,
+		"match": "!endif"
+	},
+	{
+		"type": "keyword",
+		"start": 232,
+		"end": 238,
+		"match": "!macro"
+	},
+	{
+		"type": "identifier",
+		"start": 239,
+		"end": 244,
+		"match": "Greet"
+	},
+	{
+		"type": "identifier",
+		"start": 245,
+		"end": 248,
+		"match": "who"
+	},
+	{
+		"type": "identifier",
+		"start": 251,
+		"end": 262,
+		"match": "DetailPrint"
+	},
+	{
+		"type": "string",
+		"start": 263,
+		"end": 271,
+		"match": "\"Hello, "
+	},
+	{
+		"type": "constant",
+		"start": 271,
+		"end": 277,
+		"match": "${who}"
+	},
+	{
+		"type": "string",
+		"start": 277,
+		"end": 279,
+		"match": "!\""
+	},
+	{
+		"type": "keyword",
+		"start": 280,
+		"end": 289,
+		"match": "!macroend"
+	},
+	{
+		"type": "identifier",
+		"start": 291,
+		"end": 295,
+		"match": "Name"
+	},
+	{
+		"type": "string",
+		"start": 296,
+		"end": 297,
+		"match": "\""
+	},
+	{
+		"type": "constant",
+		"start": 297,
+		"end": 308,
+		"match": "${APP_NAME}"
+	},
+	{
+		"type": "string",
+		"start": 308,
+		"end": 309,
+		"match": "\""
+	},
+	{
+		"type": "identifier",
+		"start": 310,
+		"end": 317,
+		"match": "OutFile"
+	},
+	{
+		"type": "string",
+		"start": 318,
+		"end": 327,
+		"match": "\"example-"
+	},
+	{
+		"type": "constant",
+		"start": 327,
+		"end": 337,
+		"match": "${VERSION}"
+	},
+	{
+		"type": "string",
+		"start": 337,
+		"end": 342,
+		"match": ".exe\""
+	},
+	{
+		"type": "identifier",
+		"start": 343,
+		"end": 350,
+		"match": "Unicode"
+	},
+	{
+		"type": "identifier",
+		"start": 351,
+		"end": 355,
+		"match": "true"
+	},
+	{
+		"type": "identifier",
+		"start": 356,
+		"end": 377,
+		"match": "RequestExecutionLevel"
+	},
+	{
+		"type": "identifier",
+		"start": 378,
+		"end": 383,
+		"match": "admin"
+	},
+	{
+		"type": "identifier",
+		"start": 384,
+		"end": 394,
+		"match": "InstallDir"
+	},
+	{
+		"type": "string",
+		"start": 395,
+		"end": 396,
+		"match": "\""
+	},
+	{
+		"type": "variable",
+		"start": 396,
+		"end": 411,
+		"match": "$PROGRAMFILES64"
+	},
+	{
+		"type": "string",
+		"start": 411,
+		"end": 412,
+		"match": "\\"
+	},
+	{
+		"type": "constant",
+		"start": 412,
+		"end": 423,
+		"match": "${APP_NAME}"
+	},
+	{
+		"type": "string",
+		"start": 423,
+		"end": 424,
+		"match": "\""
+	},
+	{
+		"type": "identifier",
+		"start": 425,
+		"end": 438,
+		"match": "SetCompressor"
+	},
+	{
+		"type": "parameter",
+		"start": 439,
+		"end": 445,
+		"match": "/SOLID"
+	},
+	{
+		"type": "identifier",
+		"start": 446,
+		"end": 450,
+		"match": "lzma"
+	},
+	{
+		"type": "identifier",
+		"start": 452,
+		"end": 455,
+		"match": "Var"
+	},
+	{
+		"type": "parameter",
+		"start": 456,
+		"end": 463,
+		"match": "/GLOBAL"
+	},
+	{
+		"type": "identifier",
+		"start": 464,
+		"end": 471,
+		"match": "Counter"
+	},
+	{
+		"type": "identifier",
+		"start": 472,
+		"end": 475,
+		"match": "Var"
+	},
+	{
+		"type": "identifier",
+		"start": 476,
+		"end": 482,
+		"match": "Result"
+	},
+	{
+		"type": "identifier",
+		"start": 484,
+		"end": 488,
+		"match": "Page"
+	},
+	{
+		"type": "identifier",
+		"start": 489,
+		"end": 498,
+		"match": "directory"
+	},
+	{
+		"type": "identifier",
+		"start": 499,
+		"end": 503,
+		"match": "Page"
+	},
+	{
+		"type": "identifier",
+		"start": 504,
+		"end": 513,
+		"match": "instfiles"
+	},
+	{
+		"type": "identifier",
+		"start": 514,
+		"end": 524,
+		"match": "UninstPage"
+	},
+	{
+		"type": "identifier",
+		"start": 525,
+		"end": 537,
+		"match": "un.instfiles"
+	},
+	{
+		"type": "identifier",
+		"start": 539,
+		"end": 546,
+		"match": "Section"
+	},
+	{
+		"type": "string",
+		"start": 547,
+		"end": 556,
+		"match": "\"Install\""
+	},
+	{
+		"type": "identifier",
+		"start": 557,
+		"end": 567,
+		"match": "SecInstall"
+	},
+	{
+		"type": "identifier",
+		"start": 570,
+		"end": 580,
+		"match": "SetOutPath"
+	},
+	{
+		"type": "variable",
+		"start": 581,
+		"end": 589,
+		"match": "$INSTDIR"
+	},
+	{
+		"type": "identifier",
+		"start": 592,
+		"end": 596,
+		"match": "File"
+	},
+	{
+		"type": "parameter",
+		"start": 597,
+		"end": 599,
+		"match": "/r"
+	},
+	{
+		"type": "parameter",
+		"start": 600,
+		"end": 602,
+		"match": "/x"
+	},
+	{
+		"type": "identifier",
+		"start": 604,
+		"end": 608,
+		"match": ".pdb"
+	},
+	{
+		"type": "string",
+		"start": 609,
+		"end": 619,
+		"match": "\"dist\\*.*\""
+	},
+	{
+		"type": "identifier",
+		"start": 622,
+		"end": 626,
+		"match": "File"
+	},
+	{
+		"type": "parameter",
+		"start": 627,
+		"end": 634,
+		"match": "/oname="
+	},
+	{
+		"type": "variable",
+		"start": 634,
+		"end": 645,
+		"match": "$PLUGINSDIR"
+	},
+	{
+		"type": "identifier",
+		"start": 646,
+		"end": 653,
+		"match": "app.ini"
+	},
+	{
+		"type": "identifier",
+		"start": 654,
+		"end": 661,
+		"match": "app.ini"
+	},
+	{
+		"type": "identifier",
+		"start": 664,
+		"end": 675,
+		"match": "WriteRegStr"
+	},
+	{
+		"type": "identifier",
+		"start": 676,
+		"end": 680,
+		"match": "HKLM"
+	},
+	{
+		"type": "string",
+		"start": 681,
+		"end": 691,
+		"match": "\"Software\\"
+	},
+	{
+		"type": "constant",
+		"start": 691,
+		"end": 702,
+		"match": "${APP_NAME}"
+	},
+	{
+		"type": "string",
+		"start": 702,
+		"end": 703,
+		"match": "\""
+	},
+	{
+		"type": "string",
+		"start": 704,
+		"end": 710,
+		"match": "\"Path\""
+	},
+	{
+		"type": "variable",
+		"start": 711,
+		"end": 719,
+		"match": "$INSTDIR"
+	},
+	{
+		"type": "identifier",
+		"start": 722,
+		"end": 738,
+		"match": "WriteUninstaller"
+	},
+	{
+		"type": "string",
+		"start": 739,
+		"end": 740,
+		"match": "\""
+	},
+	{
+		"type": "variable",
+		"start": 740,
+		"end": 748,
+		"match": "$INSTDIR"
+	},
+	{
+		"type": "string",
+		"start": 748,
+		"end": 763,
+		"match": "\\uninstall.exe\""
+	},
+	{
+		"type": "keyword",
+		"start": 766,
+		"end": 778,
+		"match": "!insertmacro"
+	},
+	{
+		"type": "identifier",
+		"start": 779,
+		"end": 784,
+		"match": "Greet"
+	},
+	{
+		"type": "string",
+		"start": 785,
+		"end": 792,
+		"match": "\"world\""
+	},
+	{
+		"type": "identifier",
+		"start": 793,
+		"end": 803,
+		"match": "SectionEnd"
+	},
+	{
+		"type": "identifier",
+		"start": 805,
+		"end": 812,
+		"match": "Section"
+	},
+	{
+		"type": "operator",
+		"start": 813,
+		"end": 814,
+		"match": "-"
+	},
+	{
+		"type": "identifier",
+		"start": 814,
+		"end": 818,
+		"match": "Post"
+	},
+	{
+		"type": "identifier",
+		"start": 819,
+		"end": 829,
+		"match": "SectionEnd"
+	},
+	{
+		"type": "identifier",
+		"start": 831,
+		"end": 839,
+		"match": "Function"
+	},
+	{
+		"type": "identifier",
+		"start": 840,
+		"end": 847,
+		"match": ".onInit"
+	},
+	{
+		"type": "identifier",
+		"start": 850,
+		"end": 856,
+		"match": "StrCpy"
+	},
+	{
+		"type": "variable",
+		"start": 857,
+		"end": 865,
+		"match": "$Counter"
+	},
+	{
+		"type": "number",
+		"start": 866,
+		"end": 867,
+		"match": "0"
+	},
+	{
+		"type": "constant",
+		"start": 870,
+		"end": 875,
+		"match": "${If}"
+	},
+	{
+		"type": "variable",
+		"start": 876,
+		"end": 884,
+		"match": "$Counter"
+	},
+	{
+		"type": "operator",
+		"start": 885,
+		"end": 887,
+		"match": "=="
+	},
+	{
+		"type": "number",
+		"start": 888,
+		"end": 889,
+		"match": "0"
+	},
+	{
+		"type": "constant",
+		"start": 892,
+		"end": 900,
+		"match": "${AndIf}"
+	},
+	{
+		"type": "variable",
+		"start": 901,
+		"end": 903,
+		"match": "$0"
+	},
+	{
+		"type": "operator",
+		"start": 904,
+		"end": 906,
+		"match": "!="
+	},
+	{
+		"type": "string",
+		"start": 907,
+		"end": 910,
+		"match": "\"x\""
+	},
+	{
+		"type": "identifier",
+		"start": 915,
+		"end": 925,
+		"match": "MessageBox"
+	},
+	{
+		"type": "identifier",
+		"start": 926,
+		"end": 934,
+		"match": "MB_YESNO"
+	},
+	{
+		"type": "identifier",
+		"start": 935,
+		"end": 950,
+		"match": "MB_ICONQUESTION"
+	},
+	{
+		"type": "string",
+		"start": 951,
+		"end": 962,
+		"match": "\"Continue?\""
+	},
+	{
+		"type": "identifier",
+		"start": 963,
+		"end": 968,
+		"match": "IDYES"
+	},
+	{
+		"type": "number",
+		"start": 969,
+		"end": 971,
+		"match": "+2"
+	},
+	{
+		"type": "identifier",
+		"start": 976,
+		"end": 981,
+		"match": "Abort"
+	},
+	{
+		"type": "constant",
+		"start": 984,
+		"end": 992,
+		"match": "${EndIf}"
+	},
+	{
+		"type": "identifier",
+		"start": 995,
+		"end": 1012,
+		"match": "nsDialogs::Create"
+	},
+	{
+		"type": "number",
+		"start": 1013,
+		"end": 1017,
+		"match": "1018"
+	},
+	{
+		"type": "identifier",
+		"start": 1020,
+		"end": 1023,
+		"match": "Pop"
+	},
+	{
+		"type": "variable",
+		"start": 1024,
+		"end": 1026,
+		"match": "$0"
+	},
+	{
+		"type": "constant",
+		"start": 1029,
+		"end": 1045,
+		"match": "${GetParameters}"
+	},
+	{
+		"type": "variable",
+		"start": 1046,
+		"end": 1049,
+		"match": "$R0"
+	},
+	{
+		"type": "identifier",
+		"start": 1052,
+		"end": 1057,
+		"match": "IntOp"
+	},
+	{
+		"type": "variable",
+		"start": 1058,
+		"end": 1066,
+		"match": "$Counter"
+	},
+	{
+		"type": "variable",
+		"start": 1067,
+		"end": 1075,
+		"match": "$Counter"
+	},
+	{
+		"type": "operator",
+		"start": 1076,
+		"end": 1077,
+		"match": "+"
+	},
+	{
+		"type": "number",
+		"start": 1078,
+		"end": 1079,
+		"match": "1"
+	},
+	{
+		"type": "identifier",
+		"start": 1082,
+		"end": 1087,
+		"match": "IntOp"
+	},
+	{
+		"type": "variable",
+		"start": 1088,
+		"end": 1090,
+		"match": "$1"
+	},
+	{
+		"type": "variable",
+		"start": 1091,
+		"end": 1093,
+		"match": "$1"
+	},
+	{
+		"type": "operator",
+		"start": 1094,
+		"end": 1095,
+		"match": "/"
+	},
+	{
+		"type": "number",
+		"start": 1096,
+		"end": 1097,
+		"match": "2"
+	},
+	{
+		"type": "identifier",
+		"start": 1098,
+		"end": 1103,
+		"match": "loop:"
+	},
+	{
+		"type": "identifier",
+		"start": 1106,
+		"end": 1112,
+		"match": "IntCmp"
+	},
+	{
+		"type": "variable",
+		"start": 1113,
+		"end": 1121,
+		"match": "$Counter"
+	},
+	{
+		"type": "number",
+		"start": 1122,
+		"end": 1124,
+		"match": "10"
+	},
+	{
+		"type": "identifier",
+		"start": 1125,
+		"end": 1129,
+		"match": "done"
+	},
+	{
+		"type": "identifier",
+		"start": 1130,
+		"end": 1134,
+		"match": "loop"
+	},
+	{
+		"type": "identifier",
+		"start": 1135,
+		"end": 1140,
+		"match": "done:"
+	},
+	{
+		"type": "identifier",
+		"start": 1141,
+		"end": 1152,
+		"match": "FunctionEnd"
+	},
+	{
+		"type": "identifier",
+		"start": 1154,
+		"end": 1162,
+		"match": "Function"
+	},
+	{
+		"type": "identifier",
+		"start": 1163,
+		"end": 1172,
+		"match": "un.onInit"
+	},
+	{
+		"type": "identifier",
+		"start": 1175,
+		"end": 1185,
+		"match": "messagebox"
+	},
+	{
+		"type": "identifier",
+		"start": 1186,
+		"end": 1191,
+		"match": "mb_ok"
+	},
+	{
+		"type": "string",
+		"start": 1192,
+		"end": 1193,
+		"match": "\""
+	},
+	{
+		"type": "constant",
+		"start": 1193,
+		"end": 1201,
+		"match": "$(^Name)"
+	},
+	{
+		"type": "string",
+		"start": 1201,
+		"end": 1217,
+		"match": " can't be found\""
+	},
+	{
+		"type": "identifier",
+		"start": 1218,
+		"end": 1229,
+		"match": "FunctionEnd"
+	}
+]

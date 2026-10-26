@@ -1,0 +1,104 @@
+[
+	{
+		"type": "identifier",
+		"start": 0,
+		"end": 10,
+		"match": "MessageBox"
+	},
+	{
+		"type": "identifier",
+		"start": 11,
+		"end": 16,
+		"match": "MB_OK"
+	},
+	{
+		"type": "punctuation",
+		"start": 17,
+		"end": 19,
+		"match": "\\\n"
+	},
+	{
+		"type": "string",
+		"start": 21,
+		"end": 32,
+		"match": "\"next line\""
+	},
+	{
+		"type": "identifier",
+		"start": 33,
+		"end": 44,
+		"match": "WriteRegStr"
+	},
+	{
+		"type": "identifier",
+		"start": 45,
+		"end": 49,
+		"match": "HKCU"
+	},
+	{
+		"type": "string",
+		"start": 50,
+		"end": 68,
+		"match": "\"Software\\Example\""
+	},
+	{
+		"type": "punctuation",
+		"start": 69,
+		"end": 71,
+		"match": "\\\n"
+	},
+	{
+		"type": "string",
+		"start": 73,
+		"end": 78,
+		"match": "\"Key\""
+	},
+	{
+		"type": "string",
+		"start": 79,
+		"end": 86,
+		"match": "\"Value\""
+	},
+	{
+		"type": "identifier",
+		"start": 87,
+		"end": 93,
+		"match": "StrCpy"
+	},
+	{
+		"type": "variable",
+		"start": 94,
+		"end": 96,
+		"match": "$0"
+	},
+	{
+		"type": "identifier",
+		"start": 97,
+		"end": 99,
+		"match": "C:"
+	},
+	{
+		"type": "identifier",
+		"start": 100,
+		"end": 104,
+		"match": "path"
+	},
+	{
+		"type": "punctuation",
+		"start": 104,
+		"end": 106,
+		"match": "\\\n"
+	},
+	{
+		"type": "identifier",
+		"start": 106,
+		"end": 110,
+		"match": "Name"
+	},
+	{
+		"type": "identifier",
+		"start": 111,
+		"end": 118,
+		"match": "Example"
+	}
+]
