@@ -12,7 +12,7 @@ A collection of npm packages for the broader NSIS eco-system.
 - [lumis](/packages/lumis) | [demo](https://idleberg.github.io/nsis-org/lumis/)
 - [prismjs](/packages/prismjs) | [demo](https://idleberg.github.io/nsis-org/prismjs/)
 - [textmate](/packages/textmate) | [demo](https://idleberg.github.io/nsis-org/textmate/)
-- [twinklepop](/packages/twinklepop) | [demo](https://idleberg.github.io/nsis-org/twinklepop/)
+- [twinkleplop](/packages/twinkleplop) | [demo](https://idleberg.github.io/nsis-org/twinkleplop/)
 
 ## CLI Tools
 
