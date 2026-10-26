@@ -89,15 +89,14 @@ const word_reclassifier: Reclassifier = (input, result) => {
 
 	let previous = -1;
 	for (let i = 0; i < n; i++) {
-		const type = tokens[i * 3];
-		const start = tokens[i * 3 + 1];
-		const end = tokens[i * 3 + 2];
+		// the defaults only satisfy the type checker, the slice always holds three values
+		const [type = 0, start = 0, end = 0] = tokens.subarray(i * 3, i * 3 + 3);
 
 		if (type === variable) {
 			if (word_table_get(VARIABLE_WORDS, input, start + 1, end)) tokens[i * 3] = BUILTIN;
 		} else if (type === constant && input.startsWith('${', start) && input[end - 1] === '}') {
 			const word = word_table_get(DEFINE_WORDS, input, start + 2, end - 1);
-			if (word) tokens[i * 3] = DEFINE_TYPES[word];
+			if (word) tokens[i * 3] = DEFINE_TYPES[word] ?? type;
 		} else if (type === identifier) {
 			const text = input.slice(start, end);
 			const before = previous < 0 ? '' : input.slice(tokens[previous * 3 + 1], tokens[previous * 3 + 2]);

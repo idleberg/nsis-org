@@ -16,9 +16,8 @@ function get_tokens(input: string) {
 	const result = tokenize(input, grammar);
 	const tokens = [];
 	for (let i = 0; i < result.tokens.length / 3; i++) {
-		const type = result.token_types[result.tokens[i * 3]];
-		const start = result.tokens[i * 3 + 1];
-		const end = result.tokens[i * 3 + 2];
+		const [type_id = 0, start = 0, end = 0] = result.tokens.subarray(i * 3, i * 3 + 3);
+		const type = result.token_types[type_id];
 		const match = input.substring(start, end);
 		tokens.push({ type, start, end, match });
 	}
@@ -48,11 +47,10 @@ const language = make_language();
 
 function classify(input: string) {
 	const result = language(input);
-	const out: [string, string][] = [];
+	const out: [string | undefined, string][] = [];
 	for (let i = 0; i < result.tokens.length / 3; i++) {
-		const start = result.tokens[i * 3 + 1];
-		const end = result.tokens[i * 3 + 2];
-		out.push([result.token_types[result.tokens[i * 3]], input.slice(start, end)]);
+		const [type_id = 0, start = 0, end = 0] = result.tokens.subarray(i * 3, i * 3 + 3);
+		out.push([result.token_types[type_id], input.slice(start, end)]);
 	}
 	return out;
 }
