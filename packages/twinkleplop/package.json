@@ -1,6 +1,6 @@
 {
 	"name": "@nsis/twinkleplop",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "NSIS language support for the twinkleplop syntax highlighter",
 	"license": "MIT",
 	"author": "Jan T. Sott",
