@@ -1,0 +1,272 @@
+[
+	{
+		"type": "identifier",
+		"start": 0,
+		"end": 11,
+		"match": "DetailPrint"
+	},
+	{
+		"type": "string",
+		"start": 12,
+		"end": 20,
+		"match": "\"double "
+	},
+	{
+		"type": "variable",
+		"start": 20,
+		"end": 28,
+		"match": "$INSTDIR"
+	},
+	{
+		"type": "string",
+		"start": 28,
+		"end": 29,
+		"match": " "
+	},
+	{
+		"type": "constant",
+		"start": 29,
+		"end": 39,
+		"match": "${NSISDIR}"
+	},
+	{
+		"type": "string",
+		"start": 39,
+		"end": 40,
+		"match": " "
+	},
+	{
+		"type": "constant",
+		"start": 40,
+		"end": 48,
+		"match": "$(^Name)"
+	},
+	{
+		"type": "string",
+		"start": 48,
+		"end": 49,
+		"match": " "
+	},
+	{
+		"type": "string_escape",
+		"start": 49,
+		"end": 51,
+		"match": "$$"
+	},
+	{
+		"type": "string",
+		"start": 51,
+		"end": 52,
+		"match": " "
+	},
+	{
+		"type": "string_escape",
+		"start": 52,
+		"end": 55,
+		"match": "$\\r"
+	},
+	{
+		"type": "string_escape",
+		"start": 55,
+		"end": 58,
+		"match": "$\\n"
+	},
+	{
+		"type": "string",
+		"start": 58,
+		"end": 59,
+		"match": " "
+	},
+	{
+		"type": "string_escape",
+		"start": 59,
+		"end": 62,
+		"match": "$\\\""
+	},
+	{
+		"type": "string",
+		"start": 62,
+		"end": 68,
+		"match": "quoted"
+	},
+	{
+		"type": "string_escape",
+		"start": 68,
+		"end": 71,
+		"match": "$\\\""
+	},
+	{
+		"type": "string",
+		"start": 71,
+		"end": 76,
+		"match": " end\""
+	},
+	{
+		"type": "identifier",
+		"start": 77,
+		"end": 88,
+		"match": "DetailPrint"
+	},
+	{
+		"type": "string",
+		"start": 89,
+		"end": 105,
+		"match": "'single \"inner\" "
+	},
+	{
+		"type": "variable",
+		"start": 105,
+		"end": 107,
+		"match": "$0"
+	},
+	{
+		"type": "string",
+		"start": 107,
+		"end": 108,
+		"match": "'"
+	},
+	{
+		"type": "identifier",
+		"start": 109,
+		"end": 120,
+		"match": "DetailPrint"
+	},
+	{
+		"type": "string",
+		"start": 121,
+		"end": 143,
+		"match": "`back 'inner' \"inner\"`"
+	},
+	{
+		"type": "identifier",
+		"start": 144,
+		"end": 155,
+		"match": "DetailPrint"
+	},
+	{
+		"type": "string",
+		"start": 156,
+		"end": 172,
+		"match": "\"multi \\\n  line\""
+	},
+	{
+		"type": "identifier",
+		"start": 173,
+		"end": 179,
+		"match": "StrCpy"
+	},
+	{
+		"type": "variable",
+		"start": 180,
+		"end": 182,
+		"match": "$0"
+	},
+	{
+		"type": "identifier",
+		"start": 183,
+		"end": 186,
+		"match": "can"
+	},
+	{
+		"type": "identifier",
+		"start": 187,
+		"end": 188,
+		"match": "t"
+	},
+	{
+		"type": "identifier",
+		"start": 189,
+		"end": 195,
+		"match": "StrCpy"
+	},
+	{
+		"type": "variable",
+		"start": 196,
+		"end": 198,
+		"match": "$1"
+	},
+	{
+		"type": "identifier",
+		"start": 199,
+		"end": 202,
+		"match": "foo"
+	},
+	{
+		"type": "identifier",
+		"start": 203,
+		"end": 206,
+		"match": "bar"
+	},
+	{
+		"type": "identifier",
+		"start": 207,
+		"end": 210,
+		"match": "baz"
+	},
+	{
+		"type": "comment",
+		"start": 211,
+		"end": 225,
+		"match": "; real comment"
+	},
+	{
+		"type": "identifier",
+		"start": 226,
+		"end": 232,
+		"match": "StrCpy"
+	},
+	{
+		"type": "variable",
+		"start": 233,
+		"end": 235,
+		"match": "$2"
+	},
+	{
+		"type": "string",
+		"start": 236,
+		"end": 239,
+		"match": "\"a\""
+	},
+	{
+		"type": "variable",
+		"start": 239,
+		"end": 241,
+		"match": "$3"
+	},
+	{
+		"type": "identifier",
+		"start": 242,
+		"end": 248,
+		"match": "StrCpy"
+	},
+	{
+		"type": "variable",
+		"start": 249,
+		"end": 252,
+		"match": "$R0"
+	},
+	{
+		"type": "variable",
+		"start": 253,
+		"end": 255,
+		"match": "$0"
+	},
+	{
+		"type": "variable",
+		"start": 255,
+		"end": 257,
+		"match": "$1"
+	},
+	{
+		"type": "identifier",
+		"start": 258,
+		"end": 269,
+		"match": "DetailPrint"
+	},
+	{
+		"type": "string",
+		"start": 270,
+		"end": 284,
+		"match": "\"unterminated\n"
+	}
+]

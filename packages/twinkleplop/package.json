@@ -1,0 +1,61 @@
+{
+	"name": "@nsis/twinkleplop",
+	"version": "0.0.0",
+	"description": "NSIS language support for the twinkleplop syntax highlighter",
+	"license": "MIT",
+	"author": "Jan T. Sott",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/idleberg/nsis-org.git"
+	},
+	"homepage": "https://github.com/idleberg/nsis-org/tree/main/packages/twinkleplop#readme",
+	"keywords": [
+		"highlighter",
+		"nsis",
+		"syntax highlighter",
+		"twinkleplop"
+	],
+	"type": "module",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.mts",
+				"default": "./dist/index.mjs"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
+		}
+	},
+	"engines": {
+		"node": "^20.19.0 || >=22.12.0"
+	},
+	"files": [
+		"dist/",
+		"LICENSE",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsdown",
+		"dev": "tsdown --watch",
+		"lint": "concurrently --prefix-colors blue,green,magenta npm:lint:*",
+		"lint:biome": "biome check",
+		"lint:e18e": "e18e-cli analyze --log-level error",
+		"prepublishOnly": "npm run build",
+		"publish:npm": "np",
+		"test": "vitest run"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"dependencies": {
+		"@twinkleplop/core": "catalog:"
+	},
+	"devDependencies": {
+		"@nsis/dent-spec": "workspace:*",
+		"jsonc": "catalog:",
+		"unplugin-macros": "catalog:",
+		"vitest": "catalog:"
+	}
+}

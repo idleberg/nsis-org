@@ -1,7 +1,17 @@
 import { expect, test } from '@playwright/test';
 import { collectConsoleErrors, expectNoConsoleErrors } from './helpers.ts';
 
-const demoPages = ['ace-mode', 'codemirror', 'dent', 'highlightjs', 'lumis', 'prismjs', 'textmate'];
+const demoPages = [
+	'ace-mode',
+	'ardent-wasm',
+	'codemirror',
+	'dent',
+	'highlightjs',
+	'lumis',
+	'prismjs',
+	'textmate',
+	'twinkleplop',
+];
 
 test('renders with links to all demos', async ({ page }) => {
 	const errors = collectConsoleErrors(page);
@@ -9,7 +19,7 @@ test('renders with links to all demos', async ({ page }) => {
 	await expect(page).toHaveTitle(/nsis/i);
 
 	for (const name of demoPages) {
-		await expect(page.locator(`a[href*="${name}"]`)).toBeVisible();
+		await expect(page.locator(`a[href="${name}/"]`)).toBeVisible();
 	}
 
 	expectNoConsoleErrors(errors);
